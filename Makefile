@@ -6,27 +6,76 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/02/16 17:32:56 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/08 16:44:00 by nfiora-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# --- COLORS ---
+RED      = \033[0;31m
+BLUE     = \033[0;34m
+GREEN    = \033[0;32m
+RESET    = \033[0m
+
+# --- VARIABLES ---
 CC = gcc
 NAME = minishell
-SRC = src/main.c
-OBJ = $(SRC:.c=.o)
-CFLAGS = -Wall -Wextra -Werror
-RM = rm -rf
+CFLAGS = -Wall -Wextra -Werror -lreadline
+INCLUDES = -I.
+
+
+# --- DIRECTORIES ---
+DIRSRC     = src
+DIRPARSING = parsing
+DIRBUILTIN = builtins
+DIRSIG     = signal
+DIRUTILS   = utils
+DIREXEC    = exec
+OBJ_DIR    = obj
+
+
+# --- SOURCES ---
+SRC = $(DIRSRC)/main.c \
+      $(DIRSRC)/$(DIRBUILTIN)/cd_builtin.c \
+      $(DIRSRC)/$(DIRBUILTIN)/echo_builtin.c \
+      $(DIRSRC)/$(DIRBUILTIN)/env_builtin.c \
+      $(DIRSRC)/$(DIRBUILTIN)/exit_builtin.c \
+      $(DIRSRC)/$(DIRBUILTIN)/export_builtin.c \
+      $(DIRSRC)/$(DIRBUILTIN)/pwd_builtin.c \
+      $(DIRSRC)/$(DIRBUILTIN)/unset_builtin.c \
+      $(DIRSRC)/$(DIREXEC)/exec.c \
+      $(DIRSRC)/$(DIRPARSING)/parsing.c \
+      $(DIRSRC)/$(DIRSIG)/signal.c \
+      $(DIRSRC)/$(DIRUTILS)/utils.c \
+#       $(DIRSRC)/$()/.c \
+
+
+# --- OBJECTS ---
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
+
+
+# --- RULES ---
 
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
+	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
+	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
+	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
 
-clean :
-	$(RM) $(OBJ)
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo -e "$(BLUE)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-fclean : clean
-	$(RM) $(NAME)
+clean:
+	@echo -e "$(RED)Cleaning object files...$(RESET)"
+	@rm -rf $(OBJ_DIR)
+
+
+fclean: clean
+	@echo -e "$(RED)Removing executable $(NAME)...$(RESET)"
+	@rm -f $(NAME)
+
 
 re : fclean all
 

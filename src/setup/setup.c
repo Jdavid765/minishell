@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,20 +12,14 @@
 
 #include "../include/minishell.h"
 
-
-
-int	main(void)
+int	setup(t_all *all)
 {
-	t_all	all;
-	if (!setup(&all))
+	if(!setup_signal())
 		return (1);
-	main_loop();
-	clean_exit();
+	if (setup_env())
+		return (1);
 	return (0);
 }
 /*
-	the all struct contain all the others structs.
-	setup() is for all the setup that needs to be done before
-	main_loop() is the place where the main loop with readline is done
-	clean_exit() is for check that everthing has been clean
+	this fonctions make all the setups needed before the main loop
 */
