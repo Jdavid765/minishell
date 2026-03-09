@@ -6,20 +6,48 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 19:07:22 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/09 23:26:05 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	main(void)
+int	main_loop(char **env)
 {
-	t_all	all;
+	if (env)
+		printf("!\n");
+	char	*rl;
 
-	if (!setup(&all))
+	while (1)
+	{
+		if ((rl = readline("Prompt > ")) == NULL)
+			return (1);
+		printf("%s\n", rl);
+		check_cmd(rl);
+		if (rl)
+			free(rl);
+	}
+	return (0);
+}
+/*
+	The best choice in the loop is call function 
+	to compare if the line write in rl = is command or built in
+	and execute the command or built in if is it.
+	I propose this for not poluate the code.
+*/
+
+int	main(int ac, char **av, char **env)
+{
+	if (ac != 1 || av[0] == NULL)
 		return (1);
-	main_loop();
-	clean_exit();
+	// t_all	all;
+
+	// if (!setup(&all))
+	// 	return (1);
+	if (main_loop(env) == 1)
+		return (1);
+	// clean_exit();
+	
 	return (0);
 }
 /*

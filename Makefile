@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/08 16:44:00 by nfiora-d         ###   ########.fr        #
+#    Updated: 2026/03/09 23:28:30 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ RESET    = \033[0m
 # --- VARIABLES ---
 CC = gcc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -Wall -Wextra -Werror
+LFLAGS = -lreadline
 INCLUDES = -I.
 
 
@@ -46,6 +47,7 @@ SRC = $(DIRSRC)/main.c \
       $(DIRSRC)/$(DIRPARSING)/parsing.c \
       $(DIRSRC)/$(DIRSIG)/signal.c \
       $(DIRSRC)/$(DIRUTILS)/utils.c \
+	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
 #       $(DIRSRC)/$()/.c \
 
 
@@ -59,7 +61,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ)
 	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
+	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -o $(NAME)
 	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c
