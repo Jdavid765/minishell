@@ -6,17 +6,16 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/02/16 17:20:37 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/09 19:07:22 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
-
 int	main(void)
 {
 	t_all	all;
+
 	if (!setup(&all))
 		return (1);
 	main_loop();

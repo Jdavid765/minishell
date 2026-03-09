@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 18:25:05 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/09 19:08:25 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,33 @@
 
 
 
-typedef struct s_sig;
-{
-	struct sigaction sa;
+// typedef struct s_sig;
+// {
+// 	struct sigaction sa;
 
-}	t_sig;
+// }	t_sig;
 
 typedef struct s_env;
 {
 
 }	t_env;
 
-typedef struct s_token;
-{
+// typedef struct s_token;
+// {
 
-}	t_token;
+// }	t_token;
 
-typedef struct s_cmd;
-{
+// typedef struct s_cmd;
+// {
 
-}	t_cmd;
+// }	t_cmd;
 
 typedef struct s_all;
 {
-	t_sig	sig;
+	// t_sig	sig;
 	t_env	env;
-	t_token	token;
-	t_cmd	cmd;
+	// t_token	token;
+	// t_cmd	cmd;
 
 }	t_all;
 
