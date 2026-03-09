@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/02/16 17:33:29 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/09 18:25:05 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_all;
 {
 	t_sig	sig;
 	t_env	env;
-	t_token	token
+	t_token	token;
 	t_cmd	cmd;
 
 }	t_all;
