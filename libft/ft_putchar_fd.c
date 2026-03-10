@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup.c                                            :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nfiora-d <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/02/16 17:20:37 by canoduran        ###   ########.fr       */
+/*   Created: 2025/10/03 10:57:06 by nfiora-d          #+#    #+#             */
+/*   Updated: 2025/10/03 12:43:43 by nfiora-d         ###   ####lausanne.ch   */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include "../../include/minishell.h"
-
-int	setup(t_all *all)
+void	ft_putchar_fd(char c, int fd)
 {
-	if(!setup_signal(all))
-		return (1);
-	// if (setup_env())
-	// 	return (1);
-	return (0);
+	write (fd, &c, 1);
 }
-/*
-	this fonctions make all the setups needed before the main loop
-*/

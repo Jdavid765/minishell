@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup.c                                            :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nfiora-d <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/02/16 17:20:37 by canoduran        ###   ########.fr       */
+/*   Created: 2025/10/14 16:08:16 by nfiora-d          #+#    #+#             */
+/*   Updated: 2025/10/14 16:08:23 by nfiora-d         ###   ####lausanne.ch   */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include "../../include/minishell.h"
-
-int	setup(t_all *all)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if(!setup_signal(all))
-		return (1);
-	// if (setup_env())
-	// 	return (1);
-	return (0);
+	if (lst != NULL && new != NULL)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 }
-/*
-	this fonctions make all the setups needed before the main loop
-*/

@@ -32,17 +32,18 @@
 # include <sys/stat.h>
 
 
-// typedef struct s_sig
-// {
-// 	struct sigaction sa;
-
-// }	t_sig;
-
-typedef struct s_env
+typedef struct s_sig
 {
-}	t_env;
+	struct sigaction sa;
 
-// typedef struct s_token
+}	t_sig;
+
+// typedef struct s_env;
+// {
+
+// }	t_env;
+
+// typedef struct s_token;
 // {
 
 // }	t_token;
@@ -54,9 +55,9 @@ typedef struct s_env
 
 typedef struct s_all
 {
-	// t_sig	sig;
-	t_env	env;
-	// t_token	token;
+	t_sig	sig;
+	// t_env	env;
+	// t_token	token
 	// t_cmd	cmd;
 
 }	t_all;
@@ -79,6 +80,9 @@ void check_cmd(char *rl);
 /* ========================================================================== */
 /* ===============================signal======================================*/
 /* ========================================================================== */
+int		setup_signal(t_all *all);
+void	sigint_handler(int signum);
+
 
 /* ========================================================================== */
 /* ===============================builtin=====================================*/
@@ -93,6 +97,6 @@ void check_cmd(char *rl);
 /* ========================================================================== */
 /* =============================== ===========================================*/
 /* ========================================================================== */
-
+int	setup(t_all *all);
 
 #endif
