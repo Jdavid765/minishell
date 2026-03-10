@@ -46,8 +46,6 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	if (main_loop(env) == 1)
 		return (1);
-	// clean_exit();
-	
 	return (0);
 }
 /*

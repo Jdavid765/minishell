@@ -89,7 +89,8 @@ void	sigint_handler(int signum);
 /* ========================================================================== */
 int		ft_compare(char *rl, char *string);
 void	check_cmd(char *rl);
-void	pwd_builtin(void);
+int		pwd_builtin(void);
+void	exit_builtin(void);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
