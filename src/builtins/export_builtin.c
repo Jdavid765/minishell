@@ -6,13 +6,13 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:59:29 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 23:32:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/10 16:37:03 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_export(char **env)
-{
+// int	ft_export(char **env)
+// {
 	
-}
+// }
