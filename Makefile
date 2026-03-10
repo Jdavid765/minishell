@@ -51,8 +51,12 @@ SRC = $(DIRSRC)/main.c \
       $(DIRSRC)/$(DIRSIG)/signal.c \
       $(DIRSRC)/$(DIRUTILS)/utils.c \
 <<<<<<< HEAD
+<<<<<<< HEAD
 	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
 =======
+=======
+      $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
+>>>>>>> a4d56f6 (adding pwd builtin)
       $(DIRSRC)/$(DIR_SETUP)/setup.c \
 >>>>>>> 3fc7d38 (bugged makefile and failed squash)
 #       $(DIRSRC)/$()/.c \
