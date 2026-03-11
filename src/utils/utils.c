@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:08:34 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 23:13:00 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/11 18:11:23 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,4 @@ int	ft_compare(char *rl, char *string)
 		i++;
 	}
 	return (0);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a4d56f6 (adding pwd builtin)
