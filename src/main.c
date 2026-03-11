@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/10 16:36:50 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/10 19:04:21 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main_loop(char **env)
 		printf("%s\n", rl);
 		check_cmd(rl);
 		add_history(rl);
+		rl_clear_history();
 		if (rl)
 			free(rl);
 	}
