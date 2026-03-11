@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/11 18:26:53 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/11 18:35:50 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_cmd(char *rl)
 		printf("Test\n");
 	if (ft_compare(rl, "pwd") == 0)
 		pwd_builtin();
-	if (ft_compare(rl, "exit") == 0)
+	else if (ft_compare(rl, "exit") == 0)
 		exit_builtin((void *)rl);
 	return ;
 }
