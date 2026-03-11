@@ -29,8 +29,4 @@ int	ft_compare(char *rl, char *string)
 		i++;
 	}
 	return (0);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a4d56f6 (adding pwd builtin)

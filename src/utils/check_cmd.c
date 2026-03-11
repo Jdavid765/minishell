@@ -16,13 +16,9 @@ void	check_cmd(char *rl)
 {
 	if (ft_compare(rl, "export") == 0)
 		printf("Test\n");
-<<<<<<< HEAD
-}
-=======
 	if (ft_compare(rl, "pwd") == 0)
 		pwd_builtin();
 	if (ft_compare(rl, "exit") == 0)
 		exit_builtin((void *)rl);
 	return ;
 }
->>>>>>> a4d56f6 (adding pwd builtin)
