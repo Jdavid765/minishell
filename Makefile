@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/09 23:28:30 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/10 19:11:06 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,17 @@ INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
 LIBFT_DIR = libft
 LIBFT     = $(LIBFT_DIR)/libft.a
+OS = $(shell uname)
+CC = gcc
+NAME = minishell
+CFLAGS = -Wall -Wextra -Werror
+LFLAGS = -lreadline
+INCLUDES = -I.
+
+ifeq ($(OS), Darwin)
+	LFLAGS = -L /opt/homebrew/Cellar/readline/8.3.3/lib -lreadline
+	INCLUDES = -I /opt/homebrew/Cellar/readline/8.3.3/include
+endif
 
 # --- DIRECTORIES ---
 
@@ -52,15 +63,10 @@ SRC = $(DIRSRC)/main.c \
       $(DIRSRC)/$(DIRPARSING)/parsing.c \
       $(DIRSRC)/$(DIRSIG)/signal.c \
       $(DIRSRC)/$(DIRUTILS)/utils.c \
-<<<<<<< HEAD
-<<<<<<< HEAD
 	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
-=======
-=======
       $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
->>>>>>> a4d56f6 (adding pwd builtin)
       $(DIRSRC)/$(DIR_SETUP)/setup.c \
->>>>>>> 3fc7d38 (bugged makefile and failed squash)
+      3fc7d38 (bugged makefile and failed squash)
 #       $(DIRSRC)/$()/.c \
 
 # --- OBJECTS ---
@@ -73,15 +79,11 @@ all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT)
 	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
-<<<<<<< HEAD
-<<<<<<< HEAD
 	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -o $(NAME)
-=======
 	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS)
->>>>>>> 3fc7d38 (bugged makefile and failed squash)
-=======
+  
 	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS) -L$(LIBFT_DIR)
->>>>>>> 6ed625e (libft added)
+ 6ed625e (libft added)
 	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
 
 $(LIBFT):
