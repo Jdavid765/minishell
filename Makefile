@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/09 23:28:30 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/10 19:11:06 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,17 @@ GREEN    = \033[0;32m
 RESET    = \033[0m
 
 # --- VARIABLES ---
+OS = $(shell uname)
 CC = gcc
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -lreadline
 INCLUDES = -I.
 
+ifeq ($(OS), Darwin)
+	LFLAGS = -L /opt/homebrew/Cellar/readline/8.3.3/lib -lreadline
+	INCLUDES = -I /opt/homebrew/Cellar/readline/8.3.3/include
+endif
 
 # --- DIRECTORIES ---
 DIRSRC     = src
