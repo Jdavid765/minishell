@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/11 23:55:08 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/12 00:09:42 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_env	*setup(t_all *all, char **env)
 	t_env	*ft_env;
 
 	if(!setup_signal(all))
-		printf("Error\n");
+		printf("Error");
 	ft_env = setup_env(env);
 	if (!ft_env)
 		return (NULL);
