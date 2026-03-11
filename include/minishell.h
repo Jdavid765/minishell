@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+#include <stdbool.h>
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -32,34 +33,56 @@
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	REDIR_IN, // <
+	REDIR_OUT, // >
+	APPEND, // >>
+	HEREDOC // <<
+}	t_token_type;
 
 typedef struct s_sig
 {
 	struct sigaction sa;
-
 }	t_sig;
 
-// typedef struct s_env;
-// {
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+	struct s_env	*prev;
+}	t_env;
 
-// }	t_env;
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+	bool			is_valid;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
 
-// typedef struct s_token;
-// {
-
-// }	t_token;
-
-// typedef struct s_cmd
-// {
-
-// }	t_cmd;
+typedef struct s_cmd
+{
+	char	**cmd_and_args;
+	char	*path;
+	int		fd_in;
+	int		fd_out;
+	bool	is_builtin;
+	bool	access_check;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+}	t_cmd;
 
 typedef struct s_all
 {
 	t_sig	sig;
-	// t_env	env;
-	// t_token	token
-	// t_cmd	cmd;
+	t_env	env;
+	t_token	token;
+	t_cmd	cmd;
 
 }	t_all;
 
