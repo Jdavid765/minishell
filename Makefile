@@ -24,6 +24,8 @@ LFLAGS    = -lreadline
 DIRINC     = include
 INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
+LIBFT_DIR = libft
+LIBFT     = $(LIBFT_DIR)/libft.a
 
 # --- DIRECTORIES ---
 
@@ -69,14 +71,22 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
+$(NAME) : $(OBJ) $(LIBFT)
 	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
+<<<<<<< HEAD
 <<<<<<< HEAD
 	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -o $(NAME)
 =======
 	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS)
 >>>>>>> 3fc7d38 (bugged makefile and failed squash)
+=======
+	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS) -L$(LIBFT_DIR)
+>>>>>>> 6ed625e (libft added)
 	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR) --no-print-directory
+	@echo -e "$(BLUE)adding libft$<...$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c $(HEADER)
 	@mkdir -p $(dir $@)
@@ -86,12 +96,12 @@ $(OBJ_DIR)/%.o: %.c $(HEADER)
 clean:
 	@echo -e "$(RED)Cleaning object files...$(RESET)"
 	@rm -rf $(OBJ_DIR)
-
+	@make clean -C $(LIBFT_DIR) --no-print-directory
 
 fclean: clean
 	@echo -e "$(RED)Removing executable $(NAME)...$(RESET)"
 	@rm -f $(NAME)
-
+	@make fclean -C $(LIBFT_DIR) --no-print-directory
 
 re : fclean all
 

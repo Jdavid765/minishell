@@ -13,6 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/libft.h"
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -90,7 +91,7 @@ void	sigint_handler(int signum);
 int		ft_compare(char *rl, char *string);
 void	check_cmd(char *rl);
 int		pwd_builtin(void);
-void	exit_builtin(void);
+void	exit_builtin(void *data);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/

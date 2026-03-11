@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	exit_builtin(void)
+void	exit_builtin(void *data)
 {
-	
+	(void)data;
 }
