@@ -40,16 +40,13 @@ int	main_loop(char **env)
 
 int	main(int ac, char **av, char **env)
 {
+	t_all	all;
 	if (ac != 1 || av[0] == NULL)
 		return (1);
-	// t_all	all;
-
-	// if (!setup(&all))
-	// 	return (1);
+	if (!setup(&all))
+		return (1);
 	if (main_loop(env) == 1)
 		return (1);
-	// clean_exit();
-	
 	return (0);
 }
 /*
