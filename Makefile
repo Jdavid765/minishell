@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/10 19:11:06 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/11 23:49:44 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ GREEN    = \033[0;32m
 RESET    = \033[0m
 
 # --- VARIABLES ---
+OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
 CFLAGS   = -Wall -Wextra -Werror
@@ -26,12 +27,6 @@ INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
 LIBFT_DIR = libft
 LIBFT     = $(LIBFT_DIR)/libft.a
-OS = $(shell uname)
-CC = gcc
-NAME = minishell
-CFLAGS = -Wall -Wextra -Werror
-LFLAGS = -lreadline
-INCLUDES = -I.
 
 ifeq ($(OS), Darwin)
 	LFLAGS = -L /opt/homebrew/Cellar/readline/8.3.3/lib -lreadline
@@ -48,6 +43,8 @@ DIRUTILS   = utils
 DIREXEC    = exec
 OBJ_DIR    = obj
 DIR_SETUP  = setup
+DIR_NODE   = noeud
+DIR_CMD    = cmd
 
 
 # --- SOURCES ---
@@ -64,9 +61,10 @@ SRC = $(DIRSRC)/main.c \
       $(DIRSRC)/$(DIRSIG)/signal.c \
       $(DIRSRC)/$(DIRUTILS)/utils.c \
 	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
-      $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
       $(DIRSRC)/$(DIR_SETUP)/setup.c \
-      3fc7d38 (bugged makefile and failed squash)
+	  $(DIRSRC)/$(DIR_SETUP)/parse_env.c \
+	  $(DIRSRC)/$(DIR_NODE)/ft_functions.c \
+	  $(DIRSRC)/$(DIR_CMD)/cmd.c \
 #       $(DIRSRC)/$()/.c \
 
 # --- OBJECTS ---
@@ -79,11 +77,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT)
 	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -o $(NAME)
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS)
-  
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS) -L$(LIBFT_DIR)
- 6ed625e (libft added)
+	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
 	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
 
 $(LIBFT):

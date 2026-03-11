@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 16:08:16 by nfiora-d          #+#    #+#             */
-/*   Updated: 2026/03/11 19:03:15 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/12 00:04:06 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+void	cmd_env(t_env **ft_env)
 {
-	t_list	*Newnode;
+	t_env *tmp;
 
-	Newnode = malloc(sizeof(t_list));
-	if (!Newnode)
-		return (NULL);
-	Newnode->content = content;
-	Newnode->next = NULL;
-	return (Newnode);
+	tmp = *ft_env;
+	while (tmp)
+	{
+		printf("%s=%s\n", tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
 }

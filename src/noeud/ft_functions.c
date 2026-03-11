@@ -1,25 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_functions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 16:08:16 by nfiora-d          #+#    #+#             */
-/*   Updated: 2026/03/11 19:03:15 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/11 22:44:58 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/11 23:14:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+# include "../../include/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+t_env	*ft_newnode(char *key, char *value)
 {
-	t_list	*Newnode;
+	t_env	*Newnode;
 
-	Newnode = malloc(sizeof(t_list));
+	Newnode = malloc(sizeof(t_env));
 	if (!Newnode)
 		return (NULL);
-	Newnode->content = content;
+	Newnode->key = key;
+	Newnode->value = value;
 	Newnode->next = NULL;
 	return (Newnode);
+}
+
+void	ft_add_back(t_env **head, t_env *new)
+{
+	t_env	*current;
+
+	if (!head || !new)
+		return ;
+	if (!*head)
+		*head = new;
+	else
+	{
+		current = *head;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+	}
+	return ;
 }

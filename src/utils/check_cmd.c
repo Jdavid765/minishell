@@ -6,13 +6,13 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/11 18:36:20 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/12 00:02:13 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	check_cmd(char *rl)
+void	check_cmd(char *rl, t_env **ft_env)
 {
 	if (ft_compare(rl, "export") == 0)
 		printf("Test\n");
@@ -20,5 +20,7 @@ void	check_cmd(char *rl)
 		pwd_builtin();
 	if (ft_compare(rl, "exit") == 0)
 		exit_builtin((void *)rl);
+	if (ft_compare(rl, "env") == 0)
+		cmd_env(ft_env);
 	return ;
 }

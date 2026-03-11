@@ -6,26 +6,26 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/10 19:04:21 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/11 23:59:58 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	main_loop(char **env)
+int	main_loop(char **env, t_env **ft_env)
 {
+	char	*rl;
+
 	if (env)
 		printf("!\n");
-	char	*rl;
 
 	while (1)
 	{
 		if ((rl = readline("Prompt > ")) == NULL)
 			return (1);
 		printf("%s\n", rl);
-		check_cmd(rl);
+		check_cmd(rl, ft_env);
 		add_history(rl);
-		rl_clear_history();
 		if (rl)
 			free(rl);
 	}
@@ -41,11 +41,13 @@ int	main_loop(char **env)
 int	main(int ac, char **av, char **env)
 {
 	t_all	all;
+	t_env	*ft_env;
 	if (ac != 1 || av[0] == NULL)
 		return (1);
-	if (!setup(&all))
+	ft_env = setup(&all, env);
+	if (!ft_env)
 		return (1);
-	if (main_loop(env) == 1)
+	if (main_loop(env, &ft_env) == 1)
 		return (1);
 	return (0);
 }
