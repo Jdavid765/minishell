@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/11 23:49:44 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/13 15:43:10 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,6 @@ SRC = $(DIRSRC)/main.c \
       $(DIRSRC)/$(DIRUTILS)/utils.c \
 	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
       $(DIRSRC)/$(DIR_SETUP)/setup.c \
-	  $(DIRSRC)/$(DIR_SETUP)/parse_env.c \
 	  $(DIRSRC)/$(DIR_NODE)/ft_functions.c \
 	  $(DIRSRC)/$(DIR_CMD)/cmd.c \
 #       $(DIRSRC)/$()/.c \
