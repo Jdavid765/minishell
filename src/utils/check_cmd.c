@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/12 00:02:13 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/13 16:35:56 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_cmd(char *rl, t_env **ft_env)
 {
 	if (ft_compare(rl, "export") == 0)
-		printf("Test\n");
+		export_builtin(ft_env);
 	if (ft_compare(rl, "pwd") == 0)
 		pwd_builtin();
 	if (ft_compare(rl, "exit") == 0)

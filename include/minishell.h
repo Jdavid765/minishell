@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/13 16:19:16 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/13 16:35:45 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	sigint_handler(int signum);
 int		ft_compare(char *rl, char *string);
 int		pwd_builtin(void);
 void	exit_builtin(void *data);
+int		export_builtin(t_env *ft_env);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/

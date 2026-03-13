@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/12 00:04:06 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/13 16:36:31 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	cmd_env(t_env **ft_env)
 {
-	t_env *tmp;
+	t_env *head;
 
-	tmp = *ft_env;
-	while (tmp)
+	head = *ft_env;
+	while (head)
 	{
-		printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
 	}
 }
