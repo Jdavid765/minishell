@@ -40,34 +40,36 @@ endif
 
 # --- DIRECTORIES ---
 
-DIRSRC     = src
-DIRPARSING = parsing
-DIRBUILTIN = builtins
-DIRSIG     = signal
-DIRUTILS   = utils
-DIREXEC    = exec
+DIR_SRC     = src
+DIR_PARSING = parsing
+DIR_BUILTIN = builtins
+DIR_SIG     = signal
+DIR_UTILS   = utils
+DIR_EXEC    = exec
+DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
 
 
 # --- SOURCES ---
-SRC = $(DIRSRC)/main.c \
-      $(DIRSRC)/$(DIRBUILTIN)/cd_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/echo_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/env_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/exit_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/export_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/pwd_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/unset_builtin.c \
-      $(DIRSRC)/$(DIREXEC)/exec.c \
-      $(DIRSRC)/$(DIRPARSING)/parsing.c \
-      $(DIRSRC)/$(DIRSIG)/signal.c \
-      $(DIRSRC)/$(DIRUTILS)/utils.c \
-	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
-      $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
-      $(DIRSRC)/$(DIR_SETUP)/setup.c \
-      3fc7d38 (bugged makefile and failed squash)
-#       $(DIRSRC)/$()/.c \
+SRC = $(DIR_SRC)/main.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/cd_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/echo_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/env_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/exit_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/export_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/pwd_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/unset_builtin.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec.c \
+      $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
+      $(DIR_SRC)/$(DIR_SIG)/signal.c \
+      $(DIR_SRC)/$(DIR_UTILS)/utils.c \
+      $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
+      $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
+      $(DIR_SRC)/$(DIR_SETUP)/setup.c \
+      $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
+      $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
+#       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
