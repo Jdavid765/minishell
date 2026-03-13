@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 22:44:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/11 23:14:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/13 16:19:29 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,11 @@ void	ft_add_back(t_env **head, t_env *new)
 		current->next = new;
 	}
 	return ;
+}
+
+void	ft_lst_del_env(t_env *ft_env)
+{
+	if (!ft_env)
+		return ;
+	free(ft_env->value);
 }

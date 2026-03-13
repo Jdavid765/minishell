@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/13 15:42:03 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/13 16:31:55 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,29 @@ char	*put_in_value(char *env)
 	line[i] = '\0';
 	return (line);
 }
+int	SLHLVL_add(t_env **ft_env)
+{
+	t_env	*tmp;
+	char	*line;
+
+	tmp = *ft_env;
+	while (tmp)
+	{
+		if (tmp->key[0] == 'S')
+		{
+			if(ft_compare(tmp->key, "SHLVL") == 0)
+			{
+				if(!(line = ft_strdup("2")))
+					return (1);
+				ft_lst_del_env(tmp);
+				tmp->value = line;
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 t_env	*setup_env(char **env)
 {
 	t_env 	*head;
@@ -81,9 +104,10 @@ t_env	*setup_env(char **env)
 		if (!key || !value)
 			return (NULL);
 		current = ft_newnode(key, value);
-		
 		ft_add_back(&head, current);
 		i++;
 	}
+	if (SLHLVL_add(&head))
+		return (NULL);
 	return (head);
 }
