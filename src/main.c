@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/11 23:59:58 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/14 18:16:30 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main_loop(char **env, t_env **ft_env)
 
 	while (1)
 	{
-		if ((rl = readline("Prompt > ")) == NULL)
+		if ((rl = readline("Minishell > ")) == NULL)
 			return (1);
 		printf("%s\n", rl);
 		check_cmd(rl, ft_env);

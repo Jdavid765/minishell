@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_functions.c                                     :+:      :+:    :+:   */
+/*   functions_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 22:44:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/13 16:19:29 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/16 18:19:50 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../include/minishell.h"
 
-t_env	*ft_newnode(char *key, char *value)
+t_env	*ft_node_env(char *key, char *value)
 {
 	t_env	*Newnode;
 
@@ -25,7 +25,7 @@ t_env	*ft_newnode(char *key, char *value)
 	return (Newnode);
 }
 
-void	ft_add_back(t_env **head, t_env *new)
+void	ft_add_back_env(t_env **head, t_env *new)
 {
 	t_env	*current;
 
