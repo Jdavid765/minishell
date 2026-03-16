@@ -14,11 +14,12 @@
 
 void	check_cmd(char *rl)
 {
-	if (ft_compare(rl, "export") == 0)
-		printf("Test\n");
-	if (ft_compare(rl, "pwd") == 0)
-		pwd_builtin();
-	if (ft_compare(rl, "exit") == 0)
-		exit_builtin((void *)rl);
+	(void)rl;
+	// if (ft_compare(rl, "export") == 0)
+	// 	printf("Test\n");
+	// if (ft_compare(rl, "pwd") == 0)
+	// 	pwd_builtin();
+	// if (ft_compare(rl, "exit") == 0)
+	// 	exit_builtin((void *)rl);
 	return ;
 }

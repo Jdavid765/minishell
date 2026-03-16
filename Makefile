@@ -65,7 +65,6 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
       $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
-      $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
       $(DIR_SRC)/$(DIR_SETUP)/setup.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
@@ -81,11 +80,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT)
 	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -o $(NAME)
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS)
-  
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS) -L$(LIBFT_DIR)
- 6ed625e (libft added)
+	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
 	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
 
 $(LIBFT):

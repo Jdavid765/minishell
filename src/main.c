@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	main_loop(char **env)
+int	main_loop(char **env, t_all *all)
 {
 	if (env)
 		printf("!\n");
@@ -22,8 +22,9 @@ int	main_loop(char **env)
 	{
 		if ((rl = readline("Prompt > ")) == NULL)
 			return (1);
-		printf("%s\n", rl);
-		check_cmd(rl);
+		// printf("%s\n", rl);
+		tokenizer(rl, all);
+		// check_cmd(rl);
 		add_history(rl);
 		rl_clear_history();
 		if (rl)
@@ -45,7 +46,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	if (!setup(&all))
 		return (1);
-	if (main_loop(env) == 1)
+	if (main_loop(env, &all) == 1)
 		return (1);
 	return (0);
 }

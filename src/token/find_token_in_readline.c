@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int tokenizer(char *user_input, t_all *all)
 {
@@ -19,8 +19,9 @@ int tokenizer(char *user_input, t_all *all)
 	i = 0;
 	while(user_input[i])
 	{
-		if (find_by_char(user_input, i))
+		if (!find_by_char(user_input, &i, all))
 			return (1);
+		printf("is everything ok?\n");
 		i++;
 	}
 	return (0);

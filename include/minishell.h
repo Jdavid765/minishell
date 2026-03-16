@@ -99,31 +99,44 @@ typedef struct s_all
 /* ========================================================================== */
 /* ===============================utils=======================================*/
 /* ========================================================================== */
-int	ft_compare(char *rl, char *string);
-void check_cmd(char *rl);
+int			ft_compare(char *rl, char *string);
+void		check_cmd(char *rl);
 
 /* ========================================================================== */
 /* ===============================signal======================================*/
 /* ========================================================================== */
-int		setup_signal(t_all *all);
-void	sigint_handler(int signum);
+int			setup_signal(t_all *all);
+void		sigint_handler(int signum);
 
 
 /* ========================================================================== */
 /* ===============================builtin=====================================*/
 /* ========================================================================== */
-int		ft_compare(char *rl, char *string);
-void	check_cmd(char *rl);
-int		pwd_builtin(void);
-void	exit_builtin(void *data);
+int			ft_compare(char *rl, char *string);
+void		check_cmd(char *rl);
+int			pwd_builtin(void);
+void		exit_builtin(void *data);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
 
 /* ========================================================================== */
+/* ===============================tokenizer===================================*/
+/* ========================================================================== */
+int			tokenizer(char *user_input, t_all *all);
+int			new_token(t_token *token_head, t_token_type	type, char *token_val);
+t_token		*last_token_list(t_token *token_head);
+void		set_first_node(t_token *first_token, t_token_type	type, char *token_val);
+int			find_by_char(char *user_input, int *i, t_all *all);
+int			new_word_or_cmd(char *user_input, int *start, t_all *all);
+int			is_a_separator(char letter);
+
+
+
+/* ========================================================================== */
 /* =============================== ===========================================*/
 /* ========================================================================== */
-int		setup(t_all *all);
+int			setup(t_all *all);
 
 #endif
