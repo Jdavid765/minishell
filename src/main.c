@@ -44,6 +44,7 @@ int	main(int ac, char **av, char **env)
 	t_all	all;
 	if (ac != 1 || av[0] == NULL)
 		return (1);
+	ft_bzero(&all, sizeof(t_all));
 	if (!setup(&all))
 		return (1);
 	if (main_loop(env, &all) == 1)

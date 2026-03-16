@@ -46,20 +46,25 @@ int	new_word_or_cmd(char *user_input, int *start, t_all *all)
 	int	end;
 
 	end = 0;
-	while(user_input[*start + end] && is_a_separator(user_input[*start + end]))
+	printf("start == %d\n", *start);
+	while(user_input[*start + end] && !is_a_separator(user_input[*start + end]))
 	{
 		end++;
 	}
 	arg = ft_substr(user_input, *start, end);
 	if(arg == NULL)
-	return (1);
+		return (1);
+	printf("arg == %s\n", arg);
 	*start += end;
 	if(!new_token_node(&all->token, WORD, arg))
 		return (free(arg), 1);
-	printf("arg == %s\n", arg);
+	
 	return (0);
 }
-
+/*
+	this fonction find new token et set a new node
+	return 1 if an error occurs
+*/
 
 int	is_a_separator(char letter)
 {
@@ -81,5 +86,5 @@ int	is_a_separator(char letter)
 }
 /*
 	this fonction help new_word_or_cmd() while condtion
-	to stop if the 
+	to stop if the char is an important char
 */

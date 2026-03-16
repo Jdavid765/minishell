@@ -78,7 +78,7 @@ int new_token_node(t_token **token_head, t_token_type type, char *token_val)
 
 t_token *last_token_list(t_token *token_head)
 {
-	while(token_head)
+	while(token_head->next)
 	{
 		token_head = token_head->next;
 	}
