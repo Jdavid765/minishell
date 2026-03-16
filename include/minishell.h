@@ -81,7 +81,7 @@ typedef struct s_all
 {
 	t_sig	sig;
 	t_env	env;
-	t_token	token;
+	t_token	*token;
 	t_cmd	cmd;
 
 }	t_all;
@@ -125,13 +125,12 @@ void		exit_builtin(void *data);
 /* ===============================tokenizer===================================*/
 /* ========================================================================== */
 int			tokenizer(char *user_input, t_all *all);
-int			new_token(t_token *token_head, t_token_type	type, char *token_val);
+int			new_token_node(t_token **token_head, t_token_type type, char *token_val);
+t_token		*create_token_node(t_token_type type, char *val);
 t_token		*last_token_list(t_token *token_head);
-void		set_first_node(t_token *first_token, t_token_type	type, char *token_val);
 int			find_by_char(char *user_input, int *i, t_all *all);
 int			new_word_or_cmd(char *user_input, int *start, t_all *all);
 int			is_a_separator(char letter);
-
 
 
 /* ========================================================================== */

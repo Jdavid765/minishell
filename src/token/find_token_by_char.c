@@ -54,7 +54,7 @@ int	new_word_or_cmd(char *user_input, int *start, t_all *all)
 	if(arg == NULL)
 	return (1);
 	*start += end;
-	if(!new_token(&all->token, WORD, arg))
+	if(!new_token_node(&all->token, WORD, arg))
 		return (free(arg), 1);
 	printf("arg == %s\n", arg);
 	return (0);

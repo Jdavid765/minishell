@@ -31,41 +31,52 @@ int tokenizer(char *user_input, t_all *all)
 	this fonction create a token chained list by the given line
 	this fonction return 1 if fails 
 	and return 0 if everything is ok
-	the fonc can fail if new_token failed to malloc
+	fail if create_token_node failed to malloc
 */
 
 
-int	new_token(t_token *token_head, t_token_type	type, char *token_val)
+t_token *create_token_node(t_token_type type, char *val)
 {
-	t_token *last_token;
-	t_token *new_token;
-
-	if(token_head->next == NULL)//first token to set
-	{
-		set_first_node(token_head, type, token_val);
-		return (0);
-	}
-	last_token = last_token_list(token_head);
-	new_token = malloc(sizeof(t_token));
-	if (!new_token)
-		return (1);
-	new_token->value = token_val;
-	new_token->type = type;
-	new_token->is_valid = false;
-	new_token->next = NULL;
-	new_token->prev = last_token;
-	last_token->next = new_token;
-	return (0);
+	t_token *new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->value = val;
+	new->type = type;
+	new->is_valid = false;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }
 
 /*
-	create a new node in the token list
-	return (1) if malloc fails
-	assign the booleen value to false by default
-	and set next and prev
+	this fonction create a new node token node
 */
 
-t_token	*last_token_list(t_token *token_head)
+int new_token_node(t_token **token_head, t_token_type type, char *token_val)
+{
+	t_token *new_node;
+	t_token *last;
+
+	new_node = create_token_node(type, token_val);
+	if (!new_node)
+		return (1);
+	if (*token_head == NULL)
+	{
+		*token_head = new_node;
+		return (0);
+	}
+	last = last_token_list(*token_head);
+	last->next = new_node;
+	new_node->prev = last;
+	return (0);
+}
+/*
+	this fonction call create_token_node and
+	link the new node to the end of the list
+	or the head if it's the first
+*/
+
+t_token *last_token_list(t_token *token_head)
 {
 	while(token_head)
 	{
@@ -73,21 +84,6 @@ t_token	*last_token_list(t_token *token_head)
 	}
 	return (token_head);
 }
-
 /*
 	find the last node of the token list and return it.
-*/
-
-void	set_first_node(t_token *first_token, t_token_type	type, char *token_val)
-{
-	first_token->prev = NULL;
-	first_token->next = NULL;
-	first_token->value = token_val;
-	first_token->type = type;
-	first_token->is_valid = false;
-}
-/*
-	same thing as new_token but it's for 
-	the first token that already exist
-	so we don't need to malloc();
 */
