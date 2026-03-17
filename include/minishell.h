@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 23:26:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 13:39:08 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,15 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-	struct s_env	*prev;
 }	t_env;
+
+typedef struct s_parsing
+{
+	char	**cmd_arg;
+	int		fd_in;
+	int		fd_out;
+	struct s_parsing	*next;
+}	t_parsing;
 
 typedef struct s_token
 {
@@ -81,15 +88,16 @@ typedef struct s_all
 {
 	t_sig	sig;
 	t_env	env;
-	t_token	token;
+	t_token	*token;
 	t_cmd	cmd;
 
 }	t_all;
 
+
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-
+t_parsing	*ft_parsing(char *rl);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -98,31 +106,41 @@ typedef struct s_all
 /* ========================================================================== */
 /* ===============================utils=======================================*/
 /* ========================================================================== */
-int	ft_compare(char *rl, char *string);
-void check_cmd(char *rl);
+int		ft_compare(char *rl, char *string);
+void	check_cmd(char *rl, t_env **ft_env);
 
 /* ========================================================================== */
 /* ===============================signal======================================*/
 /* ========================================================================== */
-int		setup_signal(t_all *all);
-void	sigint_handler(int signum);
+int			setup_signal(t_all *all);
+void		sigint_handler(int signum);
 
 
 /* ========================================================================== */
 /* ===============================builtin=====================================*/
 /* ========================================================================== */
-int		ft_compare(char *rl, char *string);
-void	check_cmd(char *rl);
 int		pwd_builtin(void);
 void	exit_builtin(void *data);
+int		export_builtin(t_env **ft_env, char *rl);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
 
 /* ========================================================================== */
+/* ===============================tokenizer===================================*/
+/* ========================================================================== */
+int			tokenizer(char *user_input, t_all *all);
+int			new_token_node(t_token **token_head, t_token_type type, char *token_val);
+t_token		*create_token_node(t_token_type type, char *val);
+t_token		*last_token_list(t_token *token_head);
+int			find_by_char(char *user_input, int *i, t_all *all);
+int			new_word_or_cmd(char *user_input, int *start, t_all *all);
+int			is_a_separator(char letter);
+
+/* ========================================================================== */
 /* =============================== ===========================================*/
 /* ========================================================================== */
-int		setup(t_all *all);
+int			setup(t_all *all);
 
 #endif

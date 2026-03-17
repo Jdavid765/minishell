@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/10 19:11:06 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/13 15:43:10 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ GREEN    = \033[0;32m
 RESET    = \033[0m
 
 # --- VARIABLES ---
+OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
 CFLAGS   = -Wall -Wextra -Werror
@@ -26,12 +27,6 @@ INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
 LIBFT_DIR = libft
 LIBFT     = $(LIBFT_DIR)/libft.a
-OS = $(shell uname)
-CC = gcc
-NAME = minishell
-CFLAGS = -Wall -Wextra -Werror
-LFLAGS = -lreadline
-INCLUDES = -I.
 
 ifeq ($(OS), Darwin)
 	LFLAGS = -L /opt/homebrew/Cellar/readline/8.3.3/lib -lreadline
@@ -40,34 +35,37 @@ endif
 
 # --- DIRECTORIES ---
 
-DIRSRC     = src
-DIRPARSING = parsing
-DIRBUILTIN = builtins
-DIRSIG     = signal
-DIRUTILS   = utils
-DIREXEC    = exec
+DIR_SRC     = src
+DIR_PARSING = parsing
+DIR_BUILTIN = builtins
+DIR_SIG     = signal
+DIR_UTILS   = utils
+DIR_EXEC    = exec
+DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
+DIR_NODE   = noeud
+DIR_CMD    = cmd
 
 
 # --- SOURCES ---
-SRC = $(DIRSRC)/main.c \
-      $(DIRSRC)/$(DIRBUILTIN)/cd_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/echo_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/env_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/exit_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/export_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/pwd_builtin.c \
-      $(DIRSRC)/$(DIRBUILTIN)/unset_builtin.c \
-      $(DIRSRC)/$(DIREXEC)/exec.c \
-      $(DIRSRC)/$(DIRPARSING)/parsing.c \
-      $(DIRSRC)/$(DIRSIG)/signal.c \
-      $(DIRSRC)/$(DIRUTILS)/utils.c \
-	  $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
-      $(DIRSRC)/$(DIRUTILS)/check_cmd.c \
-      $(DIRSRC)/$(DIR_SETUP)/setup.c \
-      3fc7d38 (bugged makefile and failed squash)
-#       $(DIRSRC)/$()/.c \
+SRC = $(DIR_SRC)/main.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/cd_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/echo_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/env_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/exit_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/export_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/pwd_builtin.c \
+      $(DIR_SRC)/$(DIR_BUILTIN)/unset_builtin.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec.c \
+      $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
+      $(DIR_SRC)/$(DIR_SIG)/signal.c \
+      $(DIR_SRC)/$(DIR_UTILS)/utils.c \
+      $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
+      $(DIR_SRC)/$(DIR_SETUP)/setup.c \
+      $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
+      $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
+#       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -79,11 +77,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT)
 	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -o $(NAME)
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS)
-  
-	@$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LFLAGS) -L$(LIBFT_DIR)
- 6ed625e (libft added)
+	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
 	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
 
 $(LIBFT):
