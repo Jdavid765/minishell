@@ -139,9 +139,10 @@ int			new_word_or_cmd(char *user_input, int *start, t_all *all);
 int			new_single_quote(char *user_input, int *start, t_all *all);
 int			new_double_quote(char *user_input, int *start, t_all *all);
 int			new_pipe(char *user_input, int *start, t_all *all);
-
-
-
+int			new_redir_in_or_heredoc(char *user_input, int *start, t_all *all);
+int			new_heredoc(char *user_input, int *start, t_all *all, int end);
+int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
+int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
 
 

@@ -12,6 +12,26 @@
 
 #include "../include/minishell.h"
 
+
+void	bullshit(t_all *all)
+{
+	int i = 1;
+
+	while(all->token)
+	{
+		printf("token nbr %d\n", i);
+		printf("value == %s\n", all->token->value);
+		printf("type == %d\n", all->token->type);
+		printf("====================");
+		all->token = all->token->next;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		i++;
+	}
+	// printf("");
+}
+
 int	main_loop(t_all *all, char **env)
 {
 	char	*rl;
@@ -24,6 +44,7 @@ int	main_loop(t_all *all, char **env)
 		if ((rl = readline("Minishell > ")) == NULL)
 			return (1);
 		tokenizer(rl, all);
+		bullshit(all);
 		check_cmd(rl, all);
 		add_history(rl);
 		if (rl)
@@ -37,6 +58,9 @@ int	main_loop(t_all *all, char **env)
 	and execute the command or built in if is it.
 	I propose this for not poluate the code.
 */
+
+
+
 
 int	main(int ac, char **av, char **env)
 {

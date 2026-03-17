@@ -21,7 +21,6 @@ int tokenizer(char *user_input, t_all *all)
 	{
 		if (!find_by_char(user_input, &i, all))
 			return (1);
-		printf("is everything ok?\n");
 		i++;
 	}
 	return (0);
