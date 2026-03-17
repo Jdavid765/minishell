@@ -19,17 +19,31 @@ int	find_by_char(char *user_input, int *i, t_all *all)
 		if(new_word_or_cmd(user_input, i, all))
 			return (1);
 	}
-	// if(user_input[*i] == "\"")//si c'est un quote simple
-	// 	new_single_quote();
-	// if(user_input[*i])//si c'est un quotes double
-	// 	new_double_quote();
-	// if(user_input[*i])//si c'est un pipe
-	// 	new_pipe();
-	// if(user_input[*i])//si c'est un < ou un <<
-	// 	new_redir_in_heredoc();
-	// if(user_input[*i])//si c'est un > ou un >>
-	// 	new_redir_in_or_appnd();
-	// //if(user_input[*i])//c'est c'est ???
+	if(user_input[*i] == "\'")//si c'est un quotes simple
+	{
+		if (new_single_quote(user_input, i, all))
+			return (1);
+	}
+	if(user_input[*i] == "\"")//si c'est un quote double
+	{
+		if (new_double_quote(user_input, i, all))
+			return (1);
+	}
+	if(user_input[*i] == "|")//si c'est un pipe
+	{
+		if (new_pipe(user_input, i, all))
+			return (1);
+	}
+	if(user_input[*i] == "<")//si c'est un < ou un <<
+	{
+		if (new_redir_in_heredoc(user_input, i, all))
+			return (1);
+	}
+	if(user_input[*i] == ">")//si c'est un > ou un >>
+	{
+		if (new_redir_in_or_appnd(user_input, i, all))
+			return (1);
+	}
 	return (0);
 }
 /*
@@ -40,25 +54,71 @@ int	find_by_char(char *user_input, int *i, t_all *all)
 */
 
 
-int	new_word_or_cmd(char *user_input, int *start, t_all *all)
+
+
+int	new_pipe(char *user_input, int *start, t_all *all)
 {
 	char	*arg;
-	int	end;
+	int		end;
 
-	end = 0;
-	printf("start == %d\n", *start);
-	while(user_input[*start + end] && !is_a_separator(user_input[*start + end]))
-	{
-		end++;
-	}
+	end = 1;
 	arg = ft_substr(user_input, *start, end);
 	if(arg == NULL)
 		return (1);
-	printf("arg == %s\n", arg);
+	*start += end;
+	if(!new_token_node(&all->token, PIPE, arg))
+		return (free(arg), 1);
+	return (0);
+}
+
+int	new_double_quote(char *user_input, int *start, t_all *all)
+{
+	char	*arg;
+	int		end;
+
+	end = 0;
+	while (user_input[*start + end] && user_input[*start + end] != '\"')//a voir plus tard le cas d'un quote sans sa paire
+		end++;
+	arg = ft_substr(user_input, *start, end);
+	if(arg == NULL)
+		return (1);
 	*start += end;
 	if(!new_token_node(&all->token, WORD, arg))
 		return (free(arg), 1);
-	
+	return (0);
+}
+
+int	new_single_quote(char *user_input, int *start, t_all *all)
+{
+	char	*arg;
+	int		end;
+
+	end = 0;
+	while (user_input[*start + end] && user_input[*start + end] != '\'')
+		end++;
+	arg = ft_substr(user_input, *start, end);
+	if(arg == NULL)
+		return (1);
+	*start += end;
+	if(!new_token_node(&all->token, WORD, arg))
+		return (free(arg), 1);
+	return (0);
+}
+
+int	new_word_or_cmd(char *user_input, int *start, t_all *all)
+{
+	char	*arg;
+	int		end;
+
+	end = 0;
+	while(user_input[*start + end] && !is_a_separator(user_input[*start + end]))
+		end++;
+	arg = ft_substr(user_input, *start, end);
+	if(arg == NULL)
+		return (1);
+	*start += end;
+	if(!new_token_node(&all->token, WORD, arg))
+		return (free(arg), 1);
 	return (0);
 }
 /*
