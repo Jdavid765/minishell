@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	main_loop(char **env, t_env **ft_env)
+int	main_loop(char **env, t_all *all)
 {
 	char	*rl;
 
@@ -23,8 +23,8 @@ int	main_loop(char **env, t_env **ft_env)
 	{
 		if ((rl = readline("Minishell > ")) == NULL)
 			return (1);
-		printf("%s\n", rl);
-		check_cmd(rl, ft_env);
+		tokenizer(rl, all);
+		// check_cmd(rl);
 		add_history(rl);
 		if (rl)
 			free(rl);
@@ -44,11 +44,11 @@ int	main(int ac, char **av, char **env)
 	t_env	*ft_env;
 	if (ac != 1 || av[0] == NULL)
 		return (1);
-	ft_env = setup(&all, env);
-	if (!ft_env)
+	ft_bzero(&all, sizeof(t_all));
+	if (!setup(&all, env))
 		return (1);
-	if (main_loop(env, &ft_env) == 1)
-		return (1);
+	if (main_loop(env, &all) == 1)
+		return (1); //free
 	return (0);
 }
 /*
