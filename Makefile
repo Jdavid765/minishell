@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/17 14:51:38 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/17 15:01:04 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
 CFLAGS   = -Wall -Wextra -Werror
-LFLAGS    = -lreadline
-DIRINC     = include
+LFLAGS   = -lreadline
+DIRINC   = include
 INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
 LIBFT_DIR = libft
