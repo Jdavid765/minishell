@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/16 18:21:07 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 14:44:05 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	SLHLVL_add(t_env **ft_env)
 	return (0);
 }
 
-t_env	*setup_env(char **env)
+int	setup_env(t_all *all, char **env)
 {
 	t_env 	*head;
 	t_env 	*current;
@@ -102,12 +102,15 @@ t_env	*setup_env(char **env)
 		key = put_in_key(env[i]);
 		value = put_in_value(env[i]);
 		if (!key || !value)
-			return (NULL);
+			return (1);
 		current = ft_node_env(key, value);
+		if(!current)
+			return (1);
 		ft_add_back_env(&head, current);
 		i++;
 	}
 	if (SLHLVL_add(&head))
-		return (NULL);
-	return (head);
+		return (1); //clean liste si ca echoue 
+	all->env = head;
+	return (0);
 }

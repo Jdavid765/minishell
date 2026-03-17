@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 22:44:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/16 18:19:50 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 14:34:56 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_add_back_env(t_env **head, t_env *new)
 	else
 	{
 		current = *head;
-		while (current->next)
+		while (current)
 			current = current->next;
 		current->next = new;
 	}

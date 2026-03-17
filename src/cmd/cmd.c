@@ -6,20 +6,17 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/13 16:36:31 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 14:41:37 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	cmd_env(t_env **ft_env)
+void	cmd_env(t_all *all)
 {
-	t_env *head;
-
-	head = *ft_env;
-	while (head)
+	while (all->env)
 	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
+		printf("%s=%s\n", all->env->key, all->env->value);
+		all->env = all->env->next;
 	}
 }

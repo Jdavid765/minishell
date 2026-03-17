@@ -6,13 +6,13 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/14 18:16:30 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 14:45:57 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	main_loop(char **env, t_all *all)
+int	main_loop(t_all *all, char **env)
 {
 	char	*rl;
 
@@ -24,7 +24,7 @@ int	main_loop(char **env, t_all *all)
 		if ((rl = readline("Minishell > ")) == NULL)
 			return (1);
 		tokenizer(rl, all);
-		// check_cmd(rl);
+		check_cmd(rl, all);
 		add_history(rl);
 		if (rl)
 			free(rl);
@@ -41,13 +41,12 @@ int	main_loop(char **env, t_all *all)
 int	main(int ac, char **av, char **env)
 {
 	t_all	all;
-	t_env	*ft_env;
 	if (ac != 1 || av[0] == NULL)
 		return (1);
 	ft_bzero(&all, sizeof(t_all));
 	if (!setup(&all, env))
 		return (1);
-	if (main_loop(env, &all) == 1)
+	if (main_loop(&all, env) == 1)
 		return (1); //free
 	return (0);
 }
