@@ -127,16 +127,28 @@ t_token		*create_token_node(t_token_type type, char *val);
 t_token		*last_token_list(t_token *token_head);
 int			find_by_char(char *user_input, int *i, t_all *all);
 int			new_word_or_cmd(char *user_input, int *start, t_all *all);
+int			new_single_quote(char *user_input, int *start, t_all *all);
+int			new_double_quote(char *user_input, int *start, t_all *all);
+int			new_pipe(char *user_input, int *start, t_all *all);
+int			new_redir_in_or_heredoc(char *user_input, int *start, t_all *all);
+int			new_heredoc(char *user_input, int *start, t_all *all, int end);
+int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
+int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
 
+
+
+
+
+
 /* ========================================================================== */
-/* =============================== PARSE_ENV===========================================*/
+/* =============================== PARSE_ENV==================================*/
 /* ========================================================================== */
 int		setup_env(t_all *all, char **env);
 void	cmd_env(t_all *all);
 
 /* ========================================================================== */
-/* =============================== FUNCTIONS NODE===========================================*/
+/* =============================== FUNCTIONS NODE=============================*/
 /* ========================================================================== */
 t_env	*ft_node_env(char *key, char *value);
 void	ft_add_back_env(t_env **head, t_env *new);
