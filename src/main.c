@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:45:57 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/18 18:53:07 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ int	main_loop(t_all *all, char **env)
 	and execute the command or built in if is it.
 	I propose this for not poluate the code.
 */
-
-
-
 
 int	main(int ac, char **av, char **env)
 {
