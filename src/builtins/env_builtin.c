@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:44:05 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/18 19:19:53 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,4 @@ int	setup_env(t_all *all, char **env)
 	all->env = head;
 	return (0);
 }
+// creer le path si il existe pas
