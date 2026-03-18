@@ -60,7 +60,6 @@ int	main_loop(t_all *all, char **env)
 	and execute the command or built in if is it.
 	I propose this for not poluate the code.
 */
-
 int	main(int ac, char **av, char **env)
 {
 	t_all	all;
