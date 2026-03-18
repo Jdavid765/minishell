@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:45:57 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 23:14:40 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main_loop(t_all *all, char **env)
 		if ((rl = readline("Minishell > ")) == NULL)
 			return (1);
 		tokenizer(rl, all);
-		check_cmd(rl, all);
+		check_cmd(rl, all); //faudra changer enlever rl et lui donner le parseur
 		add_history(rl);
 		if (rl)
 			free(rl);

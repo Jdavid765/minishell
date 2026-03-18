@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:48:45 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/18 13:55:46 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_parsing
-{
-	char	**cmd_arg;
-	int		fd_in;
-	int		fd_out;
-	struct s_parsing	*next;
-}	t_parsing;
-
 typedef struct s_token
 {
 	char			*value;
@@ -72,7 +64,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_cmd
+typedef struct s_parser
 {
 	char	**cmd_and_args;
 	char	*path;
@@ -82,15 +74,14 @@ typedef struct s_cmd
 	bool	access_check;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-}	t_cmd;
+}	t_parser;
 
 typedef struct s_all
 {
-	t_sig	sig;
-	t_env	*env;
-	t_token	*token;
-	t_cmd	cmd;
-
+	t_sig		sig;
+	t_env		*env;
+	t_token		*token;
+	t_parser	*parser;
 }	t_all;
 
 
