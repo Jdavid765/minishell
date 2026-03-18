@@ -17,11 +17,13 @@ int tokenizer(char *user_input, t_all *all)
 	int i;
 
 	i = 0;
-	while(user_input[i])
+	while (user_input[i])
 	{
-		if (!find_by_char(user_input, &i, all))
+		while (user_input[i] == ' ')
+			i++;
+		if (find_by_char(user_input, &i, all))
 			return (1);
-		i++;
+		// i++;
 	}
 	return (0);
 }

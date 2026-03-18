@@ -17,16 +17,18 @@ void	bullshit(t_all *all)
 {
 	int i = 1;
 
-	while(all->token)
+	t_token	*tmp = all->token;
+
+	while(tmp)
 	{
 		printf("token nbr %d\n", i);
-		printf("value == %s\n", all->token->value);
-		printf("type == %d\n", all->token->type);
-		printf("====================");
-		all->token = all->token->next;
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		printf("value == %s\n", tmp->value);
+		printf("type == %d\n", tmp->type);
+		printf("====================\n");
+		tmp = tmp->next;
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 		i++;
 	}
 	// printf("");

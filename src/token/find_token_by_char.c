@@ -14,38 +14,22 @@
 
 int	find_by_char(char *user_input, int *i, t_all *all)
 {
-	if (ft_isalpha(user_input[*i]))//si c'est un mot ou une commande
-	{
-		if (new_word_or_cmd(user_input, i, all))
-			return (1);
-	}
-	if (user_input[*i] == '\'')//si c'est un quotes simple
-	{
-		if (new_single_quote(user_input, i, all))
-			return (1);
-	}
-	if (user_input[*i] == '\"')//si c'est un quote double
-	{
-		if (new_double_quote(user_input, i, all))
-			return (1);
-	}
-	if (user_input[*i] == '|')//si c'est un pipe
-	{
-		if (new_pipe(user_input, i, all))
-			return (1);
-	}
-	if (user_input[*i] == '<')//si c'est un < ou un <<
-	{
-		if (new_redir_in_or_heredoc(user_input, i, all))
-			return (1);
-	}
-	if (user_input[*i] == '>')//si c'est un > ou un >>
-	{
-		if (new_redir_out_or_appnd(user_input, i, all))
-			return (1);
-	}
-	return (0);
+	if (user_input[*i] == '|')
+		return (new_pipe(user_input, i, all));
+	else if (user_input[*i] == '<')
+		return (new_redir_in_or_heredoc(user_input, i, all));
+	else if (user_input[*i] == '>')
+		return (new_redir_out_or_appnd(user_input, i, all));
+	else if (user_input[*i] == '\'')
+		return (new_single_quote(user_input, i, all));
+	else if (user_input[*i] == '\"')
+		return (new_double_quote(user_input, i, all));
+	else if (user_input[*i] != ' ' && user_input[*i] != '\0')
+		return (new_word_or_cmd(user_input, i, all));
+	else
+		return ((*i)++, 0);
 }
+
 /*
 	this fonction send the char read in a redirection fonction
 	the purpose is to split the string
@@ -69,7 +53,7 @@ int	new_redir_out_or_appnd(char *user_input, int *start, t_all *all)
 	if(arg == NULL)
 		return (1);
 	*start += end;
-	if(!new_token_node(&all->token, REDIR_OUT, arg))
+	if(new_token_node(&all->token, REDIR_OUT, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -82,7 +66,7 @@ int	new_appnd(char *user_input, int *start, t_all *all, int end)
 	if (arg == NULL)
 		return (1);
 	*start += end;
-	if (!new_token_node(&all->token, APPEND, arg))
+	if (new_token_node(&all->token, APPEND, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -103,7 +87,7 @@ int	new_redir_in_or_heredoc(char *user_input, int *start, t_all *all)
 	if(arg == NULL)
 		return (1);
 	*start += end;
-	if(!new_token_node(&all->token, REDIR_IN, arg))
+	if(new_token_node(&all->token, REDIR_IN, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -116,7 +100,7 @@ int	new_heredoc(char *user_input, int *start, t_all *all, int end)
 	if (arg == NULL)
 		return (1);
 	*start += end;
-	if (!new_token_node(&all->token, HEREDOC, arg))
+	if (new_token_node(&all->token, HEREDOC, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -131,7 +115,7 @@ int	new_pipe(char *user_input, int *start, t_all *all)
 	if (arg == NULL)
 		return (1);
 	*start += end;
-	if (!new_token_node(&all->token, PIPE, arg))
+	if (new_token_node(&all->token, PIPE, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -141,14 +125,14 @@ int	new_double_quote(char *user_input, int *start, t_all *all)
 	char	*arg;
 	int		end;
 
-	end = 0;
+	end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\"')//a voir plus tard le cas d'un quote sans sa paire
 		end++;
-	arg = ft_substr(user_input, *start, end);
+	arg = ft_substr(user_input, *start, ++end);
 	if (arg == NULL)
 		return (1);
 	*start += end;
-	if (!new_token_node(&all->token, WORD, arg))
+	if (new_token_node(&all->token, WORD, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -158,14 +142,14 @@ int	new_single_quote(char *user_input, int *start, t_all *all)
 	char	*arg;
 	int		end;
 
-	end = 0;
+	end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\'')
 		end++;
-	arg = ft_substr(user_input, *start, end);
+	arg = ft_substr(user_input, *start, ++end);
 	if (arg == NULL)
 		return (1);
 	*start += end;
-	if (!new_token_node(&all->token, WORD, arg))
+	if (new_token_node(&all->token, WORD, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -182,7 +166,7 @@ int	new_word_or_cmd(char *user_input, int *start, t_all *all)
 	if (arg == NULL)
 		return (1);
 	*start += end;
-	if (!new_token_node(&all->token, WORD, arg))
+	if (new_token_node(&all->token, WORD, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -203,8 +187,8 @@ int	is_a_separator(char letter)
 		return (1);
 	if (letter == '\"')
 		return (1);
-	if (letter == '-')
-		return (1);
+	// if (letter == '-')
+	// 	return (1);
 	if  (letter == ' ')
 		return (1);
 	return (0);
