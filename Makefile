@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/13 15:43:10 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/17 15:01:04 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ RESET    = \033[0m
 OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror
-LFLAGS    = -lreadline
-DIRINC     = include
+CFLAGS   = -Wall -Wextra -Werror -fPIE
+LFLAGS   = -lreadline
+DIRINC   = include
 INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
 LIBFT_DIR = libft
@@ -65,6 +65,8 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_SETUP)/setup.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
+	  $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
+	  $(DIR_SRC)/$(DIR_CMD)/cmd.c
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---
@@ -76,26 +78,26 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT)
-	@echo -e "$(BLUE)Linking $(NAME)...$(RESET)"
+	@printf "$(BLUE)Linking $(NAME)...$(RESET)\n"
 	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
-	@echo -e "$(GREEN)Build successfully complete!$(RESET)"
+	@printf "$(GREEN)Build successfully complete!$(RESET)\n"
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) --no-print-directory
-	@echo -e "$(BLUE)adding libft$<...$(RESET)"
+	@printf "$(BLUE)adding libft$<...$(RESET)\n"
 
 $(OBJ_DIR)/%.o: %.c $(HEADER)
 	@mkdir -p $(dir $@)
-	@echo -e "$(BLUE)Compiling $<...$(RESET)"
+	@printf "$(BLUE)Compiling $<...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@echo -e "$(RED)Cleaning object files...$(RESET)"
+	@printf "$(RED)Cleaning object files...$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
 	@make clean -C $(LIBFT_DIR) --no-print-directory
 
 fclean: clean
-	@echo -e "$(RED)Removing executable $(NAME)...$(RESET)"
+	@printf "$(RED)Removing executable $(NAME)...$(RESET)\n"
 	@rm -f $(NAME)
 	@make fclean -C $(LIBFT_DIR) --no-print-directory
 

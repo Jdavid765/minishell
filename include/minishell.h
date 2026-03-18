@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 13:39:08 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/17 14:48:45 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_cmd
 typedef struct s_all
 {
 	t_sig	sig;
-	t_env	env;
+	t_env	*env;
 	t_token	*token;
 	t_cmd	cmd;
 
@@ -97,7 +97,7 @@ typedef struct s_all
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-t_parsing	*ft_parsing(char *rl);
+// t_parsing	*ft_parsing(char *rl);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -107,7 +107,7 @@ t_parsing	*ft_parsing(char *rl);
 /* ===============================utils=======================================*/
 /* ========================================================================== */
 int		ft_compare(char *rl, char *string);
-void	check_cmd(char *rl, t_env **ft_env);
+void	check_cmd(char *rl, t_all *all);
 
 /* ========================================================================== */
 /* ===============================signal======================================*/
@@ -121,7 +121,7 @@ void		sigint_handler(int signum);
 /* ========================================================================== */
 int		pwd_builtin(void);
 void	exit_builtin(void *data);
-int		export_builtin(t_env **ft_env, char *rl);
+int		export_builtin(t_all *all, char *rl);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
@@ -136,11 +136,36 @@ t_token		*create_token_node(t_token_type type, char *val);
 t_token		*last_token_list(t_token *token_head);
 int			find_by_char(char *user_input, int *i, t_all *all);
 int			new_word_or_cmd(char *user_input, int *start, t_all *all);
+int			new_single_quote(char *user_input, int *start, t_all *all);
+int			new_double_quote(char *user_input, int *start, t_all *all);
+int			new_pipe(char *user_input, int *start, t_all *all);
+int			new_redir_in_or_heredoc(char *user_input, int *start, t_all *all);
+int			new_heredoc(char *user_input, int *start, t_all *all, int end);
+int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
+int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
+
+
+
+
+
+
+/* ========================================================================== */
+/* =============================== PARSE_ENV==================================*/
+/* ========================================================================== */
+int		setup_env(t_all *all, char **env);
+void	cmd_env(t_all *all);
+
+/* ========================================================================== */
+/* =============================== FUNCTIONS NODE=============================*/
+/* ========================================================================== */
+t_env	*ft_node_env(char *key, char *value);
+void	ft_add_back_env(t_env **head, t_env *new);
+void	ft_lst_del_env(t_env *ft_env);
 
 /* ========================================================================== */
 /* =============================== ===========================================*/
 /* ========================================================================== */
-int			setup(t_all *all);
+int			setup(t_all *all, char **env);
 
 #endif
