@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/18 18:53:07 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/19 16:25:41 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1 || av[0] == NULL)
 		return (1);
 	ft_bzero(&all, sizeof(t_all));
-	if (!setup(&all, env))
+	if (setup(&all, env))
 		return (1);
 	if (main_loop(&all, env) == 1)
 		return (1); //free
