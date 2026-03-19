@@ -12,9 +12,9 @@
 
 #include "../../include/minishell.h"
 
-int tokenizer(char *user_input, t_all *all)
+int	tokenizer(char *user_input, t_all *all)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (user_input[i])
@@ -23,7 +23,6 @@ int tokenizer(char *user_input, t_all *all)
 			i++;
 		if (find_by_char(user_input, &i, all))
 			return (1);
-		// i++;
 	}
 	return (0);
 }
@@ -35,10 +34,11 @@ int tokenizer(char *user_input, t_all *all)
 	fail if create_token_node failed to malloc
 */
 
-
-t_token *create_token_node(t_token_type type, char *val)
+t_token	*create_token_node(t_token_type type, char *val)
 {
-	t_token *new = malloc(sizeof(t_token));
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->value = val;
@@ -53,10 +53,10 @@ t_token *create_token_node(t_token_type type, char *val)
 	this fonction create a new node token node
 */
 
-int new_token_node(t_token **token_head, t_token_type type, char *token_val)
+int	new_token_node(t_token **token_head, t_token_type type, char *token_val)
 {
-	t_token *new_node;
-	t_token *last;
+	t_token	*new_node;
+	t_token	*last;
 
 	new_node = create_token_node(type, token_val);
 	if (!new_node)
@@ -77,9 +77,9 @@ int new_token_node(t_token **token_head, t_token_type type, char *token_val)
 	or the head if it's the first
 */
 
-t_token *last_token_list(t_token *token_head)
+t_token	*last_token_list(t_token *token_head)
 {
-	while(token_head->next)
+	while (token_head->next)
 	{
 		token_head = token_head->next;
 	}

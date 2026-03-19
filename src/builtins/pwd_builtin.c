@@ -12,18 +12,6 @@
 
 #include "../../include/minishell.h"
 
-int str_len(char *s)
-{
-	int i = 0;
-	while(s[i])
-		i++;
-	return (i);
-}
-
-/*
-	tmp fonction for wait the add of libft
-*/
-
 int	pwd_builtin(void)
 {
 	char	*pwd;

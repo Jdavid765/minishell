@@ -14,9 +14,9 @@
 
 int	setup(t_all *all, char **env)
 {
-	if(setup_signal(all))
+	if (setup_signal(all))
 		return (1);
-	if(!setup_env(all, env))
+	if (!setup_env(all, env))
 		return (1);
 	return (0);
 }
