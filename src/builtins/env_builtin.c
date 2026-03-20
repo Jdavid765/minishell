@@ -6,112 +6,58 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/18 19:19:53 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/20 21:16:22 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ct_key_value(char *env)
+void	cmd_env(t_all *all)
 {
-	int	i;
+	t_env	*head;
 
-	i = 0;
-	while (env[i] && env[i] != '=')
-		i++;
-	return (i);
-}
-
-char *put_in_key(char *env)
-{
-	int		i;
-	int		ct_key;
-	char	*line;
-
-	i = 0;
-	ct_key = ct_key_value(env) + 1;
-	line = malloc(sizeof(char) * ct_key);
-	if (!line)
-		return (NULL);
-	while (env[i] != '=')
+	head = all->env;
+	while (head->next)
 	{
-		line[i] = env[i];
-		i++;
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
 	}
-	line[i] = '\0';
-	return (line);
 }
 
-char	*put_in_value(char *env)
+void	create_path(t_env **ft_env)
 {
-	int		i;
-	char	*found;
-	char	*line;
-	int		ct_value;
-
-	i = 0;
-	found = ft_strchr(env, '=');
-	found++;
-	ct_value = (int)ft_strlen(found) + 1;
-	line = malloc(sizeof(char) * ct_value);
-	if (!line)
-		return (NULL);
-	while (found[i])
-	{
-		line[i] = found[i];
-		i++;
-	}
-	line[i] = '\0';
-	return (line);
-}
-int	SLHLVL_add(t_env **ft_env)
-{
-	t_env	*tmp;
-	char	*line;
-
-	tmp = *ft_env;
-	while (tmp)
-	{
-		if (tmp->key[0] == 'S')
-		{
-			if(ft_compare(tmp->key, "SHLVL") == 0)
-			{
-				if(!(line = ft_strdup("2")))
-					return (1);
-				ft_lst_del_env(tmp);
-				tmp->value = line;
-			}
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int	setup_env(t_all *all, char **env)
-{
-	t_env 	*head;
-	t_env 	*current;
-	int		i;
+	t_env	*head;
+	t_env	*current;
+	int		cnt_value;
 	char	*key;
 	char	*value;
 
-	i = 0;
-	head = NULL;
-	while (env[i])
-	{
-		key = put_in_key(env[i]);
-		value = put_in_value(env[i]);
-		if (!key || !value)
-			return (1);
-		current = ft_node_env(key, value);
-		if(!current)
-			return (1);
-		ft_add_back_env(&head, current);
-		i++;
-	}
-	if (SLHLVL_add(&head))
-		return (1); //clean liste si ca echoue 
-	all->env = head;
-	return (0);
+	head = *ft_env;
+	cnt_value = ft_strlen("/usr/bin/") + 1;
+	key = malloc(sizeof(char) * 5);
+	if (!key)
+		return ;
+	value = malloc(sizeof(char) * cnt_value);
+	if (!value)
+		return ;
+	current = ft_node_env(key, value);
+	if (!current)
+		return ;
+	ft_add_back_env(&head, current);
 }
-// creer le path si il existe pas
+
+void	check_path(t_env **ft_env)
+{
+	t_env	*head;
+
+	head = *ft_env;
+	while (head)
+	{
+		if (head->key[0] == 'P')
+		{
+			if (!ft_compare(head->key, "PATH"))
+				return ;	
+		}
+		head = head->next;
+	}
+	create_path(&head);
+}

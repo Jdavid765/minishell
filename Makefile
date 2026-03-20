@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/17 15:01:04 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/20 21:14:30 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
 DIR_NODE   = noeud
-DIR_CMD    = cmd
+DIR_ENV    = env
 
 
 # --- SOURCES ---
@@ -66,7 +66,7 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
 	  $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
-	  $(DIR_SRC)/$(DIR_CMD)/cmd.c
+	  $(DIR_SRC)/$(DIR_ENV)/export_env.c
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---
