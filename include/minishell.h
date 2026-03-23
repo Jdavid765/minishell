@@ -89,7 +89,7 @@ typedef struct s_all
 	t_sig	sig;
 	t_env	*env;
 	t_token	*token;
-	t_cmd	cmd;
+	t_cmd	*cmd;
 
 }	t_all;
 
@@ -122,10 +122,20 @@ void		sigint_handler(int signum);
 int		pwd_builtin(void);
 void	exit_builtin(void *data);
 int		export_builtin(t_all *all, char *rl);
+int		cd_builtin(t_all *all, t_cmd *cd_cmd, char *rl);//enlver char *rl
+int		update_env(t_all * all);
+t_env	*find_pwd_node(t_all * all);
+t_env	*find_oldpwd_node(t_all * all);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
+void	clean_token_list(t_token *head);
+int		clean_cmd_list(t_cmd *head);
+void	clean_env_list(t_env *head);
+int		clean_parsing_list(t_parsing *head);
+int		xclose(int *fd);
+void	free_tab(char **strs);
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/

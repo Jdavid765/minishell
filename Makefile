@@ -21,7 +21,7 @@ OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
 CFLAGS   = -Wall -Wextra -Werror -fPIE
-LFLAGS   = -lreadline
+LFLAGS   = -lreadline -lncurses -ltinfo
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
@@ -46,6 +46,7 @@ OBJ_DIR    = obj
 DIR_SETUP  = setup
 DIR_NODE   = noeud
 DIR_CMD    = cmd
+DIR_CLEAN  = clean
 
 
 # --- SOURCES ---
@@ -65,8 +66,11 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_SETUP)/setup.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
-	  $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
-	  $(DIR_SRC)/$(DIR_CMD)/cmd.c
+      $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
+      $(DIR_SRC)/$(DIR_CMD)/cmd.c\
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
+
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---

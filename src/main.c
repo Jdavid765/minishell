@@ -28,6 +28,8 @@ void	bullshit(t_all *all)
 		tmp = tmp->next;
 		i++;
 	}
+	clean_token_list(all->token);
+	all->token = NULL;
 }
 
 int	main_loop(t_all *all, char **env)
@@ -41,8 +43,8 @@ int	main_loop(t_all *all, char **env)
 		rl = readline("Minishell > ");
 		if (rl == NULL)
 			return (1);
-		tokenizer(rl, all);
-		bullshit(all);
+		// tokenizer(rl, all);
+		// bullshit(all);
 		check_cmd(rl, all);
 		add_history(rl);
 		if (rl)
