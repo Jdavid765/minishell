@@ -122,7 +122,9 @@ void		sigint_handler(int signum);
 int		pwd_builtin(void);
 void	exit_builtin(void *data);
 int		export_builtin(t_all *all, char *rl);
-int		cd_builtin(t_all *all, t_cmd *cd_cmd, char *rl);//enlver char *rl
+int		cd_builtin(t_all *all, t_cmd *cd_cmd);
+int		go_to_home_dir(t_all *all);
+
 int		update_env(t_all * all);
 t_env	*find_pwd_node(t_all * all);
 t_env	*find_oldpwd_node(t_all * all);
