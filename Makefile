@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/23 23:40:49 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/24 11:24:45 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
 DIR_NODE   = noeud
-DIR_ENV    = env
+DIR_ENV    = memories
 
 
 # --- SOURCES ---
