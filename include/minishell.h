@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/20 21:17:03 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/23 23:41:57 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_exp_var
+{
+	char				*key;
+	char				*value;
+	struct s_exp_var	*next;
+}	t_exp_var;
+
 typedef struct s_token
 {
 	char			*value;
@@ -82,13 +89,16 @@ typedef struct s_all
 	t_env		*env;
 	t_token		*token;
 	t_parser	*parser;
+	t_exp_var	*exp_var;
 }	t_all;
 
 
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-// t_parsing	*ft_parsing(char *rl);
+// int		ft_parser(t_all *all);
+// int	found_expansion(char *rl, t_all *all);
+int	check_exp_var(t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -142,7 +152,9 @@ int			is_a_separator(char letter);
 /* ========================================================================== */
 int		setup_env(t_all *all, char **env);
 void	cmd_env(t_all *all);
-void	check_path(t_env **ft_env);
+int		check_path(t_env **ft_env);
+int		ct_key_value(char *env);
+char	*put_in_key(char *env);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE=============================*/
@@ -150,6 +162,8 @@ void	check_path(t_env **ft_env);
 t_env	*ft_node_env(char *key, char *value);
 void	ft_add_back_env(t_env **head, t_env *new);
 void	ft_lst_del_env(t_env *ft_env);
+t_exp_var	*node_exp_var(char *key, char *value); 
+void	ft_add_back_exp(t_exp_var **head, t_exp_var *new);
 
 /* ========================================================================== */
 /* =============================== ===========================================*/

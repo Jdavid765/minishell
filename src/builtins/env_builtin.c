@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/20 21:16:22 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/23 21:26:23 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,28 @@ void	cmd_env(t_all *all)
 	}
 }
 
-void	create_path(t_env **ft_env)
+int	create_path(t_env **ft_env)
 {
 	t_env	*head;
 	t_env	*current;
-	int		cnt_value;
 	char	*key;
 	char	*value;
 
 	head = *ft_env;
-	cnt_value = ft_strlen("/usr/bin/") + 1;
 	key = malloc(sizeof(char) * 5);
 	if (!key)
-		return ;
-	value = malloc(sizeof(char) * cnt_value);
+		return (1);
+	value = ft_strdup("/usr/bin/");
 	if (!value)
-		return ;
+		return (1);
 	current = ft_node_env(key, value);
 	if (!current)
-		return ;
+		return (1);
 	ft_add_back_env(&head, current);
+	return (0);
 }
 
-void	check_path(t_env **ft_env)
+int	check_path(t_env **ft_env)
 {
 	t_env	*head;
 
@@ -55,9 +54,12 @@ void	check_path(t_env **ft_env)
 		if (head->key[0] == 'P')
 		{
 			if (!ft_compare(head->key, "PATH"))
-				return ;	
+			{
+				if (!create_path(&head))
+					return (0);
+			}
 		}
 		head = head->next;
 	}
-	create_path(&head);
+	return (1);
 }

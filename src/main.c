@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/19 16:25:41 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/24 10:38:48 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ int	main_loop(t_all *all, char **env)
 		if ((rl = readline("Minishell > ")) == NULL)
 			return (1);
 		tokenizer(rl, all);
-		bullshit(all);
+		// bullshit(all);
 		check_cmd(rl, all);
+		if (check_exp_var(all))
+			return (1);
 		add_history(rl);
 		if (rl)
 			free(rl);

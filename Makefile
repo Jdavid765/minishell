@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/20 21:14:30 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/23 23:40:49 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,9 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
 	  $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
-	  $(DIR_SRC)/$(DIR_ENV)/export_env.c
+	  $(DIR_SRC)/$(DIR_NODE)/node_exp_var.c \
+	  $(DIR_SRC)/$(DIR_ENV)/export_env.c \
+	  $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---
