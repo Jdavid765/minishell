@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_builtin.c                                      :+:      :+:    :+:   */
+/*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:44:05 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/26 21:27:32 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	cd_builtin(t_all *all, t_cmd *cd_cmd)
+int	cd_builtin(t_all *all, t_parser *cd_cmd)
 {
 	if (!cd_cmd->cmd_and_args[1])
 		return (go_to_home_dir(all));

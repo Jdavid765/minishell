@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:49:42 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/26 21:31:05 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	check_cmd(char *rl, t_all *all)
 	if (ft_compare(rl, "env") == 0)
 		cmd_env(all);
 	if (ft_strnstr(rl, "cd", ft_strlen(rl)))
-		cd_builtin(all, all->cmd);
+		cd_builtin(all, all->parser);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/25 22:58:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/26 21:27:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void		sigint_handler(int signum);
 int			pwd_builtin(void);
 void		exit_builtin(void *data);
 int			export_builtin(t_all *all, char *rl);
-int			cd_builtin(t_all *all, t_cmd *cd_cmd);
+int			cd_builtin(t_all *all, t_parser *cd_cmd);
 int			go_to_home_dir(t_all *all);
 int			update_env(t_all * all);
 t_env		*find_pwd_node(t_all * all);
@@ -132,9 +132,9 @@ t_env		*find_oldpwd_node(t_all * all);
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
 void		clean_token_list(t_token *head);
-int			clean_cmd_list(t_cmd *head);//renommer parser
+int			clean_cmd_list(t_parser *head);//renommer parser
 void		clean_env_list(t_env *head);
-int			clean_parsing_list(t_parsing *head);
+int			clean_parsing_list(t_parser *head);
 int			xclose(int *fd);
 void		free_tab(char **strs);
 
