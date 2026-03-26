@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/18 13:55:46 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/25 22:58:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ typedef struct s_parser
 	int		fd_out;
 	bool	is_builtin;
 	bool	access_check;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	struct s_parser	*next;
 }	t_parser;
 
 typedef struct s_all
@@ -82,13 +81,15 @@ typedef struct s_all
 	t_env		*env;
 	t_token		*token;
 	t_parser	*parser;
+	char		*path;
 }	t_all;
 
 
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-// t_parsing	*ft_parsing(char *rl);
+int	parse_token(t_all *all);
+int	check_exp_var(t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -117,6 +118,8 @@ int		export_builtin(t_all *all, char *rl);
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
+void	ft_free_parsing(t_parser **parsing);
+
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/
@@ -135,24 +138,24 @@ int			new_heredoc(char *user_input, int *start, t_all *all, int end);
 int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
 int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
-
-
-
-
-
-
 /* ========================================================================== */
 /* =============================== PARSE_ENV==================================*/
 /* ========================================================================== */
 int		setup_env(t_all *all, char **env);
 void	cmd_env(t_all *all);
+int		check_path(t_env **ft_env);
+int		ct_key_value(char *env);
+char	*put_in_key(char *env);
+char	*search_path(t_all *all);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE=============================*/
 /* ========================================================================== */
-t_env	*ft_node_env(char *key, char *value);
-void	ft_add_back_env(t_env **head, t_env *new);
-void	ft_lst_del_env(t_env *ft_env);
+t_env		*ft_node_env(char *key, char *value);
+void		ft_add_back_env(t_env **head, t_env *new);
+void		ft_lst_del_env(t_env *ft_env);
+t_parser	*ft_node_pars(char *path);
+void		ft_addback_parse(t_parser **head, t_parser *new);
 
 /* ========================================================================== */
 /* =============================== ===========================================*/
