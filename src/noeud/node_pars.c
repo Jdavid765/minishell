@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_exp_var.c                                     :+:      :+:    :+:   */
+/*   node_pars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/23 23:36:04 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/23 23:43:08 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/25 16:18:45 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/25 22:02:55 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../include/minishell.h"
 
-t_exp_var	*node_exp_var(char *key, char *value)
+t_parser	*ft_node_pars(char *path)
 {
-	t_exp_var	*Newnode;
+	t_parser	*Newnode;
 
-	Newnode = malloc(sizeof(t_exp_var));
+	Newnode = malloc(sizeof(t_parser));
 	if (!Newnode)
 		return (NULL);
-	Newnode->key = key;
-	Newnode->value = value;
+	Newnode->cmd_and_args = NULL;
+	Newnode->path = ft_strdup(path);
+	if (!Newnode->path)
+		return (NULL);
+	Newnode->fd_in = 0;
+	Newnode->fd_out = 1;
+	Newnode->is_builtin = FALSE;
+	Newnode->access_check = FALSE;
 	Newnode->next = NULL;
 	return (Newnode);
 }
 
-void	ft_add_back_exp(t_exp_var **head, t_exp_var *new)
+void	ft_addback_parse(t_parser **head, t_parser *new)
 {
-	t_exp_var	*current;
+	t_parser	*current;
 
 	if (!head || !new)
 		return ;
