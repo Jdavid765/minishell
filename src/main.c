@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:45:57 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/25 22:58:36 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,25 @@ void	bullshit(t_all *all)
 	all->token = NULL;
 }
 
+void	look_parser(t_all *all)
+{
+	t_parser	*head;
+	int			i;
+
+	head = all->parser;
+	i = 0;
+	while (head)
+	{
+		while (head->cmd_and_args[i])
+		{
+			printf("nbr = %s\n", head->cmd_and_args[i]);
+			i++;	
+		}
+		i = 0;
+		head = head->next;
+	}
+}
+
 int	main_loop(t_all *all, char **env)
 {
 	char	*rl;
@@ -43,9 +62,15 @@ int	main_loop(t_all *all, char **env)
 		rl = readline("Minishell > ");
 		if (rl == NULL)
 			return (1);
-		// tokenizer(rl, all);
-		// bullshit(all);
+
 		check_cmd(rl, all);
+		tokenizer(rl, all);
+		// bullshit(all);
+		if (parse_token(all) == 1)
+			return (1);
+		if (check_exp_var(all))
+			return (1);
+		look_parser(all);
 		add_history(rl);
 		if (rl)
 			free(rl);
@@ -66,8 +91,11 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1 || av[0] == NULL)
 		return (1);
 	ft_bzero(&all, sizeof(t_all));
-	if (!setup(&all, env))
+	if (setup(&all, env))
 		return (1);
+	if (!all.path)
+		if (!(all.path = search_path(&all)))
+			return (1);
 	if (main_loop(&all, env) == 1)
 		return (1);
 	return (0);

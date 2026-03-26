@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/17 15:01:04 by canoduran        ###   ########.fr        #
+#    Updated: 2026/03/25 23:02:36 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,8 @@ DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
 DIR_NODE   = noeud
-DIR_CMD    = cmd
 DIR_CLEAN  = clean
+DIR_ENV    = memories
 
 
 # --- SOURCES ---
@@ -62,17 +62,17 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_EXEC)/find_path_in_env.c \
       $(DIR_SRC)/$(DIR_EXEC)/rebuild_env.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
+	  $(DIR_SRC)/$(DIR_PARSING)/clean_pars.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
       $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
       $(DIR_SRC)/$(DIR_SETUP)/setup.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
-      $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
-      $(DIR_SRC)/$(DIR_CMD)/cmd.c\
-      $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
-      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
-
+	  $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
+	  $(DIR_SRC)/$(DIR_NODE)/node_pars.c \
+	  $(DIR_SRC)/$(DIR_ENV)/export_env.c \
+	  $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---

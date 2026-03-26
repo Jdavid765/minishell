@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:48:45 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/25 22:58:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_parsing
-{
-	char	**cmd_arg;
-	int		fd_in;
-	int		fd_out;
-	struct s_parsing	*next;
-}	t_parsing;
-
 typedef struct s_token
 {
 	char			*value;
@@ -72,7 +64,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_cmd
+typedef struct s_parser
 {
 	char	**cmd_and_args;
 	char	*path;
@@ -80,24 +72,25 @@ typedef struct s_cmd
 	int		fd_out;
 	bool	is_builtin;
 	bool	access_check;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}	t_cmd;
+	struct s_parser	*next;
+}	t_parser;
 
 typedef struct s_all
 {
 	t_sig	sig;
 	t_env	*env;
 	t_token	*token;
-	t_cmd	*cmd;
 	char	**env_for_exec;
+	t_parser	*parser;//modifier les t_cmd
+	char		*path;
 }	t_all;
 
 
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-// t_parsing	*ft_parsing(char *rl);
+int	parse_token(t_all *all);
+int	check_exp_var(t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -139,7 +132,7 @@ t_env		*find_oldpwd_node(t_all * all);
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
 void		clean_token_list(t_token *head);
-int			clean_cmd_list(t_cmd *head);
+int			clean_cmd_list(t_cmd *head);//renommer parser
 void		clean_env_list(t_env *head);
 int			clean_parsing_list(t_parsing *head);
 int			xclose(int *fd);
@@ -162,13 +155,15 @@ int			new_heredoc(char *user_input, int *start, t_all *all, int end);
 int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
 int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
-
-
 /* ========================================================================== */
 /* =============================== PARSE_ENV==================================*/
 /* ========================================================================== */
-int			setup_env(t_all *all, char **env);
-void		cmd_env(t_all *all);
+int		setup_env(t_all *all, char **env);
+void	cmd_env(t_all *all);
+int		check_path(t_env **ft_env);
+int		ct_key_value(char *env);
+char	*put_in_key(char *env);
+char	*search_path(t_all *all);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE=============================*/
@@ -176,6 +171,8 @@ void		cmd_env(t_all *all);
 t_env		*ft_node_env(char *key, char *value);
 void		ft_add_back_env(t_env **head, t_env *new);
 void		ft_lst_del_env(t_env *ft_env);
+t_parser	*ft_node_pars(char *path);
+void		ft_addback_parse(t_parser **head, t_parser *new);
 
 /* ========================================================================== */
 /* =============================== ===========================================*/
