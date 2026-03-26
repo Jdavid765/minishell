@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:11:54 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/19 16:26:10 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	setup(t_all *all, char **env)
 {
-	if(setup_signal(all))
+	if (setup_signal(all))
 		return (1);
-	if(!setup_env(all, env))
+	if(setup_env(all, env))
 		return (1);
 	return (0);
 }

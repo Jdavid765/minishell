@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_env.c                                    :+:      :+:    :+:   */
+/*   node_pars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 22:44:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:04:37 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/25 16:18:45 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/25 22:02:55 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../include/minishell.h"
 
-t_env	*ft_node_env(char *key, char *value)
+t_parser	*ft_node_pars(char *path)
 {
-	t_env	*Newnode;
+	t_parser	*Newnode;
 
-	Newnode = malloc(sizeof(t_env));
+	Newnode = malloc(sizeof(t_parser));
 	if (!Newnode)
 		return (NULL);
-	Newnode->key = key;
-	Newnode->value = value;
+	Newnode->cmd_and_args = NULL;
+	Newnode->path = ft_strdup(path);
+	if (!Newnode->path)
+		return (NULL);
+	Newnode->fd_in = 0;
+	Newnode->fd_out = 1;
+	Newnode->is_builtin = FALSE;
+	Newnode->access_check = FALSE;
 	Newnode->next = NULL;
 	return (Newnode);
 }
 
-void	ft_add_back_env(t_env **head, t_env *new)
+void	ft_addback_parse(t_parser **head, t_parser *new)
 {
-	t_env	*current;
+	t_parser	*current;
 
 	if (!head || !new)
 		return ;
@@ -41,11 +47,4 @@ void	ft_add_back_env(t_env **head, t_env *new)
 		current->next = new;
 	}
 	return ;
-}
-
-void	ft_lst_del_env(t_env *ft_env)
-{
-	if (!ft_env)
-		return ;
-	free(ft_env->value);
 }

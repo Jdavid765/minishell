@@ -12,23 +12,13 @@
 
 #include "../../include/minishell.h"
 
-int str_len(char *s)
-{
-	int i = 0;
-	while(s[i])
-		i++;
-	return (i);
-}
-
-/*
-	tmp fonction for wait the add of libft
-*/
-
 int	pwd_builtin(void)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (perror("getcwd :"), 1);
 	if (write(0, pwd, strlen(pwd)) == -1)
 		return (free(pwd), perror("write pwd error"), 1);
 	if (write(0, "\n", 1) == -1)

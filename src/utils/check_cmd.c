@@ -22,5 +22,7 @@ void	check_cmd(char *rl, t_all *all)
 		exit_builtin((void *)rl);
 	if (ft_compare(rl, "env") == 0)
 		cmd_env(all);
+	if (ft_strnstr(rl, "cd", ft_strlen(rl)))
+		cd_builtin(all, all->cmd);
 	return ;
 }

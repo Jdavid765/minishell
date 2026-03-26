@@ -1,25 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   clean_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/17 13:48:37 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	cmd_env(t_all *all)
+int	xclose(int *fd)
 {
-	t_env	*head;
+	int	return_value;
 
-	head = all->env;
-	while (head->next)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
+	if (!fd || *fd < 0)
+		return (1);
+	return_value = close(*fd);
+	*fd = -1;
+	return (return_value);
 }
+
+/*
+	all the credits to 0yech & stellaaash for this fonction 
+	pureee genuis frrr
+*/
+
+void	free_tab(char **strs)
+{
+	int	i;
+
+	i = 0;
+	if (!tab)
+		return ;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(tab);
+}
+
+/*
+	clean a char **
+	wierd this that the char ** can't be named tab
+*/
