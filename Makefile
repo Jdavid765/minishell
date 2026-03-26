@@ -21,7 +21,7 @@ OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
 CFLAGS   = -Wall -Wextra -Werror -fPIE
-LFLAGS   = -lreadline
+LFLAGS   = -lreadline -lncurses -ltinfo
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h
@@ -45,6 +45,7 @@ DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
 DIR_NODE   = noeud
+DIR_CLEAN  = clean
 DIR_ENV    = memories
 
 
@@ -58,6 +59,8 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_BUILTIN)/pwd_builtin.c \
       $(DIR_SRC)/$(DIR_BUILTIN)/unset_builtin.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec.c \
+      $(DIR_SRC)/$(DIR_EXEC)/find_path_in_env.c \
+      $(DIR_SRC)/$(DIR_EXEC)/rebuild_env.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
 	  $(DIR_SRC)/$(DIR_PARSING)/clean_pars.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \

@@ -43,17 +43,17 @@ int	new_redir_out_or_appnd(char *user_input, int *start, t_all *all)
 	int		end;
 
 	end = 1;
-	if(user_input[*start + 1] == '>')
+	if (user_input[*start + 1] == '>')
 	{
-		if(new_appnd(user_input, start, all, end + 1))
+		if (new_appnd(user_input, start, all, end + 1))
 			return (1);
 		return (0);
 	}
 	arg = ft_substr(user_input, *start, end);
-	if(arg == NULL)
+	if (arg == NULL)
 		return (1);
 	*start += end;
-	if(new_token_node(&all->token, REDIR_OUT, arg))
+	if (new_token_node(&all->token, REDIR_OUT, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -77,17 +77,17 @@ int	new_redir_in_or_heredoc(char *user_input, int *start, t_all *all)
 	int		end;
 
 	end = 1;
-	if(user_input[*start + 1] == '<')
+	if (user_input[*start + 1] == '<')
 	{
-		if(new_heredoc(user_input, start, all, end + 1))
+		if (new_heredoc(user_input, start, all, end + 1))
 			return (1);
 		return (0);
 	}
 	arg = ft_substr(user_input, *start, end);
-	if(arg == NULL)
+	if (arg == NULL)
 		return (1);
 	*start += end;
-	if(new_token_node(&all->token, REDIR_IN, arg))
+	if (new_token_node(&all->token, REDIR_IN, arg))
 		return (free(arg), 1);
 	return (0);
 }
@@ -126,7 +126,7 @@ int	new_double_quote(char *user_input, int *start, t_all *all)
 	int		end;
 
 	end = 1;
-	while (user_input[*start + end] && user_input[*start + end] != '\"')//a voir plus tard le cas d'un quote sans sa paire
+	while (user_input[*start + end] && user_input[*start + end] != '\"')
 		end++;
 	arg = ft_substr(user_input, *start, ++end);
 	if (arg == NULL)
@@ -160,7 +160,8 @@ int	new_word_or_cmd(char *user_input, int *start, t_all *all)
 	int		end;
 
 	end = 0;
-	while (user_input[*start + end] && !is_a_separator(user_input[*start + end]))
+	while (user_input[*start + end]
+		&& !is_a_separator(user_input[*start + end]))
 		end++;
 	arg = ft_substr(user_input, *start, end);
 	if (arg == NULL)
@@ -187,9 +188,7 @@ int	is_a_separator(char letter)
 		return (1);
 	if (letter == '\"')
 		return (1);
-	// if (letter == '-')
-	// 	return (1);
-	if  (letter == ' ')
+	if (letter == ' ')
 		return (1);
 	return (0);
 }

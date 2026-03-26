@@ -24,10 +24,10 @@ int	export_builtin(t_all *all, char *rl)
 	current = ft_node_env(line[1], line[3]);
 	ft_add_back_env(&all->env, current);
 	head = all->env;
-	while(head)
+	while (head)
 	{
 		printf("%s=%s\n", head->key, head->value);
 		head = head->next;
 	}
-	return(0);
+	return (0);
 }

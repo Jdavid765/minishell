@@ -15,12 +15,10 @@ void	cmd_env(t_all *all)
 {
 	t_env	*head;
 
-	head = all->env;
-	while (head->next)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
+	i = 0;
+	while (env[i] && env[i] != '=')
+		i++;
+	return (i);
 }
 
 int	create_path(t_env **ft_env)

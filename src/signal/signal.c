@@ -25,7 +25,6 @@ void	sigint_handler(int signum)
 	the 3 rl_ fonctions helps readline to put a newline if the shortcut is used
 */
 
-
 int	setup_signal(t_all *all)
 {
 	all->sig.sa.sa_handler = sigint_handler;

@@ -77,10 +77,11 @@ typedef struct s_parser
 
 typedef struct s_all
 {
-	t_sig		sig;
-	t_env		*env;
-	t_token		*token;
-	t_parser	*parser;
+	t_sig	sig;
+	t_env	*env;
+	t_token	*token;
+	char	**env_for_exec;
+	t_parser	*parser;//modifier les t_cmd
 	char		*path;
 }	t_all;
 
@@ -94,12 +95,20 @@ int	check_exp_var(t_all *all);
 /* ========================================================================== */
 /* ===============================exec========================================*/
 /* ========================================================================== */
+char		*before_path_check(t_env *env, char *cmd);
+char		*path_check(t_env *env, char *cmd);
+char		*path_exist(char **all_path, char *path);
+char		*access_check(char *all_path, char *path);
+char		*find_path_in_env(t_env *env);
+char		**re_build_env(t_env *head, char **new_env);
+char		*join_env_value(t_env *current);
+int			count_env_list(t_env *head);
 
 /* ========================================================================== */
 /* ===============================utils=======================================*/
 /* ========================================================================== */
-int		ft_compare(char *rl, char *string);
-void	check_cmd(char *rl, t_all *all);
+int			ft_compare(char *rl, char *string);
+void		check_cmd(char *rl, t_all *all);
 
 /* ========================================================================== */
 /* ===============================signal======================================*/
@@ -107,19 +116,27 @@ void	check_cmd(char *rl, t_all *all);
 int			setup_signal(t_all *all);
 void		sigint_handler(int signum);
 
-
 /* ========================================================================== */
 /* ===============================builtin=====================================*/
 /* ========================================================================== */
-int		pwd_builtin(void);
-void	exit_builtin(void *data);
-int		export_builtin(t_all *all, char *rl);
+int			pwd_builtin(void);
+void		exit_builtin(void *data);
+int			export_builtin(t_all *all, char *rl);
+int			cd_builtin(t_all *all, t_cmd *cd_cmd);
+int			go_to_home_dir(t_all *all);
+int			update_env(t_all * all);
+t_env		*find_pwd_node(t_all * all);
+t_env		*find_oldpwd_node(t_all * all);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
-void	ft_free_parsing(t_parser **parsing);
-
+void		clean_token_list(t_token *head);
+int			clean_cmd_list(t_cmd *head);//renommer parser
+void		clean_env_list(t_env *head);
+int			clean_parsing_list(t_parsing *head);
+int			xclose(int *fd);
+void		free_tab(char **strs);
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/
