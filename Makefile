@@ -59,6 +59,7 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_BUILTIN)/pwd_builtin.c \
       $(DIR_SRC)/$(DIR_BUILTIN)/unset_builtin.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec.c \
+      $(DIR_SRC)/$(DIR_EXEC)/find_path_in_env.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
