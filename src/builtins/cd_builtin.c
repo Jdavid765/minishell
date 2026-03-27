@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	cd_builtin(t_all *all, t_cmd *cd_cmd)
+int	cd_builtin(t_all *all, t_parser *cd_cmd)
 {
 	if (!cd_cmd->cmd_and_args[1])
 		return (go_to_home_dir(all));

@@ -11,14 +11,17 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 void	cmd_env(t_all *all)
 {
 	t_env	*head;
 
-	i = 0;
-	while (env[i] && env[i] != '=')
-		i++;
-	return (i);
+	head = all->env;
+	while (head->next)
+	{
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
+	}
 }
 
 int	create_path(t_env **ft_env)
