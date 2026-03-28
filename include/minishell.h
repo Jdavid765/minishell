@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/26 21:27:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/28 23:44:13 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ typedef struct s_all
 /* ========================================================================== */
 int	parse_token(t_all *all);
 int	check_exp_var(t_all *all);
+int	redir_out(t_parser *cmd, t_token **tok);
+char	*search_path(t_all *path);
+int		count_words(t_token *token);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -137,6 +140,7 @@ void		clean_env_list(t_env *head);
 int			clean_parsing_list(t_parser *head);
 int			xclose(int *fd);
 void		free_tab(char **strs);
+void		free_all(t_all *all);
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/
