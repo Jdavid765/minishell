@@ -61,6 +61,10 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec.c \
       $(DIR_SRC)/$(DIR_EXEC)/find_path_in_env.c \
       $(DIR_SRC)/$(DIR_EXEC)/rebuild_env.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec_builtins.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec_external_cmd.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec_utils.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec_pipeline.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \

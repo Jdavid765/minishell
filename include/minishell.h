@@ -103,7 +103,17 @@ char		*find_path_in_env(t_env *env);
 char		**re_build_env(t_env *head, char **new_env);
 char		*join_env_value(t_env *current);
 int			count_env_list(t_env *head);
-
+void		executor(t_all *all);
+int			count_cmds(t_parser *cmd_list);
+void		exec_single_cmd(t_all *all);
+void		exec_pipeline(t_all *all);
+void		apply_redirections(t_parser *cmd);
+void		child_single_external(t_all *all, t_parser *cmd);
+void		parent_single_external(t_parser *cmd, pid_t pid);
+int			is_builtin(char *cmd);
+void		exec_builtin(t_all *all, t_parser *cmd);
+void		exec_single_builtin(t_all *all, t_parser *cmd);
+void		exec_single_external(t_all *all, t_parser *cmd);
 /* ========================================================================== */
 /* ===============================utils=======================================*/
 /* ========================================================================== */

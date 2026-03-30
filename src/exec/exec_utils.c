@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,54 +12,19 @@
 
 #include "../../include/minishell.h"
 
-int	count_cmds(t_parser *cmd_list)
+void	apply_redirections(t_parser *cmd)
 {
-	int	count;
-
-	count = 0;
-	while (cmd_list)
+	if (cmd->fd_in != 0)
 	{
-		count++;
-		cmd_list = cmd_list->next;
+		dup2(cmd->fd_in, STDIN_FILENO);
+		xclose(&cmd->fd_in);
 	}
-	return (count);
+	if (cmd->fd_out != 1)
+	{
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		xclose(&cmd->fd_out);
+	}
 }
 /*
-	this fonction help tout count,
-	how many cmd are send to the exec part
-*/
-
-void	exec_single_cmd(t_all *all)
-{
-	t_parser	*cmd;
-
-	cmd = all->parser;
-	if (!cmd || !cmd->cmd_and_args || !cmd->cmd_and_args[0])
-		return ;
-	if (is_builtin(cmd->cmd_and_args[0]))
-		exec_single_builtin(all, cmd);
-	else
-		exec_single_external(all, cmd);
-}
-
-/*
-	handle if only one cmd is recieve
-	check if it is a builin or on an external cmd
-*/
-
-void	executor(t_all *all)
-{
-	int	nb_cmds;
-
-	if (!all || !all->parser)
-		return ;
-	nb_cmds = count_cmds(all->parser);
-	if (nb_cmds == 1)
-		exec_single_cmd(all);
-	else
-		exec_pipeline(all);
-}
-
-/*
-	main fonction for the execution
+	to change the fd if it's a file and close it
 */

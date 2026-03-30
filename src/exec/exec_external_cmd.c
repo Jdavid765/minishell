@@ -1,0 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+void	child_single_external(t_all *all, t_parser *cmd)
+{
+	char	**new_env;
+
+	apply_redirections(cmd);
+	if (!cmd->path)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		if (cmd->cmd_and_args && cmd->cmd_and_args[0])
+			ft_putstr_fd(cmd->cmd_and_args[0], 2);
+		ft_putendl_fd(": command not found", 2);
+		exit(127);
+	}
+	new_env = re_build_env(all->env, NULL);
+	execve(cmd->path, cmd->cmd_and_args, new_env);
+	perror("execve");
+	free_tab(new_env);
+	exit(126);
+}
+/*
+	apply right redirections and check if the PATH exist
+	rebuilt the new env for execve and check if it fails
+*/
+
+void	exec_single_external(t_all *all, t_parser *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return ;
+	}
+	if (pid == 0)
+		child_single_external(all, cmd);
+	else
+		parent_single_external(cmd, pid);
+}
+/*
+	fork the process, check if fork fail and
+	send the process to the right fonction
+*/
+void	parent_single_external(t_parser *cmd, pid_t pid)
+{
+	int	status;
+
+	if (cmd->fd_in != 0)
+		close(cmd->fd_in);
+	if (cmd->fd_out != 1)
+		close(cmd->fd_out);
+	waitpid(pid, &status, 0);
+	// a plus tard : stocker WEXITSTATUS(status) dans $?
+}
+/*
+	wait for the end of child process
+	and close the fd's he don't need
+*/

@@ -70,7 +70,8 @@ int	main_loop(t_all *all, char **env)
 			return (1);
 		if (check_exp_var(all))
 			return (1);
-		look_parser(all);
+		// look_parser(all);
+		executor(all);
 		add_history(rl);
 		if (rl)
 			free(rl);
