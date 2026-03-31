@@ -33,17 +33,35 @@ void	free_tab(char **strs)
 	int	i;
 
 	i = 0;
-	if (!tab)
+	if (!strs)
 		return ;
 	while (strs[i])
 	{
 		free(strs[i]);
 		i++;
 	}
-	free(tab);
+	free(strs);
 }
 
 /*
 	clean a char **
 	wierd this that the char ** can't be named tab
+*/
+
+void	clean_loop(t_all *all)
+{
+	if (all->token)
+	{
+		clean_token_list(all->token);
+		all->token = NULL;
+	}
+	if (all->parser)
+	{
+		clean_cmd_list(all->parser);
+		all->parser = NULL;
+	}
+}
+/*
+	this fonction just call the cleaners at the end of main_loop()
+	and reset all the unessesary lists
 */

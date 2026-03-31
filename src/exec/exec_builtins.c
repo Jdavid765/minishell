@@ -40,9 +40,7 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_all *all, t_parser *cmd)
 {
 	if (ft_strncmp(cmd->cmd_and_args[0], "echo", 5) == 0)
-	{
-		// echo_builtin(cmd); // TODO: A implémenter / prototyper
-	}
+		echo_builtin(cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "cd", 3) == 0)
 		cd_builtin(all, cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "pwd", 4) == 0)

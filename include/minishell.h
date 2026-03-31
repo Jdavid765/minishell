@@ -137,6 +137,8 @@ int			go_to_home_dir(t_all *all);
 int			update_env(t_all * all);
 t_env		*find_pwd_node(t_all * all);
 t_env		*find_oldpwd_node(t_all * all);
+void		echo_builtin(t_parser *cmd);
+int			pwd_builtin(void);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
@@ -147,6 +149,7 @@ void		clean_env_list(t_env *head);
 int			clean_parsing_list(t_parser *head);
 int			xclose(int *fd);
 void		free_tab(char **strs);
+void		clean_loop(t_all *all);
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/
@@ -188,5 +191,5 @@ void		ft_addback_parse(t_parser **head, t_parser *new);
 /* =============================== ===========================================*/
 /* ========================================================================== */
 int			setup(t_all *all, char **env);
-
+int			main_loop(t_all *all, char **env);
 #endif
