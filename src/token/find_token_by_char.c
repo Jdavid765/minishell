@@ -128,7 +128,9 @@ int	new_double_quote(char *user_input, int *start, t_all *all)
 	end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\"')
 		end++;
-	arg = ft_substr(user_input, *start, ++end);
+	if (user_input[*start + end] == '\"')
+		end++;
+	arg = ft_substr(user_input, *start, end);
 	if (arg == NULL)
 		return (1);
 	*start += end;
@@ -145,7 +147,9 @@ int	new_single_quote(char *user_input, int *start, t_all *all)
 	end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\'')
 		end++;
-	arg = ft_substr(user_input, *start, ++end);
+	if (user_input[*start + end] == '\"')
+		end++;
+	arg = ft_substr(user_input, *start, end);
 	if (arg == NULL)
 		return (1);
 	*start += end;

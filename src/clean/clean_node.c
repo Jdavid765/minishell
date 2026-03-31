@@ -32,7 +32,7 @@ void	clean_token_list(t_token *head)
 int	clean_cmd_list(t_parser *head)
 {
 	t_parser	*tmp;
-	int		status;
+	int			status;
 
 	status = 0;
 	while (head)
@@ -41,15 +41,15 @@ int	clean_cmd_list(t_parser *head)
 			free_tab(head->cmd_and_args);
 		if (head->path)
 			free(head->path);
-		if (head->fd_in != -1 && xclose(&head->fd_in) == -1)
+		if (head->fd_in > 2)
 		{
-			perror("xclose :");
-			status = 1;
+			if (xclose(&head->fd_in) == -1)
+				status = 1;
 		}
-		if (head->fd_out != -1 && xclose(&head->fd_out) == -1)
+		if (head->fd_out > 2)
 		{
-			perror("xclose :");
-			status = 1;
+			if (xclose(&head->fd_out) == -1)
+				status = 1;
 		}
 		tmp = head->next;
 		free(head);

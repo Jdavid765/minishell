@@ -21,6 +21,8 @@ int	tokenizer(char *user_input, t_all *all)
 	{
 		while (user_input[i] == ' ')
 			i++;
+		if (user_input[i] == '\0')
+			break ;
 		if (find_by_char(user_input, &i, all))
 			return (1);
 	}

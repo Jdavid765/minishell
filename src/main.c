@@ -63,7 +63,7 @@ int	main_loop(t_all *all, char **env)
 		if (rl == NULL)
 			return (1);
 
-		check_cmd(rl, all);
+		// check_cmd(rl, all);
 		tokenizer(rl, all);
 		// bullshit(all);
 		if (parse_token(all) == 1)
@@ -73,7 +73,7 @@ int	main_loop(t_all *all, char **env)
 		// look_parser(all);
 		executor(all);
 		add_history(rl);
-		if (rl)
+		clean_loop(all);
 			free(rl);
 	}
 	return (0);
