@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/28 23:47:35 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/31 14:17:21 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	look_parser(t_all *all)
 	int			x;
 
 	head = all->parser;
+	if (!head)
+		return ;
 	i = 0;
 	x = 1;
 	while (head)

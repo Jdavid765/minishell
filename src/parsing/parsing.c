@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/28 23:59:33 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/02 00:33:04 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
  
 int	append(t_parser *cmd, t_token **tok)
 {
-	t_token	*tmp;
-
-	tmp = (*tok)->next;
-	if (!tmp || tmp->type != WORD)
+	(*tok) = (*tok)->next;
+	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
 	if (cmd->fd_out != 1)
 		cmd->fd_out = xclose(&cmd->fd_out);
-	cmd->fd_out = open(tmp->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->fd_out < 0)
 		return (1);
 	return (0);
@@ -29,14 +27,12 @@ int	append(t_parser *cmd, t_token **tok)
  
 int	redir_in(t_parser *cmd, t_token **tok)
 {
-	t_token	*tmp;
-
-	tmp = (*tok)->next;
-	if (!tmp || tmp->type != WORD)
+	(*tok) = (*tok)->next;
+	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
 	if (cmd->fd_in != 0)
 		cmd->fd_in = xclose(&cmd->fd_in);
-	cmd->fd_in = open(tmp->value, O_RDONLY);
+	cmd->fd_in = open((*tok)->value, O_RDONLY);
 	if (cmd->fd_in < 0)
 		return (1);
 	return (0);
@@ -53,6 +49,8 @@ int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 		return (5);
 	(*cmd)->cmd_and_args[*index] = NULL;
 	new_cmd = ft_node_pars(path);
+	if (!new_cmd)
+		return (1);
 	ft_addback_parse(cmd, new_cmd);
 	*cmd = (*cmd)->next;
 	nb_words = count_words(tok->next) + 1;
@@ -72,16 +70,7 @@ int	parse_loop(t_parser **cmd, t_token *token, char *path)
 	ret = 0;
 	while (token)
 	{
-		if (token->type == WORD)
-			(*cmd)->cmd_and_args[index++] = ft_strdup(token->value);
-		else if (token->type == REDIR_OUT)
-			ret = redir_out(*cmd, &token);
-		else if (token->type == APPEND)
-			ret = append(*cmd, &token);
-		else if (token->type == REDIR_IN)
-			ret = redir_in(*cmd, &token);
-		else if (token->type == PIPE)
-			ret = ft_pipe(cmd, token, &index, path);
+		ret = all_else_if(cmd, &token, path, &index);
 		if (ret)
 			return (ret);
 		if (token)
@@ -101,7 +90,7 @@ int	parse_token(t_all *all)
 	int			ret;
  
 	if (!all->token)
-		return (10);
+		return (15);
 	current_tok = all->token;
 	if (current_tok->type == PIPE)
 		return (10);
@@ -120,7 +109,9 @@ int	parse_token(t_all *all)
 	return (0);
 }
 
-//add le before path in this function
-//for heredoc i need to do one specific
-//if one token type after is not a word i need to cancel all tokeniser and put message
 //when i exit i need to free all i allocated;
+// 10 = error de syntax
+// 1 = error type malloc
+// 5 = for double pipe if before the double pipe have command put in linked list
+// 15 = for string empty
+// i need to look about the cat |

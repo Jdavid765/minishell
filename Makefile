@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/03/28 23:37:42 by canoduran        ###   ########.fr        #
+#    Updated: 2026/04/01 23:13:25 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RESET    = \033[0m
 OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -fPIE -g3 -fsanitize=address
+CFLAGS   = -Wall -Wextra -Werror -fPIE -fsanitize=address -fsanitize=undefined
 LFLAGS   = -lreadline -lncurses -ltinfo
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
@@ -44,9 +44,9 @@ DIR_EXEC    = exec
 DIR_TOKEN   = token
 OBJ_DIR    = obj
 DIR_SETUP  = setup
-DIR_NODE   = noeud
+DIR_NODE   = node
 DIR_CLEAN  = clean
-DIR_ENV    = memories
+DIR_ENV    = env
 
 
 # --- SOURCES ---
@@ -63,6 +63,7 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_EXEC)/rebuild_env.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
 	  $(DIR_SRC)/$(DIR_PARSING)/next_parsing.c \
+	  $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
       $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \

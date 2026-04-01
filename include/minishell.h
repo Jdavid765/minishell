@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/28 23:44:13 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/02 00:39:44 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-#include <stdbool.h>
+# include <stdbool.h>
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -89,11 +89,14 @@ typedef struct s_all
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-int	parse_token(t_all *all);
-int	check_exp_var(t_all *all);
-int	redir_out(t_parser *cmd, t_token **tok);
+int		parse_token(t_all *all);
+int		check_exp_var(t_all *all);
 char	*search_path(t_all *path);
 int		count_words(t_token *token);
+int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
+int		redir_in(t_parser *cmd, t_token **tok);
+int		append(t_parser *cmd, t_token **tok);
+int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
