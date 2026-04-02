@@ -81,7 +81,7 @@ typedef struct s_all
 	t_env	*env;
 	t_token	*token;
 	char	**env_for_exec;
-	t_parser	*parser;//modifier les t_cmd
+	t_parser	*parser;
 	char		*path;
 }	t_all;
 
@@ -130,7 +130,7 @@ void		sigint_handler(int signum);
 /* ===============================builtin=====================================*/
 /* ========================================================================== */
 int			pwd_builtin(void);
-void		exit_builtin(void *data);
+void		exit_builtin(t_all *all, t_parser *cmd);
 int			export_builtin(t_all *all, char *rl);
 int			cd_builtin(t_all *all, t_parser *cd_cmd);
 int			go_to_home_dir(t_all *all);
@@ -150,6 +150,7 @@ int			clean_parsing_list(t_parser *head);
 int			xclose(int *fd);
 void		free_tab(char **strs);
 void		clean_loop(t_all *all);
+void		clean_exit(t_all *all, int exit_code);
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/
@@ -168,6 +169,7 @@ int			new_heredoc(char *user_input, int *start, t_all *all, int end);
 int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
 int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
+
 /* ========================================================================== */
 /* =============================== PARSE_ENV==================================*/
 /* ========================================================================== */
@@ -192,4 +194,5 @@ void		ft_addback_parse(t_parser **head, t_parser *new);
 /* ========================================================================== */
 int			setup(t_all *all, char **env);
 int			main_loop(t_all *all, char **env);
+
 #endif

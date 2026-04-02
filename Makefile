@@ -77,15 +77,12 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_ENV)/export_env.c \
       $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
       $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
-      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
-
-#	$(DIR_SRC)/$()/.c \
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c
 
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
-
 
 # --- RULES ---
 

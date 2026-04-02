@@ -27,7 +27,10 @@ int	is_n_option(char *arg)
 	}
 	return (1);
 }
-
+/*
+	Validates if an argument is a properly formatted '-n' flag,
+	including cases like '-nnnn'
+*/
 void	echo_builtin(t_parser *cmd)
 {
 	int	i;

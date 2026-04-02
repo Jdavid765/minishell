@@ -44,8 +44,8 @@ void	free_tab(char **strs)
 }
 
 /*
-	clean a char **
-	wierd this that the char ** can't be named tab
+	Frees a null-terminated array of strings and the pointer
+	to the array itself.
 */
 
 void	clean_loop(t_all *all)
@@ -62,6 +62,30 @@ void	clean_loop(t_all *all)
 	}
 }
 /*
-	this fonction just call the cleaners at the end of main_loop()
-	and reset all the unessesary lists
+	Resets the shell's temporary data structures
+	at the end of each iteration to prevent memory leaks
+	and command repetition
+*/
+
+void	clean_exit(t_all *all, int exit_code)
+{
+	clean_loop(all);
+	
+	if (all->env)
+	{
+		clean_env_list(all->env);
+		all->env = NULL;
+	}
+	if (all->path)
+	{
+		free(all->path);
+		all->path = NULL;
+	}
+	rl_clear_history();
+	exit(exit_code);
+}
+/*
+	this fonction clean all the allocated memory
+	like env, tokens, parser and readline history.
+	then it exit the program with the given exit_code
 */

@@ -56,7 +56,7 @@ void	exec_builtin(t_all *all, t_parser *cmd)
 	else if (ft_strncmp(cmd->cmd_and_args[0], "env", 4) == 0)
 		cmd_env(all);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "exit", 5) == 0)
-		exit_builtin(NULL); // TODO: adapter pour gérer les codes de retour
+		exit_builtin(all, cmd);
 }
 /*
 	choose the right builtin to use
