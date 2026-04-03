@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_exp_var.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 23:08:34 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/03 19:29:59 by canoduran        ###   ########.fr       */
+/*   Created: 2026/04/03 19:07:49 by canoduran         #+#    #+#             */
+/*   Updated: 2026/04/03 19:11:34 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+# include "../../include/minishell.h"
 
-int	ft_compare(char *rl, char *string)
+char	*strip_quotes(char *str)
 {
-	int	i;
+	int		len;
+ 
+	len = ft_strlen(str);
+	return (ft_substr(str, 1, len - 2));
+}
 
-	i = 0;
-	while (string[i])
-	{
-		if (string[i + 1] == '\0')
-		{
-			if (rl[i + 1] != '\0')
-				return (1);
-		}
-		if (string[i] != rl[i])
-			return (1);
-		i++;
-	}
-	return (0);
+void	free_expand(char *tmp, char *value, char *before)
+{
+	if (tmp)
+		free(tmp);
+	if (value)
+		free(value);
+	if (before)
+		free(before);
 }

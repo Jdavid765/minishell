@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 13:48:37 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/28 23:33:08 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	clean_token_list(t_token *head)
 	this fonction clean the token list basically
 */
 
-int	clean_cmd_list(t_cmd *head)
+int	clean_cmd_list(t_parser *head)
 {
-	t_cmd	*tmp;
-	int		status;
+	t_parser	*tmp;
+	int			status;
 
 	status = 0;
 	while (head)
@@ -41,12 +41,12 @@ int	clean_cmd_list(t_cmd *head)
 			free_tab(head->cmd_and_args);
 		if (head->path)
 			free(head->path);
-		if (head->fd_in != -1 && xclose(&head->fd_in) == -1)
+		if (head->fd_in != 0 && xclose(&head->fd_in) == -1)
 		{
 			perror("xclose :");
 			status = 1;
 		}
-		if (head->fd_out != -1 && xclose(&head->fd_out) == -1)
+		if (head->fd_out != 1 && xclose(&head->fd_out) == -1)
 		{
 			perror("xclose :");
 			status = 1;
@@ -83,15 +83,15 @@ void	clean_env_list(t_env *head)
 	this fonction clean the env list basically
 */
 
-int	clean_parsing_list(t_parsing *head)
+int	clean_parsing_list(t_parser *head)
 {
-	t_parsing	*tmp;
+	t_parser	*tmp;
 	int			status;
 
 	status = 0;
 	while (head)
 	{
-		free_tab(head->cmd_arg);
+		free_tab(head->cmd_and_args);
 		tmp = head->next;
 		if (head->fd_in != -1 && xclose(&head->fd_in) == -1)
 		{

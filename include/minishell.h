@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/25 22:58:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/03 19:10:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-#include <stdbool.h>
+# include <stdbool.h>
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -83,14 +83,21 @@ typedef struct s_all
 	char	**env_for_exec;
 	t_parser	*parser;//modifier les t_cmd
 	char		*path;
+	int			exit_status;
 }	t_all;
 
 
 /* ========================================================================== */
 /* ===============================parsing=====================================*/
 /* ========================================================================== */
-int	parse_token(t_all *all);
-int	check_exp_var(t_all *all);
+int		parse_token(t_all *all);
+int		check_exp_var(t_all *all);
+char	*search_path(t_all *path);
+int		count_words(t_token *token);
+int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
+int		redir_in(t_parser *cmd, t_token **tok);
+int		append(t_parser *cmd, t_token **tok);
+int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -122,7 +129,7 @@ void		sigint_handler(int signum);
 int			pwd_builtin(void);
 void		exit_builtin(void *data);
 int			export_builtin(t_all *all, char *rl);
-int			cd_builtin(t_all *all, t_cmd *cd_cmd);
+int			cd_builtin(t_all *all, t_parser *cd_cmd);
 int			go_to_home_dir(t_all *all);
 int			update_env(t_all * all);
 t_env		*find_pwd_node(t_all * all);
@@ -132,11 +139,12 @@ t_env		*find_oldpwd_node(t_all * all);
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
 void		clean_token_list(t_token *head);
-int			clean_cmd_list(t_cmd *head);//renommer parser
+int			clean_cmd_list(t_parser *head);//renommer parser
 void		clean_env_list(t_env *head);
-int			clean_parsing_list(t_parsing *head);
+int			clean_parsing_list(t_parser *head);
 int			xclose(int *fd);
 void		free_tab(char **strs);
+void		free_all(t_all *all);
 
 /* ========================================================================== */
 /* ===============================tokenizer===================================*/
@@ -164,6 +172,7 @@ int		check_path(t_env **ft_env);
 int		ct_key_value(char *env);
 char	*put_in_key(char *env);
 char	*search_path(t_all *all);
+int		setup(t_all *all, char **env);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE=============================*/
@@ -175,8 +184,15 @@ t_parser	*ft_node_pars(char *path);
 void		ft_addback_parse(t_parser **head, t_parser *new);
 
 /* ========================================================================== */
-/* =============================== ===========================================*/
+/* =============================== EXP_VARIABLES ===========================================*/
 /* ========================================================================== */
-int			setup(t_all *all, char **env);
+int		check_dollar(t_token *token, t_all *all);
+int		replace_dollar(t_token *token, t_all *all);
+char	*expand_in_str(char *str, t_all *all);
+char	*get_var_value(char *dollar, t_all *all, int *i);
+char	*in_env(char *line, t_all *all);
+char	*strip_quotes(char *str);
+void	free_expand(char *tmp, char *value, char *before);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 13:48:37 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/28 23:43:53 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,19 @@ void	free_tab(char **strs)
 	int	i;
 
 	i = 0;
-	if (!tab)
+	if (!*strs)
 		return ;
 	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(tab);
+		free(strs[i++]);
+	free(strs);
+}
+
+void	free_all(t_all *all)
+{
+	clean_cmd_list(all->parser);
+	all->parser = NULL;
+	clean_token_list(all->token);
+	all->token = NULL;
 }
 
 /*
