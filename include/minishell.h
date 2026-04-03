@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/03 19:10:26 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/03 20:48:40 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_all
 	char	**env_for_exec;
 	t_parser	*parser;//modifier les t_cmd
 	char		*path;
-	int			exit_status;
 }	t_all;
 
 
