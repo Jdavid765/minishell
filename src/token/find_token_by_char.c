@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:03:40 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/03 15:13:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	new_pipe(char *user_input, int *start, t_all *all)
 	return (0);
 }
 
-int	new_double_quote(char *user_input, int *start, t_all *all)
+int    new_double_quote(char *user_input, int *start, t_all *all)
 {
 	char	*arg;
 	int		end;
@@ -139,12 +139,12 @@ int	new_double_quote(char *user_input, int *start, t_all *all)
 	return (0);
 }
 
-int	new_single_quote(char *user_input, int *start, t_all *all)
+ int    new_single_quote(char *user_input, int *start, t_all *all)
 {
-	char	*arg;
-	int		end;
+    char    *arg;
+    int        end;
 
-	end = 1;
+    end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\'')
 		end++;
 	if (user_input[*start + end] == '\'')

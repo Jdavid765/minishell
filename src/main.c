@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/25 22:58:36 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/31 14:17:21 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,21 @@ void	look_parser(t_all *all)
 {
 	t_parser	*head;
 	int			i;
+	int			x;
 
 	head = all->parser;
+	if (!head)
+		return ;
 	i = 0;
+	x = 1;
 	while (head)
 	{
 		while (head->cmd_and_args[i])
 		{
-			printf("nbr = %s\n", head->cmd_and_args[i]);
+			printf("node=%d | cmd = %s\n", x, head->cmd_and_args[i]);
 			i++;	
 		}
+		x++;
 		i = 0;
 		head = head->next;
 	}
@@ -54,6 +59,7 @@ void	look_parser(t_all *all)
 int	main_loop(t_all *all, char **env)
 {
 	char	*rl;
+	int		value;
 
 	if (env)
 		printf("!\n");
@@ -61,21 +67,22 @@ int	main_loop(t_all *all, char **env)
 	{
 		rl = readline("Minishell > ");
 		if (!rl)
-		{
-			printf("exit");
-			return (0);
-		}
-		// check_cmd(rl, all);
+			return (printf("exit"), 0);
 		tokenizer(rl, all);
-		// bullshit(all);
-		if (parse_token(all) == 1)
-			return (1);
 		if (check_exp_var(all))
 			return (1);
 		// look_parser(all);
-		executor(all);
-		add_history(rl);
+
+		if ((value = parse_token(all)) == 10)
+			printf("Syntax Errors\n");
+		else if (value == 1)
+			return (free_all(all) ,1);
+		else
+			look_parser(all);
+    executor(all);
 		clean_loop(all);
+		add_history(rl);
+		if (rl)
 			free(rl);
 	}
 	return (0);

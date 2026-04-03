@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 13:48:37 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/28 23:33:08 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	clean_cmd_list(t_parser *head)
 			free_tab(head->cmd_and_args);
 		if (head->path)
 			free(head->path);
-		if (head->fd_in > 2)
+		if (head->fd_in != 0 && xclose(&head->fd_in) == -1)
 		{
-			if (xclose(&head->fd_in) == -1)
-				status = 1;
+			perror("xclose :");
+      status = 1;
 		}
-		if (head->fd_out > 2)
+		if (head->fd_out != 1 && xclose(&head->fd_out) == -1)
 		{
-			if (xclose(&head->fd_out) == -1)
+			perror("xclose :");
 				status = 1;
 		}
 		tmp = head->next;

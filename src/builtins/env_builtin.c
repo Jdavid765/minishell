@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/23 21:26:23 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/26 21:29:27 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	cmd_env(t_all *all)
 	t_env	*head;
 
 	head = all->env;
-	while (head->next)
+	while (head)
 	{
 		printf("%s=%s\n", head->key, head->value);
 		head = head->next;
