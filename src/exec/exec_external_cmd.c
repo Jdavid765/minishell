@@ -55,6 +55,7 @@ void	exec_single_external(t_all *all, t_parser *cmd)
 	fork the process, check if fork fail and
 	send the process to the right fonction
 */
+
 void	parent_single_external(t_parser *cmd, pid_t pid)
 {
 	int	status;
@@ -64,7 +65,10 @@ void	parent_single_external(t_parser *cmd, pid_t pid)
 	if (cmd->fd_out != 1)
 		close(cmd->fd_out);
 	waitpid(pid, &status, 0);
-	// a plus tard : stocker WEXITSTATUS(status) dans $?
+	if (WIFEXITED(status))
+		*get_status() = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		*get_status() = 128 + WTERMSIG(status);
 }
 /*
 	wait for the end of child process

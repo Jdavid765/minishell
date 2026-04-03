@@ -12,7 +12,77 @@
 
 #include "../../include/minishell.h"
 
-void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int pipefd[2])
+void	wait_pipeline(void)
+{
+	int	status;
+
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status))
+			*get_status() = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			*get_status() = 128 + WTERMSIG(status);
+	}
+}
+/*
+
+*/
+
+void	exec_pipeline(t_all *all)
+{
+	t_parser	*cmd;
+	int			pipefd[2];
+	int			prev_read_fd;
+	pid_t		pid;
+
+	cmd = all->parser;
+	prev_read_fd = -1;
+	while (cmd)
+	{
+		if (cmd->next)
+			pipe(pipefd);
+		pid = fork();
+		if (pid == -1)
+			return (perror("fork"));
+		if (pid == 0)
+			child_pipeline(all, cmd, prev_read_fd, pipefd);
+		else
+			manage_parent_fds(cmd, &prev_read_fd, pipefd);
+		cmd = cmd->next;
+	}
+	wait_pipeline();
+}
+/*
+	main loop for execute more than one cmd
+	fork every cmd and send it where it belong
+*/
+
+void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd)
+{
+	setup_pipe_fds(cmd, prev_fd, p_fd);
+	apply_redirections(cmd);
+	execute_pipeline_cmd(all, cmd);
+}
+/*
+	bridge for all the cmd exec
+*/
+
+void	manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd)
+{
+	if (*prev_read_fd != -1)
+		close(*prev_read_fd);
+	if (cmd->next)
+	{
+		close(pipefd[1]);
+		*prev_read_fd = pipefd[0];
+	}
+}
+/*
+	close the prev fd if it exists
+	if there is another cmd close the previous one 
+*/
+
+void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)
 {
 	if (prev_read_fd != -1)
 	{
@@ -30,8 +100,6 @@ void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int pipefd[2])
 	check if it's the first cmd or not to sertup the right redirection
 	and check if there is and cmd after
 */
-
-
 
 void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 {
@@ -57,60 +125,4 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 /*
 	check if the cmd is a builtin else exec the extrenal cmd
 	check if it fails
-*/
-
-void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int p_fd[2])
-{
-	setup_pipe_fds(cmd, prev_fd, p_fd);
-	apply_redirections(cmd);
-	execute_pipeline_cmd(all, cmd);
-}
-/*
-	bridge for all the cmd exec
-*/
-
-void	manage_parent_fds(t_parser *cmd, int *prev_read_fd, int pipefd[2])
-{
-	if (*prev_read_fd != -1)
-		close(*prev_read_fd);
-	if (cmd->next)
-	{
-		close(pipefd[1]);
-		*prev_read_fd = pipefd[0];
-	}
-}
-/*
-	close the prev fd if it exists
-	if there is another cmd close the previous one 
-*/
-
-
-void	exec_pipeline(t_all *all)
-{
-	t_parser	*cmd;
-	int			pipefd[2];
-	int			prev_read_fd;
-	pid_t		pid;
-
-	cmd = all->parser;
-	prev_read_fd = -1;
-	while (cmd)
-	{
-		if (cmd->next)
-			pipe(pipefd);
-		pid = fork();
-		if (pid == -1)
-			return (perror("fork"));
-		if (pid == 0)
-			child_pipeline(all, cmd, prev_read_fd, pipefd);
-		else
-			manage_parent_fds(cmd, &prev_read_fd, pipefd);
-		cmd = cmd->next;
-	}
-	while (waitpid(-1, NULL, 0) > 0)
-		continue ;
-}
-/*
-	main loop for execute more than one cmd
-	fork every cmd and send it where it belong
 */

@@ -42,11 +42,11 @@ DIR_SIG     = signal
 DIR_UTILS   = utils
 DIR_EXEC    = exec
 DIR_TOKEN   = token
-OBJ_DIR    = obj
-DIR_SETUP  = setup
-DIR_NODE   = noeud
-DIR_CLEAN  = clean
-DIR_ENV    = memories
+OBJ_DIR     = obj
+DIR_SETUP   = setup
+DIR_NODE    = noeud
+DIR_CLEAN   = clean
+DIR_ENV     = memories
 
 
 # --- SOURCES ---
@@ -69,6 +69,7 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
       $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
+      $(DIR_SRC)/$(DIR_UTILS)/get_status.c \
       $(DIR_SRC)/$(DIR_SETUP)/setup.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \

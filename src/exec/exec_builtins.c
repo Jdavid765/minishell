@@ -47,7 +47,8 @@ void	exec_builtin(t_all *all, t_parser *cmd)
 		pwd_builtin();
 	else if (ft_strncmp(cmd->cmd_and_args[0], "export", 7) == 0)
 	{
-		// export_builtin(all, cmd); // TODO: A adapter pour prendre un t_parser
+		/*export_builtin(all, cmd);
+		 // TODO: A adapter pour prendre un t_parser*/
 	}
 	else if (ft_strncmp(cmd->cmd_and_args[0], "unset", 6) == 0)
 	{
