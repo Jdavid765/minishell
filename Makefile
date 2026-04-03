@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/04/01 23:13:25 by canoduran        ###   ########.fr        #
+#    Updated: 2026/04/03 19:08:31 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,8 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_NODE)/node_pars.c \
       $(DIR_SRC)/$(DIR_ENV)/export_env.c \
       $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
+	  $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
+	  $(DIR_SRC)/$(DIR_ENV)/utils_exp_var.c \
 	  $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
 	  $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
 	  

@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/02 00:39:44 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/03 19:10:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_all
 	char	**env_for_exec;
 	t_parser	*parser;//modifier les t_cmd
 	char		*path;
+	int			exit_status;
 }	t_all;
 
 
@@ -171,6 +172,7 @@ int		check_path(t_env **ft_env);
 int		ct_key_value(char *env);
 char	*put_in_key(char *env);
 char	*search_path(t_all *all);
+int		setup(t_all *all, char **env);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE=============================*/
@@ -182,8 +184,15 @@ t_parser	*ft_node_pars(char *path);
 void		ft_addback_parse(t_parser **head, t_parser *new);
 
 /* ========================================================================== */
-/* =============================== ===========================================*/
+/* =============================== EXP_VARIABLES ===========================================*/
 /* ========================================================================== */
-int			setup(t_all *all, char **env);
+int		check_dollar(t_token *token, t_all *all);
+int		replace_dollar(t_token *token, t_all *all);
+char	*expand_in_str(char *str, t_all *all);
+char	*get_var_value(char *dollar, t_all *all, int *i);
+char	*in_env(char *line, t_all *all);
+char	*strip_quotes(char *str);
+void	free_expand(char *tmp, char *value, char *before);
+
 
 #endif

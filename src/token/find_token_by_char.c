@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/01 23:52:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/03 15:13:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int    new_double_quote(char *user_input, int *start, t_all *all)
     end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\'')
         end++;
-    if (user_input[*start + end] == '\"')
+    if (user_input[*start + end] == '\'')
         end++;
     arg = ft_substr(user_input, *start, end);
     if (arg == NULL)
