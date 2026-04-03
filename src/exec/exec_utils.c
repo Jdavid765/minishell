@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/26 21:31:05 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	check_cmd(char *rl, t_all *all)
+void	apply_redirections(t_parser *cmd)
 {
-	if (ft_compare(rl, "export") == 0)
-		export_builtin(all, rl);
-	if (ft_compare(rl, "pwd") == 0)
-		pwd_builtin();
-	// if (ft_compare(rl, "exit") == 0)
-	// 	exit_builtin((void *)rl);
-	if (ft_compare(rl, "env") == 0)
-		cmd_env(all);
-	if (ft_strnstr(rl, "cd", ft_strlen(rl)))
-		cd_builtin(all, all->parser);
-	return ;
+	if (cmd->fd_in != 0)
+	{
+		dup2(cmd->fd_in, STDIN_FILENO);
+		xclose(&cmd->fd_in);
+	}
+	if (cmd->fd_out != 1)
+	{
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		xclose(&cmd->fd_out);
+	}
 }
+/*
+	to change the fd if it's a file and close it
+*/

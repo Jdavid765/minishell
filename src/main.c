@@ -65,29 +65,32 @@ int	main_loop(t_all *all, char **env)
 		printf("!\n");
 	while (1)
 	{
-		if (!(rl = readline("Minishell > ")))
-			return (1);
+		rl = readline("Minishell > ");
+		if (!rl)
+			return (printf("exit"), 0);
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
+		// look_parser(all);
+
 		if ((value = parse_token(all)) == 10)
 			printf("Syntax Errors\n");
 		else if (value == 1)
 			return (free_all(all) ,1);
 		else
 			look_parser(all);
+    executor(all);
+		clean_loop(all);
 		add_history(rl);
-		free_all(all);
 		if (rl)
 			free(rl);
 	}
 	return (0);
 }
 /*
-	The best choice in the loop is call function 
-	to compare if the line write in rl = is command or built in
-	and execute the command or built in if is it.
-	I propose this for not poluate the code.
+	The primary shell loop that manages:
+	user input, tokenization, parsing,
+	execution, and cleanup 
 */
 
 int	main(int ac, char **av, char **env)
@@ -103,7 +106,8 @@ int	main(int ac, char **av, char **env)
 		if (!(all.path = search_path(&all)))
 			return (1);
 	if (main_loop(&all, env) == 1)
-		return (1);
+		clean_exit(&all, 1);
+	clean_exit(&all, 0);
 	return (0);
 }
 /*

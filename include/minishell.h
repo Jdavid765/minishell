@@ -33,7 +33,7 @@
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 
-typedef enum e_token_type
+typedef enum	e_token_type
 {
 	WORD,
 	PIPE,
@@ -43,19 +43,19 @@ typedef enum e_token_type
 	HEREDOC // <<
 }	t_token_type;
 
-typedef struct s_sig
+typedef struct	s_sig
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 }	t_sig;
 
-typedef struct s_env
+typedef struct	s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_token
+typedef struct	s_token
 {
 	char			*value;
 	t_token_type	type;
@@ -64,9 +64,9 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_parser
+typedef struct	s_parser
 {
-	char	**cmd_and_args;
+	char		**cmd_and_args;
 	char	*path;
 	int		fd_in;
 	int		fd_out;
@@ -75,13 +75,13 @@ typedef struct s_parser
 	struct s_parser	*next;
 }	t_parser;
 
-typedef struct s_all
+typedef struct	s_all
 {
 	t_sig	sig;
 	t_env	*env;
 	t_token	*token;
 	char	**env_for_exec;
-	t_parser	*parser;//modifier les t_cmd
+	t_parser	*parser;
 	char		*path;
 	int			exit_status;
 }	t_all;
@@ -110,12 +110,30 @@ char		*find_path_in_env(t_env *env);
 char		**re_build_env(t_env *head, char **new_env);
 char		*join_env_value(t_env *current);
 int			count_env_list(t_env *head);
+void		executor(t_all *all);
+int			count_cmds(t_parser *cmd_list);
+void		exec_single_cmd(t_all *all);
+void		exec_pipeline(t_all *all);
+void		apply_redirections(t_parser *cmd);
+void		child_single_external(t_all *all, t_parser *cmd);
+void		parent_single_external(t_parser *cmd, pid_t pid);
+int			is_builtin(char *cmd);
+void		exec_builtin(t_all *all, t_parser *cmd);
+void		exec_single_builtin(t_all *all, t_parser *cmd);
+void		exec_single_external(t_all *all, t_parser *cmd);
+void		wait_pipeline(void);
+void		wait_pipeline(void);
+void		child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd);
+void		manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd);
+void		setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd);
+void		execute_pipeline_cmd(t_all *all, t_parser *cmd);
 
 /* ========================================================================== */
 /* ===============================utils=======================================*/
 /* ========================================================================== */
 int			ft_compare(char *rl, char *string);
 void		check_cmd(char *rl, t_all *all);
+int			*get_status(void);
 
 /* ========================================================================== */
 /* ===============================signal======================================*/
@@ -127,23 +145,29 @@ void		sigint_handler(int signum);
 /* ===============================builtin=====================================*/
 /* ========================================================================== */
 int			pwd_builtin(void);
-void		exit_builtin(void *data);
+void		exit_builtin(t_all *all, t_parser *cmd);
 int			export_builtin(t_all *all, char *rl);
 int			cd_builtin(t_all *all, t_parser *cd_cmd);
 int			go_to_home_dir(t_all *all);
 int			update_env(t_all * all);
 t_env		*find_pwd_node(t_all * all);
 t_env		*find_oldpwd_node(t_all * all);
+void		echo_builtin(t_parser *cmd);
+int			pwd_builtin(void);
+void		exit_builtin(t_all *all, t_parser *cmd);
+int			is_numeric(char *str);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/
 /* ========================================================================== */
 void		clean_token_list(t_token *head);
-int			clean_cmd_list(t_parser *head);//renommer parser
+int			clean_cmd_list(t_parser *head);
 void		clean_env_list(t_env *head);
 int			clean_parsing_list(t_parser *head);
 int			xclose(int *fd);
 void		free_tab(char **strs);
+void		clean_loop(t_all *all);
+void		clean_exit(t_all *all, int exit_code);
 void		free_all(t_all *all);
 
 /* ========================================================================== */
@@ -163,6 +187,7 @@ int			new_heredoc(char *user_input, int *start, t_all *all, int end);
 int			new_redir_out_or_appnd(char *user_input, int *start, t_all *all);
 int			new_appnd(char *user_input, int *start, t_all *all, int end);
 int			is_a_separator(char letter);
+
 /* ========================================================================== */
 /* =============================== PARSE_ENV==================================*/
 /* ========================================================================== */
@@ -186,6 +211,8 @@ void		ft_addback_parse(t_parser **head, t_parser *new);
 /* ========================================================================== */
 /* =============================== EXP_VARIABLES ===========================================*/
 /* ========================================================================== */
+int			setup(t_all *all, char **env);
+int			main_loop(t_all *all, char **env);
 int		check_dollar(t_token *token, t_all *all);
 int		replace_dollar(t_token *token, t_all *all);
 char	*expand_in_str(char *str, t_all *all);

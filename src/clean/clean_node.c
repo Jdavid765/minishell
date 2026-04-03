@@ -44,12 +44,12 @@ int	clean_cmd_list(t_parser *head)
 		if (head->fd_in != 0 && xclose(&head->fd_in) == -1)
 		{
 			perror("xclose :");
-			status = 1;
+      status = 1;
 		}
 		if (head->fd_out != 1 && xclose(&head->fd_out) == -1)
 		{
 			perror("xclose :");
-			status = 1;
+				status = 1;
 		}
 		tmp = head->next;
 		free(head);
@@ -59,11 +59,8 @@ int	clean_cmd_list(t_parser *head)
 }
 
 /*
-	this fonction clean the cmd list 
-	free the char * and char ** needed
-	close the fd if they still open w/ xclose
-	if xclose fail status is set to 1 refeer the error
-	and perror is called
+	Frees the parser list, free command arguments,
+	and safely closes file descriptors strictly greater than 2
 */
 
 void	clean_env_list(t_env *head)
@@ -80,7 +77,8 @@ void	clean_env_list(t_env *head)
 	}
 }
 /*
-	this fonction clean the env list basically
+	this fonction clean the env list
+	freeing both keys and values
 */
 
 int	clean_parsing_list(t_parser *head)
@@ -109,7 +107,6 @@ int	clean_parsing_list(t_parser *head)
 	return (status);
 }
 /*
-	this fonction the parsing list
-	free the char ** needed and
-	close the 2 fd in & out if needed w/ xclose
+	Clears the temporary parsing structures
+	and closes associated file descriptors
 */
