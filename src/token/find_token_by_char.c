@@ -122,21 +122,21 @@ int	new_pipe(char *user_input, int *start, t_all *all)
 
 int    new_double_quote(char *user_input, int *start, t_all *all)
 {
-    char    *arg;
-    int        end;
+	char	*arg;
+	int		end;
 
-    end = 1;
-    while (user_input[*start + end] && user_input[*start + end] != '\"')
-        end++;
-    if (user_input[*start + end] == '\"')
-        end++;
-    arg = ft_substr(user_input, *start, end);
-    if (arg == NULL)
-        return (1);
-    *start += end;
-    if (new_token_node(&all->token, WORD, arg))
-        return (free(arg), 1);
-    return (0);
+	end = 1;
+	while (user_input[*start + end] && user_input[*start + end] != '\"')
+		end++;
+	if (user_input[*start + end] == '\"')
+		end++;
+	arg = ft_substr(user_input, *start, end);
+	if (arg == NULL)
+		return (1);
+	*start += end;
+	if (new_token_node(&all->token, WORD, arg))
+		return (free(arg), 1);
+	return (0);
 }
 
  int    new_single_quote(char *user_input, int *start, t_all *all)
@@ -146,16 +146,16 @@ int    new_double_quote(char *user_input, int *start, t_all *all)
 
     end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\'')
-        end++;
-    if (user_input[*start + end] == '\'')
-        end++;
-    arg = ft_substr(user_input, *start, end);
-    if (arg == NULL)
-        return (1);
-    *start += end;
-    if (new_token_node(&all->token, WORD, arg))
-        return (free(arg), 1);
-    return (0);
+		end++;
+	if (user_input[*start + end] == '\'')
+		end++;
+	arg = ft_substr(user_input, *start, end);
+	if (arg == NULL)
+		return (1);
+	*start += end;
+	if (new_token_node(&all->token, WORD, arg))
+		return (free(arg), 1);
+	return (0);
 }
 
 int	new_word_or_cmd(char *user_input, int *start, t_all *all)

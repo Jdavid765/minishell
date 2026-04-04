@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 void	cmd_env(t_all *all)
 {
 	t_env	*head;

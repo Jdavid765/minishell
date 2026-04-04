@@ -24,7 +24,6 @@ int	cd_builtin(t_all *all, t_parser *cd_cmd)
 	}
 	if (update_env(all))
 		return (1);
-	clean_cmd_list(cd_cmd);
 	cd_cmd = NULL;
 	return (0);
 }
