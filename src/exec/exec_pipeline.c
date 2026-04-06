@@ -116,6 +116,7 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 		exit(127);
 	}
 	envp = re_build_env(all->env, NULL);
+	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, envp);
 	perror("execve");
 	free_tab(envp);

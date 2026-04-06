@@ -78,7 +78,6 @@ void	clean_exit(t_all *all, int exit_code)
 	}
 	if (all->path)
 	{
-		free(all->path);
 		all->path = NULL;
 	}
 	rl_clear_history();

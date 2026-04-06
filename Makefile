@@ -44,9 +44,9 @@ DIR_EXEC    = exec
 DIR_TOKEN   = token
 OBJ_DIR     = obj
 DIR_SETUP   = setup
-DIR_NODE    = noeud
+DIR_NODE    = node
 DIR_CLEAN   = clean
-DIR_ENV     = memories
+DIR_ENV     = env
 
 
 # --- SOURCES ---
@@ -66,6 +66,8 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_utils.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_pipeline.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
+      $(DIR_SRC)/$(DIR_PARSING)/next_parsing.c \
+      $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
       $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
@@ -77,11 +79,11 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_NODE)/node_pars.c \
       $(DIR_SRC)/$(DIR_ENV)/export_env.c \
       $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
-	  $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
-	  $(DIR_SRC)/$(DIR_ENV)/uti
-	  $(DIR_SRC)/$(DIR_CLEAN)/ls_exp_var.c \clean_node.c \
-	  $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
-	  
+      $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
+      $(DIR_SRC)/$(DIR_ENV)/utils_exp_var.c \
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
+
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---

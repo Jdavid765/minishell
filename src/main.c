@@ -67,7 +67,7 @@ int	main_loop(t_all *all, char **env)
 	{
 		rl = readline("Minishell > ");
 		if (!rl)
-			return (printf("exit"), 0);
+			printf("exit\n"), clean_exit(all, all->exit_status);
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
@@ -75,11 +75,9 @@ int	main_loop(t_all *all, char **env)
 
 		if ((value = parse_token(all)) == 10)
 			printf("Syntax Errors\n");
-		else if (value == 1)
-			return (free_all(all) ,1);
 		else
 			look_parser(all);
-    executor(all);
+		executor(all);
 		clean_loop(all);
 		add_history(rl);
 		if (rl)

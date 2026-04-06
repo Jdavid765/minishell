@@ -26,6 +26,7 @@ void	child_single_external(t_all *all, t_parser *cmd)
 		exit(127);
 	}
 	new_env = re_build_env(all->env, NULL);
+	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, new_env);
 	perror("execve");
 	free_tab(new_env);
