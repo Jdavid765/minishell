@@ -65,18 +65,15 @@ int	main_loop(t_all *all, char **env)
 		printf("!\n");
 	while (1)
 	{
+		rl_on_new_line();
 		rl = readline("Minishell > ");
 		if (!rl)
 			printf("exit\n"), clean_exit(all, all->exit_status);
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
-		// look_parser(all);
-
 		if ((value = parse_token(all)) == 10)
 			printf("Syntax Errors\n");
-		else
-			look_parser(all);
 		executor(all);
 		clean_loop(all);
 		add_history(rl);

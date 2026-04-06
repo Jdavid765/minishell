@@ -40,22 +40,27 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_all *all, t_parser *cmd)
 {
 	if (ft_strncmp(cmd->cmd_and_args[0], "echo", 5) == 0)
-		*get_status() = echo_builtin(cmd);
+	{
+		echo_builtin(cmd);
+		*get_status() = 0;
+	}
 	else if (ft_strncmp(cmd->cmd_and_args[0], "cd", 3) == 0)
-		*get_status() = = cd_builtin(all, cmd);
+		*get_status() = cd_builtin(all, cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "pwd", 4) == 0)
-		*get_status() = = pwd_builtin();
+		*get_status() = pwd_builtin();
 	else if (ft_strncmp(cmd->cmd_and_args[0], "export", 7) == 0)
 	{
-		/* *get_status() = export_builtin(all, cmd);
-		 // TODO: A adapter pour prendre un t_parser*/
+		// *get_status() = export_builtin(all, cmd);
 	}
 	else if (ft_strncmp(cmd->cmd_and_args[0], "unset", 6) == 0)
 	{
-		//* *get_status() = unset_builtin(all, cmd); // TODO: A implémenter / prototyper
+		// *get_status() = unset_builtin(all, cmd);
 	}
 	else if (ft_strncmp(cmd->cmd_and_args[0], "env", 4) == 0)
-		*get_status() = cmd_env(all);
+	{
+		cmd_env(all);
+		*get_status() = 0;
+	}
 	else if (ft_strncmp(cmd->cmd_and_args[0], "exit", 5) == 0)
 		exit_builtin(all, cmd);
 }
