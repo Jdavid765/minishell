@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 15:18:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 17:47:57 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,11 @@ void	look_parser(t_all *all)
 	}
 }
 
-int	main_loop(t_all *all, char **env)
+int	main_loop(t_all *all)
 {
 	char	*rl;
 	int		value;
 
-	if (env)
-		printf("!\n");
 	while (1)
 	{
 		// rl_on_new_line();
@@ -77,6 +75,7 @@ int	main_loop(t_all *all, char **env)
 			return (1);
 		if ((value = parse_token(all)) == 10)
 			printf("Syntax Errors\n");
+		look_parser(all);
 		executor(all);
 		clean_loop(all);
 		add_history(rl);
@@ -100,13 +99,7 @@ int	main(int ac, char **av, char **env)
 	ft_bzero(&all, sizeof(t_all));
 	if (setup(&all, env))
 		return (1);
-	if (!all.path)
-	{
-		all.path = search_path(&all);
-		if (!all.path)
-			return (1);
-	}
-	if (main_loop(&all, env) == 1)
+	if (main_loop(&all) == 1)
 		clean_exit(&all, 1);
 	clean_exit(&all, 0);
 	return (0);

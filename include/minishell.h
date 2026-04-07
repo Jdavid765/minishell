@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 15:17:26 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 17:35:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void		execute_pipeline_cmd(t_all *all, t_parser *cmd);
 /* ===============================utils=======================================*/
 /* ========================================================================== */
 int			ft_compare(char *rl, char *string);
-void		check_cmd(t_all *all);
 int			*get_status(void);
 
 /* ========================================================================== */
@@ -217,7 +216,7 @@ void		ft_addback_parse(t_parser **head, t_parser *new);
 /* =============================== EXP_VARIABLES ===========================================*/
 /* ========================================================================== */
 int			setup(t_all *all, char **env);
-int			main_loop(t_all *all, char **env);
+int			main_loop(t_all *all);
 int		check_dollar(t_token *token, t_all *all);
 int		replace_dollar(t_token *token, t_all *all);
 char	*expand_in_str(char *str, t_all *all);
