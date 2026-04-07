@@ -20,7 +20,7 @@ RESET    = \033[0m
 OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -fPIE -fsanitize=address -fsanitize=undefined
+CFLAGS   = -Wall -Wextra -Werror -fPIE
 LFLAGS   = -lreadline -lncurses -ltinfo
 DIRINC   = include
 INCLUDES = -I$(DIRINC)

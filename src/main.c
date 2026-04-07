@@ -65,7 +65,7 @@ int	main_loop(t_all *all, char **env)
 		printf("!\n");
 	while (1)
 	{
-		rl_on_new_line();
+		// rl_on_new_line();
 		rl = readline("Minishell > ");
 		if (!rl)
 		{
