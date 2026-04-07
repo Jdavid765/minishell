@@ -6,23 +6,31 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/26 21:31:05 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 16:19:22 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+# include "../../include/minishell.h"
 
-void	check_cmd(char *rl, t_all *all)
+void	check_cmd(t_all *all)
 {
-	if (ft_compare(rl, "export") == 0)
-		export_builtin(all, rl);
-	if (ft_compare(rl, "pwd") == 0)
+	char	*cmd;
+
+	cmd = all->parser->cmd_and_args[0];
+	if (!cmd)
+		return ;
+	if (ft_compare(cmd, "export") == 0)
+		export_builtin(all, all->parser);
+	else if (ft_compare(cmd, "pwd") == 0)
 		pwd_builtin();
-	// if (ft_compare(rl, "exit") == 0)
-	// 	exit_builtin((void *)rl);
-	if (ft_compare(rl, "env") == 0)
+	else if (ft_compare(cmd, "exit") == 0)
+		exit_builtin(all, all->parser);
+	else if (ft_compare(cmd, "env") == 0)
 		cmd_env(all);
-	if (ft_strnstr(rl, "cd", ft_strlen(rl)))
+	else if (ft_compare(cmd, "cd") == 0)
 		cd_builtin(all, all->parser);
-	return ;
+	else if (ft_compare(cmd, "echo") == 0)
+		echo_builtin(all->parser);
+	else if (ft_compare(cmd, "unset") == 0)
+		unset_builtin(all, all->parser);
 }
