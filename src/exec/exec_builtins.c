@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 17:26:23 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 23:39:15 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	exec_builtin(t_all *all, t_parser *cmd)
 		*get_status() = pwd_builtin();
 	else if (ft_strncmp(cmd->cmd_and_args[0], "export", 7) == 0)
 	{
-		// *get_status() = export_builtin(all, cmd);
+		*get_status() = export_builtin(all, cmd);
 	}
 	else if (ft_strncmp(cmd->cmd_and_args[0], "unset", 6) == 0)
 	{

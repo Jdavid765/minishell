@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 17:35:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 23:30:43 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct	s_all
 	char		**env_for_exec;
 	t_parser	*parser;
 	char		*path;
-	int			exit_status;
 }	t_all;
 
 
@@ -160,6 +159,10 @@ void		exit_builtin(t_all *all, t_parser *cmd);
 int			is_numeric(char *str);
 int			unset_builtin(t_all *all, t_parser *cmd);
 int			export_builtin(t_all *all, t_parser *cmd);
+int			is_valid_arg(char *key);
+int			parse_arg(char *arg, char **key, char **value);
+int			update_existing(t_all *all, char *key, char *value, char *arg);
+int			append_node(t_all *all, char *key, char *value);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/

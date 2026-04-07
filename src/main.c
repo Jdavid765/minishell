@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 17:47:57 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 23:08:53 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main_loop(t_all *all)
 		if (!rl)
 		{
 			printf("exit\n");
-			clean_exit(all, all->exit_status);
+			clean_exit(all, *get_status());
 		}
 		tokenizer(rl, all);
 		if (check_exp_var(all))
