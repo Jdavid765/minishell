@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
- 
+
 int	redir_out(t_parser *cmd, t_token **tok)
 {
 	(*tok) = (*tok)->next;
@@ -29,7 +29,8 @@ int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
 {
 	while (1)
 	{
-		if (!(rl = readline("> ")))
+		rl = readline("> ");
+		if (!rl)
 			return (close(fd[0]), close(fd[1]), 1);
 		if (rl[0] != '\0' && !ft_compare(rl, delim->value))
 		{

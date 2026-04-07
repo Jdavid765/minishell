@@ -44,12 +44,12 @@ int	clean_cmd_list(t_parser *head)
 		if (head->fd_in != 0 && xclose(&head->fd_in) == -1)
 		{
 			perror("xclose :");
-      status = 1;
+			status = 1;
 		}
 		if (head->fd_out != 1 && xclose(&head->fd_out) == -1)
 		{
 			perror("xclose :");
-				status = 1;
+			status = 1;
 		}
 		tmp = head->next;
 		free(head);

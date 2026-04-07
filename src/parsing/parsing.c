@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
- 
+
 int	append(t_parser *cmd, t_token **tok)
 {
 	(*tok) = (*tok)->next;
@@ -24,7 +24,7 @@ int	append(t_parser *cmd, t_token **tok)
 		return (1);
 	return (0);
 }
- 
+
 int	redir_in(t_parser *cmd, t_token **tok)
 {
 	(*tok) = (*tok)->next;
@@ -37,12 +37,12 @@ int	redir_in(t_parser *cmd, t_token **tok)
 		return (1);
 	return (0);
 }
- 
+
 int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 {
 	t_parser	*new_cmd;
 	int			nb_words;
- 
+
 	if (!tok->next)
 		return (10);
 	else if (tok->next->type == PIPE)
@@ -60,12 +60,12 @@ int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 	*index = 0;
 	return (0);
 }
- 
+
 int	parse_loop(t_parser **cmd, t_token *token, char *path)
 {
 	int		index;
 	int		ret;
- 
+
 	index = 0;
 	ret = 0;
 	while (token)
@@ -80,7 +80,7 @@ int	parse_loop(t_parser **cmd, t_token *token, char *path)
 		(*cmd)->cmd_and_args[index] = NULL;
 	return (0);
 }
- 
+
 int	parse_token(t_all *all)
 {
 	t_parser	*head;
@@ -88,7 +88,7 @@ int	parse_token(t_all *all)
 	t_token		*current_tok;
 	int			nb_words;
 	int			ret;
- 
+
 	if (!all->token)
 		return (15);
 	current_tok = all->token;

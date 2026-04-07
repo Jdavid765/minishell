@@ -12,9 +12,9 @@
 
 #include "../../include/minishell.h"
 
-int *get_status(void)
+int	*get_status(void)
 {
-	static int status = 0;
+	static int	status;
 
 	return (&status);
 }

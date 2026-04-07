@@ -18,8 +18,6 @@ void	check_cmd(char *rl, t_all *all)
 		export_builtin(all, rl);
 	if (ft_compare(rl, "pwd") == 0)
 		pwd_builtin();
-	// if (ft_compare(rl, "exit") == 0)
-	// 	exit_builtin((void *)rl);
 	if (ft_compare(rl, "env") == 0)
 		cmd_env(all);
 	if (ft_strnstr(rl, "cd", ft_strlen(rl)))
