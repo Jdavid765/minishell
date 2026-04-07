@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/03 19:10:26 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 15:17:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct	s_token
 
 typedef struct	s_parser
 {
-	char		**cmd_and_args;
+	char	**cmd_and_args;
 	char	*path;
 	int		fd_in;
 	int		fd_out;
@@ -135,7 +135,7 @@ void		execute_pipeline_cmd(t_all *all, t_parser *cmd);
 /* ===============================utils=======================================*/
 /* ========================================================================== */
 int			ft_compare(char *rl, char *string);
-void		check_cmd(char *rl, t_all *all);
+void		check_cmd(t_all *all);
 int			*get_status(void);
 
 /* ========================================================================== */
@@ -150,7 +150,6 @@ void		restore_original_signals(t_all *all);
 /* ========================================================================== */
 int			pwd_builtin(void);
 void		exit_builtin(t_all *all, t_parser *cmd);
-int			export_builtin(t_all *all, char *rl);
 int			cd_builtin(t_all *all, t_parser *cd_cmd);
 int			go_to_home_dir(t_all *all);
 int			update_env(t_all * all);
@@ -160,6 +159,8 @@ void		echo_builtin(t_parser *cmd);
 int			pwd_builtin(void);
 void		exit_builtin(t_all *all, t_parser *cmd);
 int			is_numeric(char *str);
+int			unset_builtin(t_all *all, t_parser *cmd);
+int			export_builtin(t_all *all, t_parser *cmd);
 
 /* ========================================================================== */
 /* ===============================cleaners====================================*/

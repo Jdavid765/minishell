@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/28 23:43:53 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/06 15:16:03 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,3 +87,11 @@ void	clean_exit(t_all *all, int exit_code)
 	like env, tokens, parser and readline history.
 	then it exit the program with the given exit_code
 */
+
+void	free_all(t_all *all)
+{
+	clean_cmd_list(all->parser);
+	all->parser = NULL;
+	clean_token_list(all->token);
+	all->token = NULL;
+}
