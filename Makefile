@@ -20,7 +20,7 @@ RESET    = \033[0m
 OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -fPIE -fsanitize=address -fsanitize=undefined
+CFLAGS   = -Wall -Wextra -Werror -fPIE
 LFLAGS   = -lreadline -lncurses -ltinfo
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
@@ -63,11 +63,11 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_EXEC)/rebuild_env.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_builtins.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_external_cmd.c \
-	  $(DIR_SRC)/$(DIR_EXEC)/exec_utils.c \
-	  $(DIR_SRC)/$(DIR_EXEC)/exec_pipeline.c \
-	  $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
-	  $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec_utils.c \
+      $(DIR_SRC)/$(DIR_EXEC)/exec_pipeline.c \
+      $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
       $(DIR_SRC)/$(DIR_PARSING)/next_parsing.c \
+      $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
       $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
@@ -79,11 +79,11 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_NODE)/node_pars.c \
       $(DIR_SRC)/$(DIR_ENV)/export_env.c \
       $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
-	  $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
-	  $(DIR_SRC)/$(DIR_ENV)/utils_exp_var.c \
-	  $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
-	  $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
-	  
+      $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
+      $(DIR_SRC)/$(DIR_ENV)/utils_exp_var.c \
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
+      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
+
 #       $(DIR_SRC)/$()/.c \
 
 # --- OBJECTS ---

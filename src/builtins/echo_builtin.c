@@ -18,7 +18,7 @@ int	is_n_option(char *arg)
 
 	if (!arg || arg[0] != '-' || arg[1] != 'n')
 		return (0);
-	i = 1;
+	i = 2;
 	while (arg[i])
 	{
 		if (arg[i] != 'n')
@@ -27,6 +27,7 @@ int	is_n_option(char *arg)
 	}
 	return (1);
 }
+
 /*
 	Validates if an argument is a properly formatted '-n' flag,
 	including cases like '-nnnn'
@@ -55,5 +56,5 @@ void	echo_builtin(t_parser *cmd)
 }
 /*
 	the echo builtin first check if there is a -n flag
-
+	then print the output and check if n_flag is true
 */

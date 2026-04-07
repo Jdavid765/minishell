@@ -120,7 +120,7 @@ int	new_pipe(char *user_input, int *start, t_all *all)
 	return (0);
 }
 
-int    new_double_quote(char *user_input, int *start, t_all *all)
+int	new_double_quote(char *user_input, int *start, t_all *all)
 {
 	char	*arg;
 	int		end;
@@ -139,12 +139,12 @@ int    new_double_quote(char *user_input, int *start, t_all *all)
 	return (0);
 }
 
- int    new_single_quote(char *user_input, int *start, t_all *all)
+int	new_single_quote(char *user_input, int *start, t_all *all)
 {
-    char    *arg;
-    int        end;
+	char	*arg;
+	int		end;
 
-    end = 1;
+	end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\'')
 		end++;
 	if (user_input[*start + end] == '\'')

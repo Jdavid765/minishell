@@ -10,25 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_parser	*ft_node_pars(char *path)
 {
-	t_parser	*Newnode;
+	t_parser	*newnode;
 
-	Newnode = malloc(sizeof(t_parser));
-	if (!Newnode)
+	newnode = malloc(sizeof(t_parser));
+	if (!newnode)
 		return (NULL);
-	Newnode->cmd_and_args = NULL;
-	Newnode->path = ft_strdup(path);
-	if (!Newnode->path)
+	newnode->cmd_and_args = NULL;
+	newnode->path = ft_strdup(path);
+	if (!newnode->path)
 		return (NULL);
-	Newnode->fd_in = 0;
-	Newnode->fd_out = 1;
-	Newnode->is_builtin = FALSE;
-	Newnode->access_check = FALSE;
-	Newnode->next = NULL;
-	return (Newnode);
+	newnode->fd_in = 0;
+	newnode->fd_out = 1;
+	newnode->is_builtin = FALSE;
+	newnode->access_check = FALSE;
+	newnode->next = NULL;
+	return (newnode);
 }
 
 void	ft_addback_parse(t_parser **head, t_parser *new)

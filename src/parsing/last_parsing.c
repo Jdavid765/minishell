@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	count_words(t_token *token)
 {
 	int	count;
- 
+
 	count = 0;
 	while (token && token->type != PIPE)
 	{
@@ -30,11 +30,11 @@ int	count_words(t_token *token)
 	}
 	return (count);
 }
- 
+
 char	*search_path(t_all *all)
 {
 	t_env	*head;
- 
+
 	head = all->env;
 	while (head)
 	{

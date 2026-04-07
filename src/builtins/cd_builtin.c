@@ -34,7 +34,6 @@ int	cd_builtin(t_all *all, t_parser *cd_cmd)
 	if an erro occur 1 is return
 */
 
-
 int	go_to_home_dir(t_all *all)
 {
 	t_env	*current;
@@ -78,7 +77,7 @@ int	update_env(t_all *all)
 	if (oldpwd_node && pwd_node)
 	{
 		free(oldpwd_node->value);
-		oldpwd_node->value = ft_strdup(pwd_node->value); 
+		oldpwd_node->value = ft_strdup(pwd_node->value);
 	}
 	if (pwd_node)
 	{
@@ -95,12 +94,12 @@ int	update_env(t_all *all)
 	if pwd is unset a new node is created for pwd
 */
 
-t_env	*find_pwd_node(t_all * all)
+t_env	*find_pwd_node(t_all *all)
 {
 	t_env	*current;
 
 	current = all->env;
-	while(current)
+	while (current)
 	{
 		if (ft_strncmp("PWD", current->key, 4) == 0)
 			return (current);
@@ -113,12 +112,12 @@ t_env	*find_pwd_node(t_all * all)
 	or if not found
 */
 
-t_env	*find_oldpwd_node(t_all * all)
+t_env	*find_oldpwd_node(t_all *all)
 {
 	t_env	*current;
 
 	current = all->env;
-	while(current)
+	while (current)
 	{
 		if (strncmp("OLDPWD", current->key, 7) == 0)
 			return (current);

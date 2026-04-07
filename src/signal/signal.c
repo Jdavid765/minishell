@@ -31,14 +31,27 @@ int	setup_signal(t_all *all)
 	if (sigemptyset(&all->sig.sa.sa_mask))
 		return (perror("sigemptyset"), 1);
 	all->sig.sa.sa_flags = 0;
-	if (sigaddset(&all->sig.sa.sa_mask, SIGQUIT) == -1)
-		return (perror("sigaddset"), 1);
-	if (sigaction(SIGINT, &all->sig.sa, NULL) == -1)
-		return (perror("sigaction"), 1);
+	all->sig.sa_quit.sa_handler = SIG_IGN;
+	if (sigemptyset(&all->sig.sa_quit.sa_mask))
+		return (perror("sigemptyset"), 1);
+	all->sig.sa_quit.sa_flags = 0;
+	if (sigaction(SIGINT, &all->sig.sa, &all->sig.sa_orig_int) == -1)
+		return (perror("sigaction SIGINT"), 1);
+	if (sigaction(SIGQUIT, &all->sig.sa_quit, &all->sig.sa_orig_quit) == -1)
+		return (perror("sigaction SIGQUIT"), 1);
 	return (0);
 }
 /*
-	this fonction setup the sa_mask set and the flags to 
-	prevent any garbage value.
-	sigaction enable the catch of the SIGINT signal
+	setup custom handler for SIGINT and ignore SIGQUIT
+	save the original signals to restore them later in child
+*/
+
+void	restore_original_signals(t_all *all)
+{
+	sigaction(SIGINT, &all->sig.sa_orig_int, NULL);
+	sigaction(SIGQUIT, &all->sig.sa_orig_quit, NULL);
+}
+/*
+	restore default signals for the child process
+	before execve so commands can be killed normally
 */

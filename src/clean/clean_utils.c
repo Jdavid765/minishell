@@ -70,11 +70,14 @@ void	clean_loop(t_all *all)
 void	clean_exit(t_all *all, int exit_code)
 {
 	clean_loop(all);
-	
 	if (all->env)
 	{
 		clean_env_list(all->env);
 		all->env = NULL;
+	}
+	if (all->path)
+	{
+		all->path = NULL;
 	}
 	rl_clear_history();
 	exit(exit_code);

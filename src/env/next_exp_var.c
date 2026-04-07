@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
- 
+#include "../../include/minishell.h"
+
 char	*in_env(char *line, t_all *all)
 {
 	t_env	*head;
- 
+
 	if (!line)
 		return (NULL);
 	head = all->env;
@@ -28,7 +28,7 @@ char	*in_env(char *line, t_all *all)
 	}
 	return (NULL);
 }
- 
+
 char	*get_var_value(char *dollar, t_all *all, int *i)
 {
 	char	*var;
@@ -54,7 +54,6 @@ char	*get_var_value(char *dollar, t_all *all, int *i)
 	return (ft_strdup(value));
 }
 
- 
 char	*expand_in_str(char *str, t_all *all)
 {
 	char	*result;
@@ -84,11 +83,11 @@ char	*expand_in_str(char *str, t_all *all)
 	}
 	return (result);
 }
- 
+
 int	replace_dollar(t_token *token, t_all *all)
 {
 	char	*tmp;
- 
+
 	if (token->value[1] == '?')
 	{
 		free(token->value);
@@ -112,7 +111,7 @@ int	replace_dollar(t_token *token, t_all *all)
 	}
 	return (0);
 }
- 
+
 int	check_dollar(t_token *token, t_all *all)
 {
 	if (!token)

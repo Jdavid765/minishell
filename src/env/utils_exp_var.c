@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 char	*strip_quotes(char *str)
 {
 	int		len;
- 
+
 	len = ft_strlen(str);
 	return (ft_substr(str, 1, len - 2));
 }

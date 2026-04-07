@@ -9,9 +9,8 @@
 /*   Updated: 2026/04/07 16:35:36 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "../../include/minishell.h"
 
-# include "../../include/minishell.h"
- 
 int	double_quote(t_token *token, t_all *all)
 {
 	char	*tmp;
@@ -27,17 +26,17 @@ int	double_quote(t_token *token, t_all *all)
 	}
 	return (0);
 }
- 
+
 int	single_quote(t_token *token)
 {
 	char	*tmp;
- 
+
 	tmp = strip_quotes(token->value);
 	free(token->value);
 	token->value = tmp;
 	return (0);
 }
- 
+
 int	quotes(t_token *token, t_all *all)
 {
 	if (!token)
@@ -48,7 +47,7 @@ int	quotes(t_token *token, t_all *all)
 		return (single_quote(token));
 	return (0);
 }
- 
+
 int	check_sign(t_token *token, t_all *all)
 {
 	if (token->value[0] == 34 || token->value[0] == 39)
@@ -63,11 +62,11 @@ int	check_sign(t_token *token, t_all *all)
 	}
 	return (0);
 }
- 
+
 int	check_exp_var(t_all *all)
 {
 	t_token		*head;
- 
+
 	head = all->token;
 	while (head)
 	{

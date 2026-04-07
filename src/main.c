@@ -48,7 +48,7 @@ void	look_parser(t_all *all)
 		while (head->cmd_and_args[i])
 		{
 			printf("node=%d | cmd = %s\n", x, head->cmd_and_args[i]);
-			i++;	
+			i++;
 		}
 		x++;
 		i = 0;
@@ -65,21 +65,19 @@ int	main_loop(t_all *all, char **env)
 		printf("!\n");
 	while (1)
 	{
+		// rl_on_new_line();
 		rl = readline("Minishell > ");
 		if (!rl)
-			return (printf("exit"), 0);
+		{
+			printf("exit\n");
+			clean_exit(all, all->exit_status);
+		}
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
-
 		if ((value = parse_token(all)) == 10)
 			printf("Syntax Errors\n");
-		else if (value == 1)
-			return (free_all(all) ,1);
-		else
-			look_parser(all);
-		// check_cmd(all);
-		// executor(all);
+		executor(all);
 		clean_loop(all);
 		add_history(rl);
 		if (rl)
@@ -103,8 +101,11 @@ int	main(int ac, char **av, char **env)
 	if (setup(&all, env))
 		return (1);
 	if (!all.path)
-		if (!(all.path = search_path(&all)))
+	{
+		all.path = search_path(&all);
+		if (!all.path)
 			return (1);
+	}
 	if (main_loop(&all, env) == 1)
 		clean_exit(&all, 1);
 	clean_exit(&all, 0);

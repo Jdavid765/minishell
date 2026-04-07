@@ -46,6 +46,9 @@ typedef enum	e_token_type
 typedef struct	s_sig
 {
 	struct sigaction	sa;
+	struct sigaction	sa_quit;
+	struct sigaction	sa_orig_int;
+	struct sigaction	sa_orig_quit;
 }	t_sig;
 
 typedef struct	s_env
@@ -77,10 +80,10 @@ typedef struct	s_parser
 
 typedef struct	s_all
 {
-	t_sig	sig;
-	t_env	*env;
-	t_token	*token;
-	char	**env_for_exec;
+	t_sig		sig;
+	t_env		*env;
+	t_token		*token;
+	char		**env_for_exec;
 	t_parser	*parser;
 	char		*path;
 	int			exit_status;
@@ -140,6 +143,7 @@ int			*get_status(void);
 /* ========================================================================== */
 int			setup_signal(t_all *all);
 void		sigint_handler(int signum);
+void		restore_original_signals(t_all *all);
 
 /* ========================================================================== */
 /* ===============================builtin=====================================*/
