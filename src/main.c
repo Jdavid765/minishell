@@ -63,7 +63,7 @@ int	main_loop(t_all *all)
 
 	while (1)
 	{
-		// rl_on_new_line();
+		rl_on_new_line();
 		rl = readline("Minishell > ");
 		if (!rl)
 		{

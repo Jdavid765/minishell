@@ -72,7 +72,11 @@ void	parent_single_external(t_parser *cmd, pid_t pid)
 	if (WIFEXITED(status))
 		*get_status() = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
 		*get_status() = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGINT)
+			printf("\n");
+	}
 }
 /*
 	wait for the end of child process

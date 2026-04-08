@@ -144,6 +144,7 @@ int			*get_status(void);
 int			setup_signal(t_all *all);
 void		sigint_handler(int signum);
 void		restore_original_signals(t_all *all);
+void		ignore_signals(void);
 
 /* ========================================================================== */
 /* ===============================builtin=====================================*/

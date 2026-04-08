@@ -55,3 +55,13 @@ void	restore_original_signals(t_all *all)
 	restore default signals for the child process
 	before execve so commands can be killed normally
 */
+
+void	ignore_signals(void)
+{
+	struct sigaction	sa;
+
+	ft_bzero(&sa, sizeof(struct sigaction));
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}

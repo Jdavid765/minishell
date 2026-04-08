@@ -53,11 +53,13 @@ void	executor(t_all *all)
 
 	if (!all || !all->parser)
 		return ;
+	ignore_signals();
 	nb_cmds = count_cmds(all->parser);
 	if (nb_cmds == 1)
 		exec_single_cmd(all);
 	else
 		exec_pipeline(all);
+	setup_signal(all);
 }
 
 /*
