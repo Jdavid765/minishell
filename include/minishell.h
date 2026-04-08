@@ -217,7 +217,7 @@ void		ft_addback_parse(t_parser **head, t_parser *new);
 /* =============================== EXP_VARIABLES ===========================================*/
 /* ========================================================================== */
 int			setup(t_all *all, char **env);
-int			main_loop(t_all *all, char **env);
+int			main_loop(t_all *all);
 int		check_dollar(t_token *token, t_all *all);
 int		replace_dollar(t_token *token, t_all *all);
 char	*expand_in_str(char *str, t_all *all);

@@ -19,6 +19,12 @@ int	setup(t_all *all, char **env)
 	if (setup_env(all, env))
 		return (1);
 	*get_status() = 0;
+	if (!all->path)
+	{
+		all->path = search_path(all);
+		if (!all->path)
+			return (1);
+	}
 	return (0);
 }
 /*

@@ -15,8 +15,12 @@
 void	child_single_external(t_all *all, t_parser *cmd)
 {
 	char	**new_env;
+	char	*temp_path;
 
 	apply_redirections(cmd);
+	temp_path = before_path_check(all->env, cmd->cmd_and_args[0]);
+	free(cmd->path);
+	cmd->path = temp_path;
 	if (!cmd->path)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -26,8 +30,6 @@ void	child_single_external(t_all *all, t_parser *cmd)
 		exit(127);
 	}
 	new_env = re_build_env(all->env, NULL);
-	free(cmd->path);
-	cmd->path = before_path_check(all->env, cmd->cmd_and_args[0]);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, new_env);
 	perror("execve");
@@ -55,8 +57,7 @@ void	exec_single_external(t_all *all, t_parser *cmd)
 		parent_single_external(cmd, pid);
 }
 /*
-	fork the process, check if fork fail and
-	send the process to the right fonction
+
 */
 
 void	parent_single_external(t_parser *cmd, pid_t pid)

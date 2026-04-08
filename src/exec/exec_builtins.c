@@ -49,13 +49,9 @@ void	exec_builtin(t_all *all, t_parser *cmd)
 	else if (ft_strncmp(cmd->cmd_and_args[0], "pwd", 4) == 0)
 		*get_status() = pwd_builtin();
 	else if (ft_strncmp(cmd->cmd_and_args[0], "export", 7) == 0)
-	{
-		// *get_status() = export_builtin(all, cmd);
-	}
+		*get_status() = export_builtin(all, cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "unset", 6) == 0)
-	{
-		// *get_status() = unset_builtin(all, cmd);
-	}
+		*get_status() = unset_builtin(all, cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "env", 4) == 0)
 	{
 		cmd_env(all);

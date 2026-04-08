@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void	bullshit(t_all *all)
+/*void	bullshit(t_all *all)
 {
 	int		i;
 	t_token	*tmp;
@@ -30,9 +30,9 @@ void	bullshit(t_all *all)
 	}
 	clean_token_list(all->token);
 	all->token = NULL;
-}
+}*/
 
-void	look_parser(t_all *all)
+/*void	look_parser(t_all *all)
 {
 	t_parser	*head;
 	int			i;
@@ -54,15 +54,13 @@ void	look_parser(t_all *all)
 		i = 0;
 		head = head->next;
 	}
-}
+}*/
 
-int	main_loop(t_all *all, char **env)
+int	main_loop(t_all *all)
 {
 	char	*rl;
 	int		value;
 
-	if (env)
-		printf("!\n");
 	while (1)
 	{
 		// rl_on_new_line();
@@ -100,13 +98,7 @@ int	main(int ac, char **av, char **env)
 	ft_bzero(&all, sizeof(t_all));
 	if (setup(&all, env))
 		return (1);
-	if (!all.path)
-	{
-		all.path = search_path(&all);
-		if (!all.path)
-			return (1);
-	}
-	if (main_loop(&all, env) == 1)
+	if (main_loop(&all) == 1)
 		clean_exit(&all, 1);
 	clean_exit(&all, 0);
 	return (0);
