@@ -15,14 +15,28 @@
 void	wait_pipeline(void)
 {
 	int	status;
+	int	sig_int;
+	int	sig_quit;
 
+	sig_int = 0;
+	sig_quit = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			*get_status() = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
+		{
 			*get_status() = 128 + WTERMSIG(status);
+			if (WTERMSIG(status) == SIGINT)
+				sig_int = 1;
+			else if (WTERMSIG(status) == SIGQUIT)
+				sig_quit = 1;
+		}
 	}
+	if (sig_int)
+		printf("\n");
+	if (sig_quit)
+		printf("Quit (core dumped)\n");
 }
 /*
 

@@ -80,7 +80,10 @@ int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index)
 
 	ret = 0;
 	if ((*token)->type == WORD)
-		(*cmd)->cmd_and_args[(*index)++] = ft_strdup((*token)->value);
+	{
+		if ((*token)->is_valid == true)
+			(*cmd)->cmd_and_args[(*index)++] = ft_strdup((*token)->value);
+	}
 	else if ((*token)->type == REDIR_OUT)
 		ret = redir_out(*cmd, token);
 	else if ((*token)->type == APPEND)

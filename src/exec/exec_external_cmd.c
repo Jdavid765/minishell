@@ -76,6 +76,8 @@ void	parent_single_external(t_parser *cmd, pid_t pid)
 		*get_status() = 128 + WTERMSIG(status);
 		if (WTERMSIG(status) == SIGINT)
 			printf("\n");
+		else if (WTERMSIG(status) == SIGQUIT)
+			printf("Quit (core dumped)\n");
 	}
 }
 /*
