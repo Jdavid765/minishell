@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_env	*ft_node_env(char *key, char *value)
 {
-	t_env	*Newnode;
+	t_env	*newnode;
 
-	Newnode = malloc(sizeof(t_env));
-	if (!Newnode)
+	newnode = malloc(sizeof(t_env));
+	if (!newnode)
 		return (NULL);
-	Newnode->key = key;
-	Newnode->value = value;
-	Newnode->next = NULL;
-	return (Newnode);
+	newnode->key = key;
+	newnode->value = value;
+	newnode->next = NULL;
+	return (newnode);
 }
 
 void	ft_add_back_env(t_env **head, t_env *new)

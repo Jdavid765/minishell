@@ -6,19 +6,22 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/23 21:26:23 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/26 21:29:27 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 void	cmd_env(t_all *all)
 {
 	t_env	*head;
 
-	i = 0;
-	while (env[i] && env[i] != '=')
-		i++;
-	return (i);
+	head = all->env;
+	while (head)
+	{
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
+	}
 }
 
 int	create_path(t_env **ft_env)

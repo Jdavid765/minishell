@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   status.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 16:08:16 by nfiora-d          #+#    #+#             */
-/*   Updated: 2026/03/11 19:03:15 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
+/*   Updated: 2026/03/17 14:49:42 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+int	*get_status(void)
 {
-	t_list	*newnode;
+	static int	status;
 
-	newnode = malloc(sizeof(t_list));
-	if (!newnode)
-		return (NULL);
-	newnode->content = content;
-	newnode->next = NULL;
-	return (newnode);
+	return (&status);
 }

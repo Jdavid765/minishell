@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   find_token_in_readline.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 23:26:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/29 14:13:44 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	tokenizer(char *user_input, t_all *all)
 	{
 		while (user_input[i] == ' ')
 			i++;
+		if (user_input[i] == '\0')
+			break ;
 		if (find_by_char(user_input, &i, all))
 			return (1);
 	}
@@ -43,7 +45,7 @@ t_token	*create_token_node(t_token_type type, char *val)
 		return (NULL);
 	new->value = val;
 	new->type = type;
-	new->is_valid = false;
+	new->is_valid = true;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

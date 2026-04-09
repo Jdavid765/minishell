@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/23 19:27:33 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/03 17:38:03 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ct_key_value(char *env)
 	return (i);
 }
 
-char *put_in_key(char *env)
+char	*put_in_key(char *env)
 {
 	int		i;
 	int		ct_key;
@@ -64,7 +64,8 @@ char	*put_in_value(char *env)
 	line[i] = '\0';
 	return (line);
 }
-int	SLHLVL_add(t_env **ft_env)
+
+int	shlvl_add(t_env **ft_env)
 {
 	t_env	*tmp;
 	char	*line;
@@ -74,9 +75,10 @@ int	SLHLVL_add(t_env **ft_env)
 	{
 		if (tmp->key[0] == 'S')
 		{
-			if(ft_compare(tmp->key, "SHLVL") == 0)
+			if (ft_compare(tmp->key, "SHLVL") == 0)
 			{
-				if(!(line = ft_strdup("2")))
+				line = ft_strdup("2");
+				if (!line)
 					return (1);
 				ft_lst_del_env(tmp);
 				tmp->value = line;
@@ -89,8 +91,8 @@ int	SLHLVL_add(t_env **ft_env)
 
 int	setup_env(t_all *all, char **env)
 {
-	t_env 	*head;
-	t_env 	*current;
+	t_env	*head;
+	t_env	*current;
 	int		i;
 	char	*key;
 	char	*value;
@@ -104,12 +106,12 @@ int	setup_env(t_all *all, char **env)
 		if (!key || !value)
 			return (1);
 		current = ft_node_env(key, value);
-		if(!current)
+		if (!current)
 			return (1);
 		ft_add_back_env(&head, current);
 		i++;
 	}
-	if (SLHLVL_add(&head))
+	if (shlvl_add(&head))
 		return (1);
 	if (check_path(&head))
 		return (1);

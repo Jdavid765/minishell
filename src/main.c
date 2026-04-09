@@ -6,13 +6,13 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/25 22:58:36 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/08 12:08:50 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	bullshit(t_all *all)
+/*void	bullshit(t_all *all)
 {
 	int		i;
 	t_token	*tmp;
@@ -30,47 +30,54 @@ void	bullshit(t_all *all)
 	}
 	clean_token_list(all->token);
 	all->token = NULL;
-}
+}*/
 
-void	look_parser(t_all *all)
+/*void	look_parser(t_all *all)
 {
 	t_parser	*head;
 	int			i;
+	int			x;
 
 	head = all->parser;
+	if (!head)
+		return ;
 	i = 0;
+	x = 1;
 	while (head)
 	{
 		while (head->cmd_and_args[i])
 		{
-			printf("nbr = %s\n", head->cmd_and_args[i]);
-			i++;	
+			printf("node=%d | cmd = %s\n", x, head->cmd_and_args[i]);
+			i++;
 		}
+		x++;
 		i = 0;
 		head = head->next;
 	}
-}
+}*/
 
-int	main_loop(t_all *all, char **env)
+int	main_loop(t_all *all)
 {
 	char	*rl;
+	int		value;
 
-	if (env)
-		printf("!\n");
 	while (1)
 	{
+		rl_on_new_line();
 		rl = readline("Minishell > ");
-		if (rl == NULL)
-			return (1);
-
-		check_cmd(rl, all);
+		if (!rl)
+		{
+			printf("exit\n");
+			clean_exit(all, *get_status());
+		}
 		tokenizer(rl, all);
-		// bullshit(all);
-		if (parse_token(all) == 1)
-			return (1);
 		if (check_exp_var(all))
 			return (1);
-		look_parser(all);
+		if ((value = parse_token(all)) == 10)
+			printf("Syntax Errors\n");
+		// look_parser(all);
+		executor(all);
+		clean_loop(all);
 		add_history(rl);
 		if (rl)
 			free(rl);
@@ -78,10 +85,9 @@ int	main_loop(t_all *all, char **env)
 	return (0);
 }
 /*
-	The best choice in the loop is call function 
-	to compare if the line write in rl = is command or built in
-	and execute the command or built in if is it.
-	I propose this for not poluate the code.
+	The primary shell loop that manages:
+	user input, tokenization, parsing,
+	execution, and cleanup 
 */
 
 int	main(int ac, char **av, char **env)
@@ -93,11 +99,9 @@ int	main(int ac, char **av, char **env)
 	ft_bzero(&all, sizeof(t_all));
 	if (setup(&all, env))
 		return (1);
-	if (!all.path)
-		if (!(all.path = search_path(&all)))
-			return (1);
-	if (main_loop(&all, env) == 1)
-		return (1);
+	if (main_loop(&all) == 1)
+		clean_exit(&all, 1);
+	clean_exit(&all, 0);
 	return (0);
 }
 /*

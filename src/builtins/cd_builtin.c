@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_builtin.c                                      :+:      :+:    :+:   */
+/*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:44:05 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/26 21:27:32 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	cd_builtin(t_all *all, t_cmd *cd_cmd)
+int	cd_builtin(t_all *all, t_parser *cd_cmd)
 {
 	if (!cd_cmd->cmd_and_args[1])
 		return (go_to_home_dir(all));
@@ -24,7 +24,6 @@ int	cd_builtin(t_all *all, t_cmd *cd_cmd)
 	}
 	if (update_env(all))
 		return (1);
-	clean_cmd_list(cd_cmd);
 	cd_cmd = NULL;
 	return (0);
 }
@@ -34,7 +33,6 @@ int	cd_builtin(t_all *all, t_cmd *cd_cmd)
 	if success return 0
 	if an erro occur 1 is return
 */
-
 
 int	go_to_home_dir(t_all *all)
 {
@@ -79,7 +77,7 @@ int	update_env(t_all *all)
 	if (oldpwd_node && pwd_node)
 	{
 		free(oldpwd_node->value);
-		oldpwd_node->value = ft_strdup(pwd_node->value); 
+		oldpwd_node->value = ft_strdup(pwd_node->value);
 	}
 	if (pwd_node)
 	{
@@ -96,12 +94,12 @@ int	update_env(t_all *all)
 	if pwd is unset a new node is created for pwd
 */
 
-t_env	*find_pwd_node(t_all * all)
+t_env	*find_pwd_node(t_all *all)
 {
 	t_env	*current;
 
 	current = all->env;
-	while(current)
+	while (current)
 	{
 		if (ft_strncmp("PWD", current->key, 4) == 0)
 			return (current);
@@ -114,12 +112,12 @@ t_env	*find_pwd_node(t_all * all)
 	or if not found
 */
 
-t_env	*find_oldpwd_node(t_all * all)
+t_env	*find_oldpwd_node(t_all *all)
 {
 	t_env	*current;
 
 	current = all->env;
-	while(current)
+	while (current)
 	{
 		if (strncmp("OLDPWD", current->key, 7) == 0)
 			return (current);

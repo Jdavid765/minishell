@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   utils_exp_var.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 16:08:16 by nfiora-d          #+#    #+#             */
-/*   Updated: 2026/03/11 19:03:15 by canoduran        ###   ########.fr       */
+/*   Created: 2026/04/03 19:07:49 by canoduran         #+#    #+#             */
+/*   Updated: 2026/04/03 19:11:34 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+char	*strip_quotes(char *str)
 {
-	t_list	*newnode;
+	int		len;
 
-	newnode = malloc(sizeof(t_list));
-	if (!newnode)
-		return (NULL);
-	newnode->content = content;
-	newnode->next = NULL;
-	return (newnode);
+	len = ft_strlen(str);
+	return (ft_substr(str, 1, len - 2));
+}
+
+void	free_expand(char *tmp, char *value, char *before)
+{
+	if (tmp)
+		free(tmp);
+	if (value)
+		free(value);
+	if (before)
+		free(before);
 }
