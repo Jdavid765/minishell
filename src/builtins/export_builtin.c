@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:59:29 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 15:10:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 23:39:49 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,23 @@ void	print_export(t_all *all)
 
 int	add_or_update(t_all *all, char *arg)
 {
-	//ajouter ou check si elle existe deja et la remplacer.
+	char	*key;
+	char	*value;
+
 	if (!all || !arg)
 		return (1);
-	return (0);
+	if (parse_arg(arg, &key, &value))
+		return (1);
+	if (is_valid_arg(key))
+	{
+		printf("export: %s, not a valid arguments\n", arg);
+		free(key);
+		free(value);
+		return (1);
+	}
+	if (update_existing(all, key, value, arg))
+		return (0);
+	return (append_node(all, key, value));
 }
 
 int	export_builtin(t_all *all, t_parser *cmd)
@@ -47,9 +60,9 @@ int	export_builtin(t_all *all, t_parser *cmd)
 	i = 1;
 	while (cmd->cmd_and_args[i])
 	{
-		if (add_or_update(all, cmd->cmd_and_args[i]))
-			return (1);
+		if (!add_or_update(all, cmd->cmd_and_args[i]))
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }

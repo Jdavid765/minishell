@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 15:18:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/08 12:08:50 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,14 @@ int	main_loop(t_all *all)
 		if (!rl)
 		{
 			printf("exit\n");
-			clean_exit(all, all->exit_status);
+			clean_exit(all, *get_status());
 		}
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
 		if ((value = parse_token(all)) == 10)
 			printf("Syntax Errors\n");
+		// look_parser(all);
 		executor(all);
 		clean_loop(all);
 		add_history(rl);
