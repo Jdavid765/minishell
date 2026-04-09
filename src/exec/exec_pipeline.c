@@ -15,14 +15,28 @@
 void	wait_pipeline(void)
 {
 	int	status;
+	int	sig_int;
+	int	sig_quit;
 
+	sig_int = 0;
+	sig_quit = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			*get_status() = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
+		{
 			*get_status() = 128 + WTERMSIG(status);
+			if (WTERMSIG(status) == SIGINT)
+				sig_int = 1;
+			else if (WTERMSIG(status) == SIGQUIT)
+				sig_quit = 1;
+		}
 	}
+	if (sig_int)
+		printf("\n");
+	if (sig_quit)
+		printf("Quit (core dumped)\n");
 }
 /*
 
@@ -104,23 +118,28 @@ void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)
 void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 {
 	char	**envp;
+	char	*temp_path;
 
 	if (is_builtin(cmd->cmd_and_args[0]))
 	{
 		exec_builtin(all, cmd);
-		exit(0);
+		exit(*get_status());
 	}
+	temp_path = before_path_check(all->env, cmd->cmd_and_args[0]);
+	free(cmd->path);
+	cmd->path = temp_path;
 	if (!cmd->path)
 	{
-		ft_putstr_fd("minishell: command not found\n", 2);
+		ft_putstr_fd("minishell: ", 2);
+		if (cmd->cmd_and_args && cmd->cmd_and_args[0])
+			ft_putstr_fd(cmd->cmd_and_args[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		exit(127);
 	}
 	envp = re_build_env(all->env, NULL);
-	free(cmd->path);
-	cmd->path = before_path_check(all->env, cmd->cmd_and_args[0]);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, envp);
-	perror("execve");
+		perror("execve");
 	free_tab(envp);
 	exit(126);
 }

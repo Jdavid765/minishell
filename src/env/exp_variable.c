@@ -50,12 +50,12 @@ int	quotes(t_token *token, t_all *all)
 
 int	check_sign(t_token *token, t_all *all)
 {
-	if (token->value[0] == 34 || token->value[0] == 39)
+	if (token->value[0] == '\"' || token->value[0] == '\'')
 	{
 		if (quotes(token, all))
 			return (1);
 	}
-	else if (token->value[0] == '$')
+	else if (ft_strchr(token->value, '$'))
 	{
 		if (check_dollar(token, all))
 			return (1);

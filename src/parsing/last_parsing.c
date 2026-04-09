@@ -19,7 +19,7 @@ int	count_words(t_token *token)
 	count = 0;
 	while (token && token->type != PIPE)
 	{
-		if (token->type == WORD)
+		if (token->type == WORD && token->is_valid == true)
 			count++;
 		else if (token->type >= REDIR_IN && token->type <= HEREDOC)
 		{
@@ -30,6 +30,11 @@ int	count_words(t_token *token)
 	}
 	return (count);
 }
+/*
+	count how many word the token list got
+	it skip others types and count only if the word is_valid
+	(see exp_variable)
+*/
 
 char	*search_path(t_all *all)
 {

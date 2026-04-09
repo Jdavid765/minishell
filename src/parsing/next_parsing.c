@@ -18,7 +18,7 @@ int	redir_out(t_parser *cmd, t_token **tok)
 	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
 	if (cmd->fd_out != 1)
-		cmd->fd_out = xclose(&cmd->fd_out);
+		xclose(&cmd->fd_out);
 	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (cmd->fd_out < 0)
 		return (1);
@@ -69,7 +69,7 @@ int	heredoc(t_parser *cmd, t_token **tok)
 		return (ret);
 	close(fd[1]);
 	if (cmd->fd_in != 0)
-		cmd->fd_in = xclose(&cmd->fd_in);
+		xclose(&cmd->fd_in);
 	cmd->fd_in = fd[0];
 	return (0);
 }
@@ -80,7 +80,10 @@ int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index)
 
 	ret = 0;
 	if ((*token)->type == WORD)
-		(*cmd)->cmd_and_args[(*index)++] = ft_strdup((*token)->value);
+	{
+		if ((*token)->is_valid == true)
+			(*cmd)->cmd_and_args[(*index)++] = ft_strdup((*token)->value);
+	}
 	else if ((*token)->type == REDIR_OUT)
 		ret = redir_out(*cmd, token);
 	else if ((*token)->type == APPEND)

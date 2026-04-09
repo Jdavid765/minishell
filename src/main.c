@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void	bullshit(t_all *all)
+/*void	bullshit(t_all *all)
 {
 	int		i;
 	t_token	*tmp;
@@ -30,9 +30,9 @@ void	bullshit(t_all *all)
 	}
 	clean_token_list(all->token);
 	all->token = NULL;
-}
+}*/
 
-void	look_parser(t_all *all)
+/*void	look_parser(t_all *all)
 {
 	t_parser	*head;
 	int			i;
@@ -54,7 +54,7 @@ void	look_parser(t_all *all)
 		i = 0;
 		head = head->next;
 	}
-}
+}*/
 
 int	main_loop(t_all *all)
 {
@@ -63,7 +63,7 @@ int	main_loop(t_all *all)
 
 	while (1)
 	{
-		// rl_on_new_line();
+		rl_on_new_line();
 		rl = readline("Minishell > ");
 		if (!rl)
 		{

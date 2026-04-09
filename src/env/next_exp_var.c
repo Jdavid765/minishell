@@ -83,7 +83,7 @@ char	*expand_in_str(char *str, t_all *all)
 	}
 	return (result);
 }
-
+/*
 int	replace_dollar(t_token *token, t_all *all)
 {
 	char	*tmp;
@@ -110,16 +110,23 @@ int	replace_dollar(t_token *token, t_all *all)
 			return (1);
 	}
 	return (0);
-}
+}*/
 
 int	check_dollar(t_token *token, t_all *all)
 {
+	char	*tmp;
+
 	if (!token)
 		return (1);
-	if (token->value[0] == '$' && token->value[1] != '\0')
-	{
-		if (replace_dollar(token, all))
-			return (1);
-	}
+	tmp = expand_in_str(token->value, all);
+	if (!tmp)
+		return (1);
+	free(token->value);
+	token->value = tmp;
+	if (token->value[0] == '\0')
+		token->is_valid = false;
 	return (0);
 }
+/*
+	
+*/

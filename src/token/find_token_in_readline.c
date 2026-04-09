@@ -45,7 +45,7 @@ t_token	*create_token_node(t_token_type type, char *val)
 		return (NULL);
 	new->value = val;
 	new->type = type;
-	new->is_valid = false;
+	new->is_valid = true;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
