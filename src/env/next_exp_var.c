@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:49:38 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/03 20:48:59 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/07 23:07:06 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_var_value(char *dollar, t_all *all, int *i)
 	if (dollar[1] == '?')
 	{
 		*i = 2;
-		return (ft_itoa(all->exit_status));
+		return (ft_itoa(*get_status() = 0));
 	}
 	*i = 1;
 	if (!dollar[*i] || dollar[*i] == ' ' || dollar[*i] == '"')
@@ -91,7 +91,7 @@ int	replace_dollar(t_token *token, t_all *all)
 	if (token->value[1] == '?')
 	{
 		free(token->value);
-		token->value = ft_itoa(all->exit_status);
+		token->value = ft_itoa(*get_status() = 0);
 		if (!token->value)
 			return (1);
 	}
