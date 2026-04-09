@@ -70,7 +70,6 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
       $(DIR_SRC)/$(DIR_SIG)/signal.c \
       $(DIR_SRC)/$(DIR_UTILS)/utils.c \
-      $(DIR_SRC)/$(DIR_UTILS)/check_cmd.c \
       $(DIR_SRC)/$(DIR_UTILS)/get_status.c \
       $(DIR_SRC)/$(DIR_SETUP)/setup.c \
       $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \

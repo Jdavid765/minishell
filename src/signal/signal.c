@@ -35,9 +35,9 @@ int	setup_signal(t_all *all)
 	if (sigemptyset(&all->sig.sa_quit.sa_mask))
 		return (perror("sigemptyset"), 1);
 	all->sig.sa_quit.sa_flags = 0;
-	if (sigaction(SIGINT, &all->sig.sa, &all->sig.sa_orig_int) == -1)
+	if (sigaction(SIGINT, &all->sig.sa, NULL) == -1)
 		return (perror("sigaction SIGINT"), 1);
-	if (sigaction(SIGQUIT, &all->sig.sa_quit, &all->sig.sa_orig_quit) == -1)
+	if (sigaction(SIGQUIT, &all->sig.sa_quit, NULL) == -1)
 		return (perror("sigaction SIGQUIT"), 1);
 	return (0);
 }
@@ -55,6 +55,19 @@ void	restore_original_signals(t_all *all)
 	restore default signals for the child process
 	before execve so commands can be killed normally
 */
+
+void	init_original_signals(t_all *all)
+{
+	ft_bzero(&all->sig.sa_orig_int, sizeof(struct sigaction));
+	all->sig.sa_orig_int.sa_handler = SIG_DFL;
+	sigemptyset(&all->sig.sa_orig_int.sa_mask);
+	all->sig.sa_orig_int.sa_flags = 0;
+
+	ft_bzero(&all->sig.sa_orig_quit, sizeof(struct sigaction));
+	all->sig.sa_orig_quit.sa_handler = SIG_DFL;
+	sigemptyset(&all->sig.sa_orig_quit.sa_mask);
+	all->sig.sa_orig_quit.sa_flags = 0;
+}
 
 void	ignore_signals(void)
 {
