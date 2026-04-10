@@ -46,13 +46,13 @@ void	echo_builtin(t_parser *cmd)
 	}
 	while (cmd->cmd_and_args[i])
 	{
-		printf("%s", cmd->cmd_and_args[i]);
+		ft_putstr_fd(cmd->cmd_and_args[0], STDOUT_FILENO);
 		if (cmd->cmd_and_args[i + 1])
-			printf(" ");
+			ft_putstr_fd(cmd->cmd_and_args[0], STDOUT_FILENO);
 		i++;
 	}
 	if (!n_flag)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 }
 /*
 	the echo builtin first check if there is a -n flag

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport Minishell Valgrind</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f6f7fb; color:#222; margin:0; padding:24px; }
+.container { max-width:1200px; margin:0 auto; }
+.card { background:#fff; border-radius:14px; padding:18px 20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(0,0,0,0.08); }
+.status { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; color:#fff; font-size:14px; }
+.ok { background:#1f9d55; }
+.ko { background:#d64545; }
+.failcase { background:#b45309; }
+.resource { background:#0f766e; }
+.summary { display:grid; grid-template-columns: repeat(8, minmax(120px, 1fr)); gap:12px; margin-top:12px; }
+.box { padding:14px; border-radius:12px; color:#fff; font-weight:700; text-align:center; }
+.box.total { background:#334155; }
+.box.funcok { background:#1f9d55; }
+.box.funcko { background:#d64545; }
+.box.memok { background:#15803d; }
+.box.memko { background:#b91c1c; }
+.box.fdok { background:#0f766e; }
+.box.fdko { background:#9f1239; }
+.box.global { background:#4338ca; }
+pre { background:#111827; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; white-space:pre-wrap; word-wrap:break-word; }
+.small { color:#555; font-size:14px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.note { background:#eef6ff; border-left:4px solid #3b82f6; padding:12px; border-radius:10px; color:#234; }
+.substatus { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 14px; }
+.pill { display:inline-block; padding:5px 10px; border-radius:999px; color:#fff; font-weight:700; font-size:13px; }
+@media (max-width: 900px) { .grid { grid-template-columns:1fr; } .grid-3 { grid-template-columns:1fr; } .summary { grid-template-columns:1fr 1fr; } }
+h1,h2,h3 { margin-top:0; }
+.code-title { font-size:13px; color:#666; margin-bottom:6px; font-weight:700; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<h1>Rapport Minishell — erreurs + Valgrind</h1>
+<p class="small"><strong>Binaire :</strong> /home/pucci17pinker/common_core/minishell/minishell</p>
+<p class="small"><strong>Workdir :</strong> /tmp/minishell_vg_test.py5az6/workdir</p>
+<p class="small"><strong>Date :</strong> 2026-04-10 14:47:26</p>
+<p class="note"><strong>But du script :</strong> vérifier des cas d'échec utiles pour l'évaluation, puis lancer aussi Valgrind pour repérer les fuites mémoire et les descripteurs de fichier qui restent ouverts. Le rapport reste volontairement tolérant sur le texte exact de stderr, pour éviter les faux KO inutiles.</p>
+<div class="summary">
+<div class="box total">Tests<br>16</div>
+<div class="box funcok">Fonctionnel OK<br>0</div>
+<div class="box funcko">Fonctionnel KO<br>16</div>
+<div class="box memok">Valgrind mémoire OK<br>16</div>
+<div class="box memko">Valgrind mémoire KO<br>0</div>
+<div class="box fdok">FD OK<br>16</div>
+<div class="box fdko">FD KO<br>0</div>
+<div class="box global">Tout OK<br>0/16</div>
+</div>
+</div>
+
+<div class="card">
+<div class="status failcase">Cas d'échec</div>
+<h2>Tests automatiques — cas d'échec</h2>
+<p class="small">Ici on force des erreurs classiques : commandes introuvables, syntaxe invalide, redirections qui échouent, droits insuffisants, etc.</p>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>commande introuvable</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+command_that_does_not_exist
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; command_that_does_not_exist
+Minishell &gt; echo $?
+127
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+127</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+command_that_does_not_exist: command not found</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+ligne 1: command_that_does_not_exist: commande introuvable</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>chemin relatif absent</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+./not_here
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; ./not_here
+Minishell &gt; echo $?
+127
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+127</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+./not_here: command not found</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+ligne 1: ./not_here: Aucun fichier ou dossier de ce nom</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>cd dossier absent</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+cd does_not_exist
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; cd does_not_exist
+Minishell &gt; echo $?
+1
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+1</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+cd: does_not_exist: No such file or directory</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+ligne 1 : cd: does_not_exist: Aucun fichier ou dossier de ce nom</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>export identifiant invalide</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+export 1BAD=abc
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 1 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; export 1BAD=abc
+export: 1BAD=abc, not a valid arguments
+Minishell &gt; echo $?
+1
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+ligne 1 : export: « 1BAD=abc » : identifiant non valable</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>unset identifiant invalide</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+unset 1BAD
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; unset 1BAD
+Minishell &gt; echo $?
+0
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+0</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>commande absente avec redirection</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+idontexist &gt; out
+echo $?
+ls out
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; idontexist &gt; out
+Minishell &gt; echo $?
+127
+Minishell &gt; ls out
+out
+Minishell &gt; echo $?
+0
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+127
+out
+0</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+idontexist: command not found
+xclose :: Bad file descriptor</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+ligne 1: idontexist: commande introuvable</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Cas d'échec</div>
+<h2>grep sans match</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+grep zzz infile2
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; grep zzz infile2
+Minishell &gt; echo $?
+1
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+1</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status resource">Ressources</div>
+<h2>Tests automatiques — fds / redirections / pipes / heredoc</h2>
+<p class="small">Ces tests servent surtout à faire sortir les leaks et les fd mal fermés avec Valgrind.</p>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>leading redirection avant commande</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+&lt; infile cat
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; &lt; infile cat
+alpha
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+alpha</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+xclose :: Bad file descriptor</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 240,960 bytes in 237 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>pipe simple</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+echo hello | cat
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 0</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; echo hello | cat
+hello
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+hello</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>double pipe</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+cat infile2 | grep beta | wc -l
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 0</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; cat infile2 | grep beta | wc -l
+1
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+1</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>triple pipe</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+cat infile3 | grep -v line2 | wc -l
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 0</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; cat infile3 | grep -v line2 | wc -l
+2
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+2</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>input puis output</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+cat &lt; infile &gt; out
+cat out
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; cat &lt; infile &gt; out
+Minishell &gt; cat out
+alpha
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+alpha</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+xclose :: Bad file descriptor
+xclose :: Bad file descriptor</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>builtin dans pipeline</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+echo bonjour | cat | wc -c
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 0</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; echo bonjour | cat | wc -c
+8
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+8</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>heredoc simple</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+cat &lt;&lt; EOF
+bonjour
+EOF
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; cat &lt;&lt; EOF
+bonjour
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+bonjour</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+xclose :: Bad file descriptor</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>heredoc puis fichier</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+cat &lt;&lt; EOF &gt; hdout
+line1
+line2
+EOF
+cat hdout
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; cat &lt;&lt; EOF &gt; hdout
+Minishell &gt; cat hdout
+line1
+line2
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+line1
+line2</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+xclose :: Bad file descriptor
+xclose :: Bad file descriptor</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<div class="status ko">Ressources</div>
+<h2>plusieurs commandes dans une session</h2>
+<div class="substatus">
+<span class="pill ko">Fonctionnel KO</span>
+<span class="pill ok">Mémoire OK</span>
+<span class="pill ok">FD OK</span>
+</div>
+<div class="code-title">Commande envoyée</div>
+<pre>
+echo one
+echo two &gt; out
+cat out
+command_that_does_not_exist
+echo $?
+</pre>
+<p class="small"><strong>Exit minishell :</strong> 0 &nbsp; | &nbsp; <strong>Exit bash :</strong> 0 &nbsp; | &nbsp; <strong>Exit valgrind :</strong> 91</p>
+<div class="grid">
+<div>
+<div class="code-title">STDOUT minishell</div>
+<pre>
+Minishell &gt; echo one
+one
+Minishell &gt; echo two &gt; out
+two
+Minishell &gt; cat out
+Minishell &gt; command_that_does_not_exist
+Minishell &gt; echo $?
+127
+Minishell &gt; exit</pre>
+</div>
+<div>
+<div class="code-title">STDOUT bash</div>
+<pre>
+one
+two
+127</pre>
+</div>
+<div>
+<div class="code-title">STDERR minishell</div>
+<pre>
+command_that_does_not_exist: command not found</pre>
+</div>
+<div>
+<div class="code-title">STDERR bash</div>
+<pre>
+ligne 4: command_that_does_not_exist: commande introuvable</pre>
+</div>
+</div>
+<div class="code-title">Résumé Valgrind</div>
+<pre>
+definitely lost: 0 bytes in 0 blocks
+indirectly lost: 0 bytes in 0 blocks
+possibly lost: 0 bytes in 0 blocks
+still reachable: 241,071 bytes in 239 blocks
+FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+</pre>
+</div>
+<div class="card">
+<h2>À savoir</h2>
+<ul>
+<li>Le test fonctionnel compare surtout <strong>le code de retour</strong>, <strong>stdout</strong> et la présence d'un message d'erreur, sans exiger le texte exact de bash.</li>
+<li>Le test Valgrind ignore les <strong>still reachable</strong> et considère KO seulement les vraies pertes mémoire (<code>definitely/indirectly/possibly lost</code>).</li>
+<li>Pour les fd, le rapport considère KO seulement si Valgrind signale des descripteurs supplémentaires encore ouverts <strong>au-dessus de 2</strong>, en ignorant volontairement le fichier <code>valgrind.log</code>.</li>
+<li>Les cas <code>Ctrl-C</code>, <code>Ctrl-\</code> et certains comportements purement interactifs restent mieux testés à la main.</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

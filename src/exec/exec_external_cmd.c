@@ -65,9 +65,9 @@ void	parent_single_external(t_parser *cmd, pid_t pid)
 	int	status;
 
 	if (cmd->fd_in != 0)
-		close(cmd->fd_in);
+		xclose(&cmd->fd_in);
 	if (cmd->fd_out != 1)
-		close(cmd->fd_out);
+		xclose(&cmd->fd_out);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		*get_status() = WEXITSTATUS(status);
