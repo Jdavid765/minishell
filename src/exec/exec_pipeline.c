@@ -41,7 +41,7 @@ void	wait_pipeline(pid_t last_pid)
 	if (sig_int)
 		printf("\n");
 	if (sig_quit)
-		printf("Quit (core dumped)\n");
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 }
 /*
 
@@ -71,7 +71,7 @@ void	exec_pipeline(t_all *all)
 	}
 	if (prev_read_fd != -1)
 		xclose(&prev_read_fd);
-	wait_pipeline(pid); 
+	wait_pipeline(pid);
 }
 /*
 	main loop for execute more than one cmd

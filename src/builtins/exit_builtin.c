@@ -17,7 +17,7 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 	int	exit_code;
 
 	exit_code = 0;
-	printf("exit\n");
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (cmd->cmd_and_args[1])
 	{
 		if (!is_numeric(cmd->cmd_and_args[1]))

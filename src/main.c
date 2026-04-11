@@ -67,14 +67,14 @@ int	main_loop(t_all *all)
 		rl = readline("Minishell > ");
 		if (!rl)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			clean_exit(all, *get_status());
 		}
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
 		if ((value = parse_token(all)) == 10)
-			printf("Syntax Errors\n");
+			ft_putstr_fd("Syntax Errors\n", STDOUT_FILENO);
 		// look_parser(all);
 		executor(all);
 		clean_loop(all);
