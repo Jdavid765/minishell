@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 00:17:34 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/30 00:18:56 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/10 16:44:24 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,23 @@ char	*search_path(t_all *all)
 		if (head->key[0] == 'P')
 		{
 			if (!ft_compare(head->key, "PATH"))
+				return (head->value);
+		}
+		head = head->next;
+	}
+	return (NULL);
+}
+
+char	*search_path_no_env(t_all *all)
+{
+	t_env	*head;
+
+	head = all->env;
+	while (head)
+	{
+		if (head->key[0] == '_')
+		{
+			if (!ft_compare(head->key, "_"))
 				return (head->value);
 		}
 		head = head->next;

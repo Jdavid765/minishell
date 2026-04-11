@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 23:30:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/10 16:44:44 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,8 +205,10 @@ void	cmd_env(t_all *all);
 int		check_path(t_env **ft_env);
 int		ct_key_value(char *env);
 char	*put_in_key(char *env);
+char	*put_in_value(char *env);
 char	*search_path(t_all *all);
 int		setup(t_all *all, char **env);
+int		create_env(t_all *all);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE============================ */
@@ -229,6 +231,6 @@ char	*get_var_value(char *dollar, t_all *all, int *i);
 char	*in_env(char *line, t_all *all);
 char	*strip_quotes(char *str);
 void	free_expand(char *tmp, char *value, char *before);
-
+char	*search_path_no_env(t_all *all);
 
 #endif
