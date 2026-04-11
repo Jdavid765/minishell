@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:59:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 18:21:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/11 18:25:13 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	create_path_no_env(t_env **head)
 	key = ft_strdup("_");
 	if (!key)
 		return (1);
-	value = ft_strdup("/usr/bin");
+	value = ft_strdup("/usr/bin/");
 	if (!value)
 		return (1);
 	current = ft_node_env(key, value);
