@@ -84,10 +84,10 @@ void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd)
 void	manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd)
 {
 	if (*prev_read_fd != -1)
-		close(*prev_read_fd);
+		xclose(prev_read_fd);
 	if (cmd->next)
 	{
-		close(pipefd[1]);
+		xclose(&pipefd[1]);
 		*prev_read_fd = pipefd[0];
 	}
 }
@@ -101,13 +101,13 @@ void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)
 	if (prev_read_fd != -1)
 	{
 		dup2(prev_read_fd, STDIN_FILENO);
-		close(prev_read_fd);
+		xclose(&prev_read_fd);
 	}
 	if (cmd->next != NULL)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		xclose(&pipefd[0]);
+		xclose(&pipefd[1]);
 	}
 }
 /*
