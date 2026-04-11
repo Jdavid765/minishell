@@ -6,15 +6,18 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:59:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/10 16:38:37 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/11 18:21:43 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../include/minishell.h"
 
-int	search_pwd(char *key, char *value)
+int	search_pwd(t_env **head)
 {
 	char	*line;
+	char	*key;
+	char	*value;
+	t_env	*current;
 
 	line = getcwd(NULL, 0);
 	if (!line)
@@ -25,42 +28,80 @@ int	search_pwd(char *key, char *value)
 	value = ft_strdup(line);
 	if (!value)
 		return (perror("Malloc :"), 1);
+	current = ft_node_env(key, value);
+	if (!current)
+		return (1);
+	ft_add_back_env(head, current);
 	return (0);
 }
 
-int	create_SHLVL(char *key, char *value)
+int	create_SHLVL(t_env **head)
 {
+	char	*key;
+	char	*value;
+	t_env	*current;
+
+	key = NULL;
+	value = NULL;
 	key = ft_strdup("SHLVL");
 	if (!key)
 		return (perror("Malloc :"), 1);
 	value = ft_strdup("1");
 	if (!value)
 		return (perror("Malloc :"), 1);
+	current = ft_node_env(key, value);
+	if (!current)
+		return (1);
+	ft_add_back_env(head, current);
 	return (0);
+}
+
+int	create_path_no_env(t_env **head)
+{
+	char	*key;
+	char	*value;
+	t_env	*current;
+
+	key = NULL;
+	value = NULL;
+	key = ft_strdup("_");
+	if (!key)
+		return (1);
+	value = ft_strdup("/usr/bin");
+	if (!value)
+		return (1);
+	current = ft_node_env(key, value);
+	if (!current)
+		return (1);
+	ft_add_back_env(head, current);
+	return (0);
+}
+
+
+void	look_env(t_all *all)
+{
+	t_env	*head;
+
+	head = all->env;
+	while (head)
+	{
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
+	}
 }
 
 int	create_env(t_all *all)
 {
 	t_env	*head;
-	t_env	*current;
-	char	*key;
-	char	*value;
 	
 	head = NULL;
-	key = NULL;
-	value = NULL;
-	if (search_pwd(key, value))
+	if (search_pwd(&head))
 		return (1);
-	current = ft_node_env(key, value);
-	if (!current)
+	if (create_SHLVL(&head))
 		return (1);
-	ft_add_back_env(&head, current);
-	if (create_SHLVL(key, value))
+	if (create_path_no_env(&head))
 		return (1);
-	current = ft_node_env(key, value);
-	if (!current)
-		return (1);
-	ft_add_back_env(&head, current);
 	all->env = head;
+	look_env(all);
 	return (0);
 }
