@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/04/07 23:38:18 by canoduran        ###   ########.fr        #
+#    Updated: 2026/04/11 13:02:55 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RESET    = \033[0m
 OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -fPIE
+CFLAGS   = -Wall -Wextra -Werror -fPIE -fsanitize=address
 LFLAGS   = -lreadline -lncurses -ltinfo
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
@@ -81,6 +81,7 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
       $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
       $(DIR_SRC)/$(DIR_ENV)/utils_exp_var.c \
+	  $(DIR_SRC)/$(DIR_ENV)/create_env.c \
       $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
       $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
 
