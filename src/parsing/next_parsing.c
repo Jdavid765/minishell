@@ -31,7 +31,7 @@ int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
 	{
 		rl = readline("> ");
 		if (!rl)
-			return (close(fd[0]), close(fd[1]), 1);
+			return (xclose(&fd[0]), xclose(&fd[1]), 1);
 		if (rl[0] != '\0' && !ft_compare(rl, delim->value))
 		{
 			free(rl);
@@ -41,7 +41,7 @@ int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
 		free(rl);
 		rl = NULL;
 		if (!line)
-			return (close(fd[0]), close(fd[1]), 1);
+			return (xclose(&fd[0]), xclose(&fd[1]), 1);
 		write(fd[1], line, ft_strlen(line));
 		free(line);
 		line = NULL;
@@ -67,7 +67,7 @@ int	heredoc(t_parser *cmd, t_token **tok)
 	ret = loop_heredoc(rl, (*tok), line, fd);
 	if (ret)
 		return (ret);
-	close(fd[1]);
+	xclose(&fd[1]);
 	if (cmd->fd_in != 0)
 		xclose(&cmd->fd_in);
 	cmd->fd_in = fd[0];

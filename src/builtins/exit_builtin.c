@@ -17,19 +17,19 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 	int	exit_code;
 
 	exit_code = 0;
-	printf("exit\n");
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (cmd->cmd_and_args[1])
 	{
 		if (!is_numeric(cmd->cmd_and_args[1]))
 		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd->cmd_and_args[1], 2);
-			ft_putendl_fd(": numeric argument required", 2);
+			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd_and_args[1], STDERR_FILENO);
+			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 			clean_exit(all, 255);
 		}
 		else if (cmd->cmd_and_args[2])
 		{
-			ft_putendl_fd("minishell: exit: too many arguments", 2);
+			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 			return ;
 		}
 		else

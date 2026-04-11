@@ -12,21 +12,26 @@
 
 #include "../../include/minishell.h"
 
-void	wait_pipeline(void)
+void	wait_pipeline(pid_t last_pid)
 {
-	int	status;
-	int	sig_int;
-	int	sig_quit;
+	int		status;
+	int		sig_int;
+	int		sig_quit;
+	pid_t	wpid;
 
 	sig_int = 0;
 	sig_quit = 0;
-	while (waitpid(-1, &status, 0) > 0)
+	while ((wpid = waitpid(-1, &status, 0)) > 0)
 	{
-		if (WIFEXITED(status))
-			*get_status() = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
+		if (wpid == last_pid)
 		{
-			*get_status() = 128 + WTERMSIG(status);
+			if (WIFEXITED(status))
+				*get_status() = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				*get_status() = 128 + WTERMSIG(status);
+		}
+		if (WIFSIGNALED(status))
+		{
 			if (WTERMSIG(status) == SIGINT)
 				sig_int = 1;
 			else if (WTERMSIG(status) == SIGQUIT)
@@ -36,7 +41,7 @@ void	wait_pipeline(void)
 	if (sig_int)
 		printf("\n");
 	if (sig_quit)
-		printf("Quit (core dumped)\n");
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 }
 /*
 
@@ -64,7 +69,9 @@ void	exec_pipeline(t_all *all)
 			manage_parent_fds(cmd, &prev_read_fd, pipefd);
 		cmd = cmd->next;
 	}
-	wait_pipeline();
+	if (prev_read_fd != -1)
+		xclose(&prev_read_fd);
+	wait_pipeline(pid);
 }
 /*
 	main loop for execute more than one cmd
@@ -84,10 +91,10 @@ void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd)
 void	manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd)
 {
 	if (*prev_read_fd != -1)
-		close(*prev_read_fd);
+		xclose(prev_read_fd);
 	if (cmd->next)
 	{
-		close(pipefd[1]);
+		xclose(&pipefd[1]);
 		*prev_read_fd = pipefd[0];
 	}
 }
@@ -101,13 +108,13 @@ void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)
 	if (prev_read_fd != -1)
 	{
 		dup2(prev_read_fd, STDIN_FILENO);
-		close(prev_read_fd);
+		xclose(&prev_read_fd);
 	}
 	if (cmd->next != NULL)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		xclose(&pipefd[0]);
+		xclose(&pipefd[1]);
 	}
 }
 /*

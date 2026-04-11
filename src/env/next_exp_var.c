@@ -37,7 +37,7 @@ char	*get_var_value(char *dollar, t_all *all, int *i)
 	if (dollar[1] == '?')
 	{
 		*i = 2;
-		return (ft_itoa(*get_status() = 0));
+		return (ft_itoa(*get_status()));
 	}
 	*i = 1;
 	if (!dollar[*i] || dollar[*i] == ' ' || dollar[*i] == '"')
