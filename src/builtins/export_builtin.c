@@ -20,9 +20,17 @@ void	print_export(t_all *all)
 	while (current)
 	{
 		if (current->value)
-			printf("declare -x %s=\"%s\"\n", current->key, current->value);//changer le printf
+		{
+			ft_putstr_fd("declare -x ", STDERR_FILENO);
+			ft_putstr_fd(current->key, STDERR_FILENO);
+			ft_putstr_fd(current->value, STDERR_FILENO);
+		}
 		else
-			printf("declare -x %s\n", current->key);//changer le printf
+		{
+			ft_putstr_fd("declare -x ", STDERR_FILENO);
+			ft_putstr_fd(current->key, STDERR_FILENO);
+			ft_putstr_fd("\n", STDERR_FILENO);
+		}
 		current = current->next;
 	}
 }
@@ -38,9 +46,9 @@ int	add_or_update(t_all *all, char *arg)
 		return (1);
 	if (is_valid_arg(key))
 	{
-		ft_putstr_fd("export: ", STDOUT_FILENO);
-		ft_putstr_fd(arg, STDOUT_FILENO);
-		ft_putstr_fd(", not a valid arguments\n", STDOUT_FILENO);
+		ft_putstr_fd("export: ", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(", not a valid arguments\n", STDERR_FILENO);
 		free(key);
 		free(value);
 		return (1);
