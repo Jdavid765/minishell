@@ -20,6 +20,7 @@ void	cmd_env(t_all *all)
 	while (head)
 	{
 		ft_putstr_fd(head->key, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
 		ft_putstr_fd(head->value, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		head = head->next;
