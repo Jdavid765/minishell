@@ -48,7 +48,7 @@ void	echo_builtin(t_parser *cmd)
 	{
 		ft_putstr_fd(cmd->cmd_and_args[i], STDOUT_FILENO);
 		if (cmd->cmd_and_args[i + 1])
-			ft_putstr_fd(cmd->cmd_and_args[i], STDOUT_FILENO);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (!n_flag)
