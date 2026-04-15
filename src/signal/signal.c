@@ -19,6 +19,7 @@ void	sigint_handler(int signum)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	*get_status() = 130;
 }
 /*
 	this fonction handle le SINgint signal who is enabled with CTRL + C

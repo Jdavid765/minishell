@@ -30,6 +30,7 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 		else if (cmd->cmd_and_args[2])
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+			*get_status() = 2;
 			return ;
 		}
 		else
