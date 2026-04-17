@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/09 19:45:10 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/14 14:08:59 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ char	*put_in_key(char *env)
 
 	i = 0;
 	ct_key = ct_key_value(env) + 1;
+	if (ct_key == 1)
+		return (NULL);
 	line = malloc(sizeof(char) * ct_key);
 	if (!line)
 		return (NULL);
-	while (env[i] != '=')
+	while (env[i] && env[i] != '=')
 	{
 		line[i] = env[i];
 		i++;
@@ -51,6 +53,8 @@ char	*put_in_value(char *env)
 
 	i = 0;
 	found = ft_strchr(env, '=');
+	if (!found)
+		return (ft_strdup(""));
 	found++;
 	ct_value = (int)ft_strlen(found) + 1;
 	line = malloc(sizeof(char) * ct_value);

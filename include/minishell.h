@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/10 16:44:44 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 16:39:05 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		count_words(t_token *token);
 int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
 int		redir_in(t_parser *cmd, t_token **tok);
 int		append(t_parser *cmd, t_token **tok);
-int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index);
+int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index, t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -134,7 +134,7 @@ void		execute_pipeline_cmd(t_all *all, t_parser *cmd);
 /* ========================================================================== */
 int			ft_compare(char *rl, char *string);
 int			*get_status(void);
-
+int			key_comp(char *a, char *b);
 /* ========================================================================== */
 /* ===============================signal===================================== */
 /* ========================================================================== */

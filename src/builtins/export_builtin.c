@@ -6,43 +6,74 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:59:29 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 23:39:49 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 17:30:41 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	print_export(t_all *all)
+char	*retires_quotes(char *arg)
+{
+	char	*rl;
+	int		count;
+	int		i;
+	int		x;
+
+	count = ft_strlen(arg) + 1;
+	i = 0;
+	x = 0;
+	rl = malloc(sizeof(char) * count);
+	if (!rl)
+		return (NULL);
+	while (arg[i])
+	{
+		if (arg[i] != '\'' && arg[i] != '\"')
+		{
+			rl[x] = arg[i];
+			x++;
+		}
+		i++;
+	}
+	rl[x] = '\0';
+	return (rl);
+}
+
+int	print_export(t_all *all)
 {
 	t_env	*current;
 
 	current = all->env;
 	while (current)
 	{
-		if (current->value)
+		if (current->key)
 		{
-			ft_putstr_fd("declare -x ", STDERR_FILENO);
-			ft_putstr_fd(current->key, STDERR_FILENO);
-			ft_putstr_fd(current->value, STDERR_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(current->key, STDOUT_FILENO);
+			if (current->value)
+			{
+    			ft_putstr_fd("=\"", STDOUT_FILENO);
+    			ft_putstr_fd(current->value, STDOUT_FILENO);
+    			ft_putstr_fd("\"", STDOUT_FILENO);
+			}
 		}
-		else
-		{
-			ft_putstr_fd("declare -x ", STDERR_FILENO);
-			ft_putstr_fd(current->key, STDERR_FILENO);
-			ft_putstr_fd("\n", STDERR_FILENO);
-		}
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		current = current->next;
 	}
+	return (0);
 }
 
 int	add_or_update(t_all *all, char *arg)
 {
 	char	*key;
 	char	*value;
+	char	*rl;
 
+	rl = retires_quotes(arg);
+	if (!rl)
+		return (1);
 	if (!all || !arg)
 		return (1);
-	if (parse_arg(arg, &key, &value))
+	if (parse_arg(rl, &key, &value))
 		return (1);
 	if (is_valid_arg(key))
 	{
@@ -53,7 +84,7 @@ int	add_or_update(t_all *all, char *arg)
 		free(value);
 		return (1);
 	}
-	if (update_existing(all, key, value, arg))
+	if (update_existing(all, key, value, rl))
 		return (0);
 	return (append_node(all, key, value));
 }
@@ -64,14 +95,14 @@ int	export_builtin(t_all *all, t_parser *cmd)
 
 	if (!cmd->cmd_and_args[1])
 	{
-		print_export(all);
-		return (0);
+		if (print_export(all) == 1)
+		return (1);
 	}
 	i = 1;
 	while (cmd->cmd_and_args[i])
 	{
-		if (!add_or_update(all, cmd->cmd_and_args[i]))
-			return (0);
+		if (add_or_update(all, cmd->cmd_and_args[i]))
+			return (1);
 		i++;
 	}
 	return (1);

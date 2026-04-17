@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/02 00:33:04 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 16:38:43 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 	return (0);
 }
 
-int	parse_loop(t_parser **cmd, t_token *token, char *path)
+int	parse_loop(t_parser **cmd, t_token *token, char *path, t_all *all)
 {
 	int		index;
 	int		ret;
@@ -70,7 +70,7 @@ int	parse_loop(t_parser **cmd, t_token *token, char *path)
 	ret = 0;
 	while (token)
 	{
-		ret = all_else_if(cmd, &token, path, &index);
+		ret = all_else_if(cmd, &token, path, &index, all);
 		if (ret)
 			return (ret);
 		if (token)
@@ -100,7 +100,7 @@ int	parse_token(t_all *all)
 	current_cmd->cmd_and_args = ft_calloc(nb_words, sizeof(char *));
 	if (!current_cmd->cmd_and_args)
 		return (1);
-	ret = parse_loop(&current_cmd, current_tok, all->path);
+	ret = parse_loop(&current_cmd, current_tok, all->path, all);
 	if (ret == 1 || ret == 10)
 		return (ret);
 	else if (ret == 5)

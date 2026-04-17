@@ -6,9 +6,10 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 22:38:03 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 16:35:36 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 15:48:55 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	double_quote(t_token *token, t_all *all)
@@ -70,6 +71,14 @@ int	check_exp_var(t_all *all)
 	head = all->token;
 	while (head)
 	{
+		if (head->type == HEREDOC)
+		{
+			if (!head->next)
+				break ;
+			if (!head->next->next)
+				break ;
+			head = head->next->next;
+		}
 		if (check_sign(head, all))
 			return (1);
 		head = head->next;
