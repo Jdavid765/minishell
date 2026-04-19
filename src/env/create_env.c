@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:59:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 18:25:13 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/12 14:03:23 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,6 @@ int	create_path_no_env(t_env **head)
 	return (0);
 }
 
-
-void	look_env(t_all *all)
-{
-	t_env	*head;
-
-	head = all->env;
-	while (head)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
-}
-
 int	create_env(t_all *all)
 {
 	t_env	*head;
@@ -102,6 +89,5 @@ int	create_env(t_all *all)
 	if (create_path_no_env(&head))
 		return (1);
 	all->env = head;
-	look_env(all);
 	return (0);
 }
