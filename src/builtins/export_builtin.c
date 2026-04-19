@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:59:29 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/17 17:30:41 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/19 16:17:40 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,10 @@ int	add_or_update(t_all *all, char *arg)
 {
 	char	*key;
 	char	*value;
-	char	*rl;
 
-	rl = retires_quotes(arg);
-	if (!rl)
-		return (1);
 	if (!all || !arg)
 		return (1);
-	if (parse_arg(rl, &key, &value))
+	if (parse_arg(arg, &key, &value))
 		return (1);
 	if (is_valid_arg(key))
 	{
@@ -84,7 +80,7 @@ int	add_or_update(t_all *all, char *arg)
 		free(value);
 		return (1);
 	}
-	if (update_existing(all, key, value, rl))
+	if (update_existing(all, key, value, arg))
 		return (0);
 	return (append_node(all, key, value));
 }
