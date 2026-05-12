@@ -73,6 +73,7 @@ int	main_loop(t_all *all)
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
+		join_adjacent_tokens(all);
 		value = parse_token(all);
 		if (value != 0)
 		{
