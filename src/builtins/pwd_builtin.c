@@ -19,9 +19,9 @@ int	pwd_builtin(void)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (perror("getcwd :"), 1);
-	if (write(0, pwd, strlen(pwd)) == -1)
+	if (write(STDOUT_FILENO, pwd, strlen(pwd)) == -1)
 		return (free(pwd), perror("write pwd error"), 1);
-	if (write(0, "\n", 1) == -1)
+	if (write(STDOUT_FILENO, "\n", 1) == -1)
 		return (free(pwd), perror("write pwd error"), 1);
 	free(pwd);
 	return (0);

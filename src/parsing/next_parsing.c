@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 23:16:27 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/02 00:00:42 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 16:41:02 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ int	redir_out(t_parser *cmd, t_token **tok)
 	return (0);
 }
 
-int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
+int	loop_heredoc_quotes(char *rl, t_token *delim, char *line, int *fd)
 {
+	char	*new_delim;
+
+	new_delim = strip_quotes(delim->value);
 	while (1)
 	{
-		rl = readline("> ");
+		rl = readline("q> ");
 		if (!rl)
-			return (close(fd[0]), close(fd[1]), 1);
-		if (rl[0] != '\0' && !ft_compare(rl, delim->value))
+			return (xclose(&fd[0]), xclose(&fd[1]), 1);
+		if (rl[0] != '\0' && !ft_compare(rl, new_delim))
 		{
 			free(rl);
 			break ;
@@ -41,7 +44,7 @@ int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
 		free(rl);
 		rl = NULL;
 		if (!line)
-			return (close(fd[0]), close(fd[1]), 1);
+			return (xclose(&fd[0]), xclose(&fd[1]), 1);
 		write(fd[1], line, ft_strlen(line));
 		free(line);
 		line = NULL;
@@ -49,32 +52,70 @@ int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
 	return (0);
 }
 
-int	heredoc(t_parser *cmd, t_token **tok)
+int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd, bool quotes, t_all *all)
+{
+	char	*tmp;
+
+	if (quotes == TRUE)
+	{
+		if (loop_heredoc_quotes(rl, delim, line, fd) == 1)
+			return (1);
+		return (0);
+	}
+	while (1)
+	{
+		rl = readline("> ");
+		if (!rl)
+			return (xclose(&fd[0]), xclose(&fd[1]), 1);
+		if (rl[0] != '\0' && !ft_compare(rl, delim->value))
+		{
+			free(rl);
+			break ;
+		}
+		tmp = expand_in_str(rl, all);
+		line = ft_strjoin(tmp, "\n");
+		free(rl);
+		free(tmp);
+		rl = NULL;
+		if (!line)
+			return (xclose(&fd[0]), xclose(&fd[1]), 1);
+		write(fd[1], line, ft_strlen(line));
+		free(line);
+		line = NULL;
+	}
+	return (0);
+}
+
+int	heredoc(t_parser *cmd, t_token **tok, t_all *all)
 {
 	char	*rl;
 	char	*line;
 	int		fd[2];
 	int		ret;
+	bool	quotes;
 
 	ret = 0;
 	rl = NULL;
 	line = NULL;
+	quotes = FALSE;
 	(*tok) = (*tok)->next;
 	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
 	if (pipe(fd) < 0)
 		return (1);
-	ret = loop_heredoc(rl, (*tok), line, fd);
+	if ((*tok)->value[0] == '"' || (*tok)->value[0] == '\'')
+		quotes = TRUE;
+	ret = loop_heredoc(rl, (*tok), line, fd, quotes, all);
 	if (ret)
 		return (ret);
-	close(fd[1]);
+	xclose(&fd[1]);
 	if (cmd->fd_in != 0)
 		xclose(&cmd->fd_in);
 	cmd->fd_in = fd[0];
 	return (0);
 }
 
-int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index)
+int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index, t_all *all)
 {
 	int	ret;
 
@@ -93,6 +134,6 @@ int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index)
 	else if ((*token)->type == PIPE)
 		ret = ft_pipe(cmd, (*token), index, path);
 	else if ((*token)->type == HEREDOC)
-		ret = heredoc(*cmd, token);
+		ret = heredoc(*cmd, token, all);
 	return (ret);
 }

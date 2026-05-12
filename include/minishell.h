@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 23:30:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 16:39:05 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		count_words(t_token *token);
 int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
 int		redir_in(t_parser *cmd, t_token **tok);
 int		append(t_parser *cmd, t_token **tok);
-int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index);
+int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index, t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -123,8 +123,7 @@ int			is_builtin(char *cmd);
 void		exec_builtin(t_all *all, t_parser *cmd);
 void		exec_single_builtin(t_all *all, t_parser *cmd);
 void		exec_single_external(t_all *all, t_parser *cmd);
-void		wait_pipeline(void);
-void		wait_pipeline(void);
+void		wait_pipeline(pid_t last_pid);
 void		child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd);
 void		manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd);
 void		setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd);
@@ -135,7 +134,7 @@ void		execute_pipeline_cmd(t_all *all, t_parser *cmd);
 /* ========================================================================== */
 int			ft_compare(char *rl, char *string);
 int			*get_status(void);
-
+int			key_comp(char *a, char *b);
 /* ========================================================================== */
 /* ===============================signal===================================== */
 /* ========================================================================== */
@@ -205,8 +204,10 @@ void	cmd_env(t_all *all);
 int		check_path(t_env **ft_env);
 int		ct_key_value(char *env);
 char	*put_in_key(char *env);
+char	*put_in_value(char *env);
 char	*search_path(t_all *all);
 int		setup(t_all *all, char **env);
+int		create_env(t_all *all);
 
 /* ========================================================================== */
 /* =============================== FUNCTIONS NODE============================ */
@@ -229,6 +230,6 @@ char	*get_var_value(char *dollar, t_all *all, int *i);
 char	*in_env(char *line, t_all *all);
 char	*strip_quotes(char *str);
 void	free_expand(char *tmp, char *value, char *before);
-
+char	*search_path_no_env(t_all *all);
 
 #endif

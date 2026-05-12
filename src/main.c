@@ -6,13 +6,13 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/08 12:08:50 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/17 16:14:47 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*void	bullshit(t_all *all)
+void	bullshit(t_all *all)
 {
 	int		i;
 	t_token	*tmp;
@@ -30,7 +30,7 @@
 	}
 	clean_token_list(all->token);
 	all->token = NULL;
-}*/
+}
 
 /*void	look_parser(t_all *all)
 {
@@ -67,14 +67,15 @@ int	main_loop(t_all *all)
 		rl = readline("Minishell > ");
 		if (!rl)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			clean_exit(all, *get_status());
 		}
 		tokenizer(rl, all);
+		// bullshit(all);
 		if (check_exp_var(all))
 			return (1);
 		if ((value = parse_token(all)) == 10)
-			printf("Syntax Errors\n");
+			ft_putstr_fd("Syntax Errors\n", STDOUT_FILENO);
 		// look_parser(all);
 		executor(all);
 		clean_loop(all);

@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 17:25:31 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/04/11 18:24:14 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,26 @@
 
 int	setup(t_all *all, char **env)
 {
-	init_original_signals(all);
-	if (setup_signal(all))
-		return (1);
-	if (setup_env(all, env))
-		return (1);
-	*get_status() = 0;
-	if (!all->path)
+	if (env[0] == NULL)
 	{
+		if (create_env(all))
+			return (1);
+		all->path = search_path_no_env(all);
+		if (!all->path)
+			return (1);
+	}
+	else
+	{
+		if (setup_env(all, env))
+		return (1);
 		all->path = search_path(all);
 		if (!all->path)
 			return (1);
 	}
+	init_original_signals(all);
+	if (setup_signal(all))
+		return (1);
+	*get_status() = 0;
 	return (0);
 }
 /*

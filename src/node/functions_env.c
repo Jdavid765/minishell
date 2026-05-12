@@ -47,5 +47,9 @@ void	ft_lst_del_env(t_env *ft_env)
 {
 	if (!ft_env)
 		return ;
-	free(ft_env->value);
+	if (ft_env->key)
+		free(ft_env->key);
+	if (ft_env->value)
+		free(ft_env->value);
+	free(ft_env);
 }
