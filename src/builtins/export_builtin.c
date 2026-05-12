@@ -12,6 +12,7 @@
 
 #include "../../include/minishell.h"
 
+
 void	print_export(t_all *all)
 {
 	t_env	*current;
@@ -23,7 +24,9 @@ void	print_export(t_all *all)
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			ft_putstr_fd(current->key, STDOUT_FILENO);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
 			ft_putstr_fd(current->value, STDOUT_FILENO);
+			ft_putstr_fd("\"\n", STDOUT_FILENO);
 		}
 		else
 		{
@@ -34,6 +37,9 @@ void	print_export(t_all *all)
 		current = current->next;
 	}
 }
+/*
+	print all local variable in stdout
+*/
 
 int	add_or_update(t_all *all, char *arg)
 {
@@ -61,7 +67,9 @@ int	add_or_update(t_all *all, char *arg)
 int	export_builtin(t_all *all, t_parser *cmd)
 {
 	int	i;
+	int	status;
 
+	status = 0;
 	if (!cmd->cmd_and_args[1])
 	{
 		print_export(all);
@@ -70,9 +78,9 @@ int	export_builtin(t_all *all, t_parser *cmd)
 	i = 1;
 	while (cmd->cmd_and_args[i])
 	{
-		if (!add_or_update(all, cmd->cmd_and_args[i]))
-			return (0);
+		if (add_or_update(all, cmd->cmd_and_args[i]) == 1)
+			status = 1;
 		i++;
 	}
-	return (1);
+	return (status);
 }

@@ -47,7 +47,7 @@ void	exec_builtin(t_all *all, t_parser *cmd)
 	else if (ft_strncmp(cmd->cmd_and_args[0], "cd", 3) == 0)
 		*get_status() = cd_builtin(all, cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "pwd", 4) == 0)
-		*get_status() = pwd_builtin();
+		*get_status() = pwd_builtin(all);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "export", 7) == 0)
 		*get_status() = export_builtin(all, cmd);
 	else if (ft_strncmp(cmd->cmd_and_args[0], "unset", 6) == 0)

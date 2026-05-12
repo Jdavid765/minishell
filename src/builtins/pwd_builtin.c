@@ -12,17 +12,25 @@
 
 #include "../../include/minishell.h"
 
-int	pwd_builtin(void)
+#include "../../include/minishell.h"
+
+int	pwd_builtin(t_all *all)
 {
 	char	*pwd;
+	t_env	*pwd_node;
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (perror("getcwd :"), 1);
-	if (write(STDOUT_FILENO, pwd, strlen(pwd)) == -1)
-		return (free(pwd), perror("write pwd error"), 1);
-	if (write(STDOUT_FILENO, "\n", 1) == -1)
-		return (free(pwd), perror("write pwd error"), 1);
+	{
+		pwd_node = find_pwd_node(all);
+		if (pwd_node && pwd_node->value)
+		{
+			ft_putendl_fd(pwd_node->value, STDOUT_FILENO);
+			return (0);
+		}
+		return (perror("pwd: error retrieving current directory"), 1);
+	}
+	ft_putendl_fd(pwd, STDOUT_FILENO);
 	free(pwd);
 	return (0);
 }

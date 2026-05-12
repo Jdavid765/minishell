@@ -63,6 +63,7 @@ typedef struct	s_token
 	char			*value;
 	t_token_type	type;
 	bool			is_valid;
+	bool			space_after;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -100,6 +101,9 @@ int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
 int		redir_in(t_parser *cmd, t_token **tok);
 int		append(t_parser *cmd, t_token **tok);
 int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index);
+int		split_expanded_token(t_token *curr_node, char *expanded_str);
+int		insert_split_words(t_token *curr_node, char **words, t_token *next_save, bool orig_space);
+void	join_adjacent_tokens(t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
@@ -147,7 +151,7 @@ void		init_original_signals(t_all *all);
 /* ========================================================================== */
 /* ===============================builtin==================================== */
 /* ========================================================================== */
-int			pwd_builtin(void);
+int			pwd_builtin(t_all *all);
 void		exit_builtin(t_all *all, t_parser *cmd);
 int			cd_builtin(t_all *all, t_parser *cd_cmd);
 int			go_to_home_dir(t_all *all);
@@ -155,7 +159,6 @@ int			update_env(t_all * all);
 t_env		*find_pwd_node(t_all * all);
 t_env		*find_oldpwd_node(t_all * all);
 void		echo_builtin(t_parser *cmd);
-int			pwd_builtin(void);
 void		exit_builtin(t_all *all, t_parser *cmd);
 int			is_numeric(char *str);
 int			unset_builtin(t_all *all, t_parser *cmd);
