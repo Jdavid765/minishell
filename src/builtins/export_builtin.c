@@ -21,15 +21,15 @@ void	print_export(t_all *all)
 	{
 		if (current->value)
 		{
-			ft_putstr_fd("declare -x ", STDERR_FILENO);
-			ft_putstr_fd(current->key, STDERR_FILENO);
-			ft_putstr_fd(current->value, STDERR_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(current->key, STDOUT_FILENO);
+			ft_putstr_fd(current->value, STDOUT_FILENO);
 		}
 		else
 		{
-			ft_putstr_fd("declare -x ", STDERR_FILENO);
-			ft_putstr_fd(current->key, STDERR_FILENO);
-			ft_putstr_fd("\n", STDERR_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(current->key, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 		current = current->next;
 	}

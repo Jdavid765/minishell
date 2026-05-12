@@ -73,10 +73,20 @@ int	main_loop(t_all *all)
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
-		if ((value = parse_token(all)) == 10)
-			ft_putstr_fd("Syntax Errors\n", STDOUT_FILENO);
+		value = parse_token(all);
+		if (value != 0)
+		{
+			if (value == 10 || value == 5)
+			{
+				ft_putstr_fd("Syntax Errors\n", STDOUT_FILENO);
+				*get_status() = 2;
+			}
+		}
 		// look_parser(all);
+		else
+		{
 		executor(all);
+		}
 		clean_loop(all);
 		add_history(rl);
 		if (rl)

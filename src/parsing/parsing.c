@@ -46,7 +46,7 @@ int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 	if (!tok->next)
 		return (10);
 	else if (tok->next->type == PIPE)
-		return (5);
+		return (10);
 	(*cmd)->cmd_and_args[*index] = NULL;
 	new_cmd = ft_node_pars(path);
 	if (!new_cmd)
@@ -108,6 +108,12 @@ int	parse_token(t_all *all)
 	all->parser = head;
 	return (0);
 }
+/*
+	Main fonction for the the t_parser list
+	you can find ft_node pars in the folder "node/node_pars.c"
+	it return an INT depending on the error
+*/
+
 
 //when i exit i need to free all i allocated;
 // 10 = error de syntax
