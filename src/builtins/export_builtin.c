@@ -75,7 +75,7 @@ int	add_or_update(t_all *all, char *arg)
 	{
 		ft_putstr_fd("export: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(", not a valid arguments\n", STDERR_FILENO);
+		ft_putstr_fd(", not a valid identifier\n", STDERR_FILENO);
 		free(key);
 		free(value);
 		return (1);

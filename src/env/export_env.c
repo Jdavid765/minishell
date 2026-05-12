@@ -86,7 +86,7 @@ int	shlvl_add(t_env **ft_env)
 				line = ft_itoa(increment_shlvl);
 				if (!line)
 					return (1);
-				ft_lst_del_env(tmp);
+				free(tmp->value);
 				tmp->value = line;
 			}
 		}
