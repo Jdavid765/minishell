@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   last_parsing.c                                     :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/30 00:17:34 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 16:58:56 by canoduran        ###   ########.fr       */
+/*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
+/*   Updated: 2026/04/02 00:33:04 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	count_words(t_token *token)
+int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 {
-	int	count;
+	t_parser	*new_cmd;
+	int			nb_words;
 
-	count = 0;
-	while (token && token->type != PIPE)
-	{
-		if (token->type == WORD && token->is_valid == true)
-			count++;
-		else if (token->type >= REDIR_IN && token->type <= HEREDOC)
-		{
-			if (token->next)
-				token = token->next;
-		}
-		token = token->next;
-	}
-	return (count);
+	if (!tok->next)
+		return (10);
+	else if (tok->next->type == PIPE)
+		return (10);
+	(*cmd)->cmd_and_args[*index] = NULL;
+	new_cmd = ft_node_pars(path);
+	if (!new_cmd)
+		return (1);
+	ft_addback_parse(cmd, new_cmd);
+	*cmd = (*cmd)->next;
+	nb_words = count_words(tok->next) + 1;
+	(*cmd)->cmd_and_args = ft_calloc(nb_words, sizeof(char *));
+	if (!(*cmd)->cmd_and_args)
+		return (1);
+	*index = 0;
+	return (0);
 }
-/*
-	count how many word the token list got
-	it skip others types and count only if the word is_valid
-	(see exp_variable)
-*/
 
 char	*search_path(t_all *all)
 {

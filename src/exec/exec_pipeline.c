@@ -11,42 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	wait_pipeline(pid_t last_pid)
-{
-	int		status;
-	int		sig_int;
-	int		sig_quit;
-	pid_t	wpid;
-
-	sig_int = 0;
-	sig_quit = 0;
-	while ((wpid = waitpid(-1, &status, 0)) > 0)
-	{
-		if (wpid == last_pid)
-		{
-			if (WIFEXITED(status))
-				*get_status() = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				*get_status() = 128 + WTERMSIG(status);
-		}
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
-				sig_int = 1;
-			else if (WTERMSIG(status) == SIGQUIT)
-				sig_quit = 1;
-		}
-	}
-	if (sig_int)
-		printf("\n");
-	if (sig_quit)
-		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-}
-/*
-
-*/
-
 void	exec_pipeline(t_all *all)
 {
 	t_parser	*cmd;
@@ -88,40 +52,6 @@ void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd)
 	bridge for all the cmd exec
 */
 
-void	manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd)
-{
-	if (*prev_read_fd != -1)
-		xclose(prev_read_fd);
-	if (cmd->next)
-	{
-		xclose(&pipefd[1]);
-		*prev_read_fd = pipefd[0];
-	}
-}
-/*
-	close the prev fd if it exists
-	if there is another cmd close the previous one 
-*/
-
-void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)
-{
-	if (prev_read_fd != -1)
-	{
-		dup2(prev_read_fd, STDIN_FILENO);
-		xclose(&prev_read_fd);
-	}
-	if (cmd->next != NULL)
-	{
-		dup2(pipefd[1], STDOUT_FILENO);
-		xclose(&pipefd[0]);
-		xclose(&pipefd[1]);
-	}
-}
-/*
-	check if it's the first cmd or not to sertup the right redirection
-	and check if there is and cmd after
-*/
-
 void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 {
 	char	**envp;
@@ -155,3 +85,48 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	check if the cmd is a builtin else exec the extrenal cmd
 	check if it fails
 */
+
+void	wait_pipeline(pid_t last_pid)
+{
+	int		status;
+	int		sig_int;
+	int		sig_quit;
+	pid_t	wpid;
+
+	sig_int = 0;
+	sig_quit = 0;
+	while ((wpid = waitpid(-1, &status, 0)) > 0)
+	{
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(status))
+				*get_status() = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				*get_status() = 128 + WTERMSIG(status);
+		}
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				sig_int = 1;
+			else if (WTERMSIG(status) == SIGQUIT)
+				sig_quit = 1;
+		}
+	}
+	if (sig_int)
+		printf("\n");
+	if (sig_quit)
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+}
+/*
+
+*/
+
+
+
+
+
+
+
+
+
+

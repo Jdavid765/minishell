@@ -12,75 +12,6 @@
 
 #include "../../include/minishell.h"
 
-int	append(t_parser *cmd, t_token **tok)
-{
-	(*tok) = (*tok)->next;
-	if (!(*tok) || (*tok)->type != WORD)
-		return (10);
-	if (cmd->fd_out != 1)
-		xclose(&cmd->fd_out);
-	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (cmd->fd_out < 0)
-		return (1);
-	return (0);
-}
-
-int	redir_in(t_parser *cmd, t_token **tok)
-{
-	(*tok) = (*tok)->next;
-	if (!(*tok) || (*tok)->type != WORD)
-		return (10);
-	if (cmd->fd_in != 0)
-		xclose(&cmd->fd_in);
-	cmd->fd_in = open((*tok)->value, O_RDONLY);
-	if (cmd->fd_in < 0)
-		return (1);
-	return (0);
-}
-
-int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
-{
-	t_parser	*new_cmd;
-	int			nb_words;
-
-	if (!tok->next)
-		return (10);
-	else if (tok->next->type == PIPE)
-		return (10);
-	(*cmd)->cmd_and_args[*index] = NULL;
-	new_cmd = ft_node_pars(path);
-	if (!new_cmd)
-		return (1);
-	ft_addback_parse(cmd, new_cmd);
-	*cmd = (*cmd)->next;
-	nb_words = count_words(tok->next) + 1;
-	(*cmd)->cmd_and_args = ft_calloc(nb_words, sizeof(char *));
-	if (!(*cmd)->cmd_and_args)
-		return (1);
-	*index = 0;
-	return (0);
-}
-
-int	parse_loop(t_parser **cmd, t_token *token, t_all *all)
-{
-	int		index;
-	int		ret;
-
-	index = 0;
-	ret = 0;
-	while (token)
-	{
-		ret = all_else_if(cmd, &token, all, &index);
-		if (ret)
-			return (ret);
-		if (token)
-			token = token->next;
-	}
-	if (*cmd && (*cmd)->cmd_and_args)
-		(*cmd)->cmd_and_args[index] = NULL;
-	return (0);
-}
-
 int	parse_token(t_all *all)
 {
 	t_parser	*head;
@@ -114,6 +45,48 @@ int	parse_token(t_all *all)
 	it return an INT depending on the error
 */
 
+int	parse_loop(t_parser **cmd, t_token *token, t_all *all)
+{
+	int		index;
+	int		ret;
+
+	index = 0;
+	ret = 0;
+	while (token)
+	{
+		ret = all_else_if(cmd, &token, all, &index);
+		if (ret)
+			return (ret);
+		if (token)
+			token = token->next;
+	}
+	if (*cmd && (*cmd)->cmd_and_args)
+		(*cmd)->cmd_and_args[index] = NULL;
+	return (0);
+}
+
+int	all_else_if(t_parser **cmd, t_token **token, t_all *all, int *index)
+{
+	int	ret;
+
+	ret = 0;
+	if ((*token)->type == WORD)
+	{
+		if ((*token)->is_valid == true)
+			(*cmd)->cmd_and_args[(*index)++] = ft_strdup((*token)->value);
+	}
+	else if ((*token)->type == REDIR_OUT)
+		ret = redir_out(*cmd, token);
+	else if ((*token)->type == APPEND)
+		ret = append(*cmd, token);
+	else if ((*token)->type == REDIR_IN)
+		ret = redir_in(*cmd, token);
+	else if ((*token)->type == PIPE)
+		ret = ft_pipe(cmd, (*token), index, all->path);
+	else if ((*token)->type == HEREDOC)
+		ret = heredoc(all, *cmd, token);
+	return (ret);
+}
 
 //when i exit i need to free all i allocated;
 // 10 = error de syntax

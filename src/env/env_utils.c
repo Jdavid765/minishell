@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_env.c                                       :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -91,32 +91,4 @@ int	shlvl_add(t_env **ft_env)
 	return (0);
 }
 
-int	setup_env(t_all *all, char **env)
-{
-	t_env	*head;
-	t_env	*current;
-	int		i;
-	char	*key;
-	char	*value;
 
-	i = 0;
-	head = NULL;
-	while (env[i])
-	{
-		key = put_in_key(env[i]);
-		value = put_in_value(env[i]);
-		if (!key || !value)
-			return (1);
-		current = ft_node_env(key, value);
-		if (!current)
-			return (1);
-		ft_add_back_env(&head, current);
-		i++;
-	}
-	if (shlvl_add(&head))
-		return (1);
-	if (check_path(&head))
-		return (1);
-	all->env = head;
-	return (0);
-}

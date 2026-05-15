@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-#include "../../include/minishell.h"
 
 int	pwd_builtin(t_all *all)
 {

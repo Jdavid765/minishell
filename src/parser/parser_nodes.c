@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_pars.c                                        :+:      :+:    :+:   */
+/*   parser_nodes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -48,3 +48,28 @@ void	ft_addback_parse(t_parser **head, t_parser *new)
 	}
 	return ;
 }
+
+int	count_words(t_token *token)
+{
+	int	count;
+
+	count = 0;
+	while (token && token->type != PIPE)
+	{
+		if (token->type == WORD && token->is_valid == true)
+			count++;
+		else if (token->type >= REDIR_IN && token->type <= HEREDOC)
+		{
+			if (token->next)
+				token = token->next;
+		}
+		token = token->next;
+	}
+	return (count);
+}
+/*
+	count how many word the token list got
+	it skip others types and count only if the word is_valid
+	(see exp_variable)
+*/
+

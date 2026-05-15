@@ -1,71 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_utils.c                                      :+:      :+:    :+:   */
+/*   clean_core.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 23:09:14 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/03/28 23:33:08 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	xclose(int *fd)
-{
-	int	return_value;
-
-	if (!fd || *fd < 0)
-		return (1);
-	return_value = close(*fd);
-	*fd = -1;
-	return (return_value);
-}
-
-/*
-	all the credits to 0yech & stellaaash for this fonction 
-	pureee genuis frrr
-*/
-
-void	free_tab(char **strs)
-{
-	int	i;
-
-	i = 0;
-	if (!strs)
-		return ;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
-}
-
-/*
-	Frees a null-terminated array of strings and the pointer
-	to the array itself.
-*/
-
-void	clean_loop(t_all *all)
-{
-	if (all->token)
-	{
-		clean_token_list(all->token);
-		all->token = NULL;
-	}
-	if (all->parser)
-	{
-		clean_cmd_list(all->parser);
-		all->parser = NULL;
-	}
-}
-/*
-	Resets the shell's temporary data structures
-	at the end of each iteration to prevent memory leaks
-	and command repetition
-*/
 
 void	clean_exit(t_all *all, int exit_code)
 {
@@ -95,3 +40,57 @@ void	free_all(t_all *all)
 	clean_token_list(all->token);
 	all->token = NULL;
 }
+
+void	free_tab(char **strs)
+{
+	int	i;
+
+	i = 0;
+	if (!strs)
+		return ;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
+}
+
+/*
+	Frees a null-terminated array of strings and the pointer
+	to the array itself.
+*/
+
+int	xclose(int *fd)
+{
+	int	return_value;
+
+	if (!fd || *fd < 0)
+		return (1);
+	return_value = close(*fd);
+	*fd = -1;
+	return (return_value);
+}
+
+/*
+	all the credits to 0yech & stellaaash for this fonction 
+	pureee genuis frrr
+*/
+void	clean_loop(t_all *all)
+{
+	if (all->token)
+	{
+		clean_token_list(all->token);
+		all->token = NULL;
+	}
+	if (all->parser)
+	{
+		clean_cmd_list(all->parser);
+		all->parser = NULL;
+	}
+}
+/*
+	Resets the shell's temporary data structures
+	at the end of each iteration to prevent memory leaks
+	and command repetition
+*/

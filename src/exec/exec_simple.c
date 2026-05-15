@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,6 +11,42 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	exec_single_cmd(t_all *all)
+{
+	t_parser	*cmd;
+
+	cmd = all->parser;
+	if (!cmd || !cmd->cmd_and_args || !cmd->cmd_and_args[0])
+		return ;
+	if (is_builtin(cmd->cmd_and_args[0]))
+		exec_single_builtin(all, cmd);
+	else
+		exec_single_external(all, cmd);
+}
+/*
+	handle if only one cmd is recieve
+	check if it is a builin or on an external cmd
+*/
+
+void	exec_single_external(t_all *all, t_parser *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return ;
+	}
+	if (pid == 0)
+		child_single_external(all, cmd);
+	else
+		parent_single_external(cmd, pid);
+}
+/*
+
+*/
 
 void	child_single_external(t_all *all, t_parser *cmd)
 {
@@ -39,25 +75,6 @@ void	child_single_external(t_all *all, t_parser *cmd)
 /*
 	apply right redirections and check if the PATH exist
 	rebuilt the new env for execve and check if it fails
-*/
-
-void	exec_single_external(t_all *all, t_parser *cmd)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return ;
-	}
-	if (pid == 0)
-		child_single_external(all, cmd);
-	else
-		parent_single_external(cmd, pid);
-}
-/*
-
 */
 
 void	parent_single_external(t_parser *cmd, pid_t pid)

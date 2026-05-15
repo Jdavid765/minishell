@@ -12,9 +12,4 @@
 
 #include "../../include/minishell.h"
 
-int	*get_status(void)
-{
-	static int	status;
 
-	return (&status);
-}

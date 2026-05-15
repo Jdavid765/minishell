@@ -30,3 +30,10 @@ int	ft_compare(char *rl, char *string)
 	}
 	return (0);
 }
+
+int	*get_status(void)
+{
+	static int	status;
+
+	return (&status);
+}

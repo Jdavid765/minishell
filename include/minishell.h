@@ -95,7 +95,6 @@ typedef struct	s_all
 /* ========================================================================== */
 int		parse_token(t_all *all);
 int		check_exp_var(t_all *all);
-char	*search_path(t_all *path);
 int		count_words(t_token *token);
 int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
 int		redir_in(t_parser *cmd, t_token **tok);

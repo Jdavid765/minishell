@@ -53,3 +53,16 @@ void	ft_lst_del_env(t_env *ft_env)
 		free(ft_env->value);
 	free(ft_env);
 }
+
+void	look_env(t_all *all)
+{
+	t_env	*head;
+
+	head = all->env;
+	while (head)
+	{
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
+	}
+}
+
