@@ -25,56 +25,80 @@ int	redir_out(t_parser *cmd, t_token **tok)
 	return (0);
 }
 
-int	loop_heredoc(char *rl, t_token *delim, char *line, int *fd)
+int	loop_heredoc(t_token *delim, int *fd)
 {
+	char	*rl;
+	char	*line;
+
 	while (1)
 	{
 		rl = readline("> ");
 		if (!rl)
-			return (xclose(&fd[0]), xclose(&fd[1]), 1);
-		if (rl[0] != '\0' && !ft_compare(rl, delim->value))
+		{
+			ft_putstr_fd("minishell: warning: here-doc delimited by EOF\n", 2);
+			break ;
+		}
+		if (!ft_compare(rl, delim->value))
 		{
 			free(rl);
 			break ;
 		}
 		line = ft_strjoin(rl, "\n");
 		free(rl);
-		rl = NULL;
 		if (!line)
-			return (xclose(&fd[0]), xclose(&fd[1]), 1);
+			return (1);
 		write(fd[1], line, ft_strlen(line));
 		free(line);
-		line = NULL;
 	}
 	return (0);
 }
 
-int	heredoc(t_parser *cmd, t_token **tok)
+int	wait_heredoc(t_all *all, pid_t pid, int *fd)
 {
-	char	*rl;
-	char	*line;
+	int	status;
+
+	xclose(&fd[1]);
+	waitpid(pid, &status, 0);
+	setup_signal(all);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		*get_status() = 130;
+		return (xclose(&fd[0]), 130);
+	}
+	return (0);
+}
+
+int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
+{
 	int		fd[2];
+	pid_t	pid;
 	int		ret;
 
-	ret = 0;
-	rl = NULL;
-	line = NULL;
 	(*tok) = (*tok)->next;
 	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
 	if (pipe(fd) < 0)
 		return (1);
-	ret = loop_heredoc(rl, (*tok), line, fd);
+	ignore_signals();
+	pid = fork();
+	if (pid == -1)
+		return (1);
+	if (pid == 0)
+	{
+		restore_original_signals(all);
+		xclose(&fd[0]);
+		exit(loop_heredoc((*tok), fd));
+	}
+	ret = wait_heredoc(all, pid, fd);
 	if (ret)
 		return (ret);
-	xclose(&fd[1]);
 	if (cmd->fd_in != 0)
 		xclose(&cmd->fd_in);
-	cmd->fd_in = fd[0];
-	return (0);
+	return (cmd->fd_in = fd[0], 0);
 }
 
-int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index)
+int	all_else_if(t_parser **cmd, t_token **token, t_all *all, int *index)
 {
 	int	ret;
 
@@ -91,8 +115,8 @@ int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index)
 	else if ((*token)->type == REDIR_IN)
 		ret = redir_in(*cmd, token);
 	else if ((*token)->type == PIPE)
-		ret = ft_pipe(cmd, (*token), index, path);
+		ret = ft_pipe(cmd, (*token), index, all->path);
 	else if ((*token)->type == HEREDOC)
-		ret = heredoc(*cmd, token);
+		ret = heredoc(all, *cmd, token);
 	return (ret);
 }

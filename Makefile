@@ -20,8 +20,8 @@ RESET    = \033[0m
 OS = $(shell uname)
 CC       = gcc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -fPIE -fsanitize=address
-LFLAGS   = -lreadline -lncurses -ltinfo
+CFLAGS   =
+LFLAGS   = -lreadline 
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
 HEADER   = $(DIRINC)/minishell.h

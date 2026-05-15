@@ -61,7 +61,7 @@ int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 	return (0);
 }
 
-int	parse_loop(t_parser **cmd, t_token *token, char *path)
+int	parse_loop(t_parser **cmd, t_token *token, t_all *all)
 {
 	int		index;
 	int		ret;
@@ -70,7 +70,7 @@ int	parse_loop(t_parser **cmd, t_token *token, char *path)
 	ret = 0;
 	while (token)
 	{
-		ret = all_else_if(cmd, &token, path, &index);
+		ret = all_else_if(cmd, &token, all, &index);
 		if (ret)
 			return (ret);
 		if (token)
@@ -100,8 +100,8 @@ int	parse_token(t_all *all)
 	current_cmd->cmd_and_args = ft_calloc(nb_words, sizeof(char *));
 	if (!current_cmd->cmd_and_args)
 		return (1);
-	ret = parse_loop(&current_cmd, current_tok, all->path);
-	if (ret == 1 || ret == 10)
+	ret = parse_loop(&current_cmd, current_tok, all);
+	if (ret == 1 || ret == 10 || ret == 130)
 		return (ret);
 	else if (ret == 5)
 		return ((all->parser = head), ret);

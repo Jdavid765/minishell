@@ -100,10 +100,14 @@ int		count_words(t_token *token);
 int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
 int		redir_in(t_parser *cmd, t_token **tok);
 int		append(t_parser *cmd, t_token **tok);
-int		all_else_if(t_parser **cmd, t_token **token, char *path, int *index);
+int		all_else_if(t_parser **cmd, t_token **token, t_all *all, int *index);
 int		split_expanded_token(t_token *curr_node, char *expanded_str);
 int		insert_split_words(t_token *curr_node, char **words, t_token *next_save, bool orig_space);
 void	join_adjacent_tokens(t_all *all);
+int		loop_heredoc(t_token *delim, int *fd);
+int		wait_heredoc(t_all *all, pid_t pid, int *fd);
+int		heredoc(t_all *all, t_parser *cmd, t_token **tok);
+int		parse_loop(t_parser **cmd, t_token *token, t_all *all);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/
