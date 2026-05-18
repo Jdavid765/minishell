@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:49:38 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 23:07:06 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 19:55:09 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,63 +54,40 @@ char	*get_var_value(char *dollar, t_all *all, int *i)
 	return (ft_strdup(value));
 }
 
-char	*expand_in_str(char *str, t_all *all)
+char	*expand_dollar(char *result, int *i, t_all *all)
 {
-	char	*result;
 	char	*before;
 	char	*value;
 	char	*tmp;
-	int		i;
 	int		var_len;
+
+	before = ft_substr(result, 0, *i);
+	value = get_var_value(&result[*i], all, &var_len);
+	tmp = ft_strjoin(before, value);
+	free(before);
+	before = result;
+	result = ft_strjoin(tmp, &before[*i + var_len]);
+	*i = *i + ft_strlen(value);
+	free_expand(tmp, value, before);
+	return (result);
+}
+
+char	*expand_in_str(char *str, t_all *all)
+{
+	char	*result;
+	int		i;
 
 	result = ft_strdup(str);
 	i = 0;
 	while (result[i])
 	{
 		if (result[i] == '$' && result[i + 1] != '\0' && result[i + 1] != ' ')
-		{
-			before = ft_substr(result, 0, i);
-			value = get_var_value(&result[i], all, &var_len);
-			tmp = ft_strjoin(before, value);
-			free(before);
-			before = result;
-			result = ft_strjoin(tmp, &before[i + var_len]);
-			i = i + ft_strlen(value);
-			free_expand(tmp, value, before);
-		}
+			result = expand_dollar(result, &i, all);
 		else
 			i++;
 	}
 	return (result);
 }
-/*
-int	replace_dollar(t_token *token, t_all *all)
-{
-	char	*tmp;
-
-	if (token->value[1] == '?')
-	{
-		free(token->value);
-		token->value = ft_itoa(*get_status() = 0);
-		if (!token->value)
-			return (1);
-	}
-	else if ((tmp = in_env(token->value, all)))
-	{
-		free(token->value);
-		token->value = ft_strdup(tmp);
-		if (!token->value)
-			return (1);
-	}
-	else
-	{
-		free(token->value);
-		token->value = ft_strdup("");
-		if (!token->value)
-			return (1);
-	}
-	return (0);
-}*/
 
 int	check_dollar(t_token *token, t_all *all)
 {
@@ -127,6 +104,3 @@ int	check_dollar(t_token *token, t_all *all)
 		token->is_valid = false;
 	return (0);
 }
-/*
-	
-*/

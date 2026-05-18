@@ -6,11 +6,11 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:47:11 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 14:49:11 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 19:39:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	remove_env_node(t_env **head, char *key)
 {

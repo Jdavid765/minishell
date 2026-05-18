@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:59:29 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/19 16:17:40 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 19:40:03 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	print_export(t_all *all)
 			ft_putstr_fd(current->key, STDOUT_FILENO);
 			if (current->value)
 			{
-    			ft_putstr_fd("=\"", STDOUT_FILENO);
-    			ft_putstr_fd(current->value, STDOUT_FILENO);
-    			ft_putstr_fd("\"", STDOUT_FILENO);
+				ft_putstr_fd("=\"", STDOUT_FILENO);
+				ft_putstr_fd(current->value, STDOUT_FILENO);
+				ft_putstr_fd("\"", STDOUT_FILENO);
 			}
 		}
 		ft_putstr_fd("\n", STDOUT_FILENO);
@@ -92,7 +92,7 @@ int	export_builtin(t_all *all, t_parser *cmd)
 	if (!cmd->cmd_and_args[1])
 	{
 		if (print_export(all) == 1)
-		return (1);
+			return (1);
 	}
 	i = 1;
 	while (cmd->cmd_and_args[i])

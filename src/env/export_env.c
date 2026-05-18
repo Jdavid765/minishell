@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/14 14:08:59 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 19:56:54 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ int	setup_env(t_all *all, char **env)
 		ft_add_back_env(&head, current);
 		i++;
 	}
-	if (shlvl_add(&head))
-		return (1);
-	if (check_path(&head))
+	if (shlvl_add(&head) || check_path(&head))
 		return (1);
 	all->env = head;
 	return (0);

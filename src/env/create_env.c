@@ -6,11 +6,11 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:59:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/12 14:03:23 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 22:02:40 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	search_pwd(t_env **head)
 {
@@ -35,7 +35,7 @@ int	search_pwd(t_env **head)
 	return (0);
 }
 
-int	create_SHLVL(t_env **head)
+int	create_shlvl(t_env **head)
 {
 	char	*key;
 	char	*value;
@@ -80,11 +80,11 @@ int	create_path_no_env(t_env **head)
 int	create_env(t_all *all)
 {
 	t_env	*head;
-	
+
 	head = NULL;
 	if (search_pwd(&head))
 		return (1);
-	if (create_SHLVL(&head))
+	if (create_shlvl(&head))
 		return (1);
 	if (create_path_no_env(&head))
 		return (1);
