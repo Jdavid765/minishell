@@ -6,11 +6,11 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 23:27:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/07 23:38:45 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:19:12 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	append_node(t_all *all, char *key, char *value)
 {

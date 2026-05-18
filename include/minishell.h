@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 23:08:39 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:39:11 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int		count_words(t_token *token);
 int		ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path);
 int		redir_in(t_parser *cmd, t_token **tok);
 int		append(t_parser *cmd, t_token **tok);
-int		else_if(t_parser **cmd, t_token **token, char *path, int *index, t_all *all);
+int		else_if(t_parser **cmd, t_token **token, int *index, t_all *all);
+int		redir_out(t_parser *cmd, t_token **tok);
 
 /* ========================================================================== */
 /* ===============================exec========================================*/

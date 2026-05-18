@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 18:24:14 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:21:18 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	setup(t_all *all, char **env)
 	else
 	{
 		if (setup_env(all, env))
-		return (1);
+			return (1);
 		all->path = search_path(all);
 		if (!all->path)
 			return (1);

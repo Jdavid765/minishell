@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/11 23:37:09 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:18:29 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	init_original_signals(t_all *all)
 	all->sig.sa_orig_int.sa_handler = SIG_DFL;
 	sigemptyset(&all->sig.sa_orig_int.sa_mask);
 	all->sig.sa_orig_int.sa_flags = 0;
-
 	ft_bzero(&all->sig.sa_orig_quit, sizeof(struct sigaction));
 	all->sig.sa_orig_quit.sa_handler = SIG_DFL;
 	sigemptyset(&all->sig.sa_orig_quit.sa_mask);

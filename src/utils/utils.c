@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:08:34 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/14 13:43:53 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:19:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_compare(char *rl, char *string)
 int	key_comp(char *a, char *b)
 {
 	int	i;
-	
+
 	i = 0;
 	while (a[i] && b[i] && a[i] == b[i])
 		i++;

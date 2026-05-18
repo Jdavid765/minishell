@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 00:17:34 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 16:58:56 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:32:42 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,17 @@ char	*search_path_no_env(t_all *all)
 		head = head->next;
 	}
 	return (NULL);
+}
+
+int	redir_out(t_parser *cmd, t_token **tok)
+{
+	(*tok) = (*tok)->next;
+	if (!(*tok) || (*tok)->type != WORD)
+		return (10);
+	if (cmd->fd_out != 1)
+		xclose(&cmd->fd_out);
+	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (cmd->fd_out < 0)
+		return (1);
+	return (0);
 }
