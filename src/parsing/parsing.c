@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/17 16:38:43 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:08:34 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	parse_loop(t_parser **cmd, t_token *token, char *path, t_all *all)
 	ret = 0;
 	while (token)
 	{
-		ret = all_else_if(cmd, &token, path, &index, all);
+		ret = else_if(cmd, &token, path, &index, all);
 		if (ret)
 			return (ret);
 		if (token)

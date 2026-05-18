@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 23:16:27 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/17 16:41:02 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/18 23:06:54 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	heredoc(t_parser *cmd, t_token **tok, t_all *all)
 	return (0);
 }
 
-int	all_else_if(t_parser **cmd, t_token **token, char *path, int *index, t_all *all)
+int	else_if(t_parser **cmd, t_token **token, char *path, int *index, t_all *all)
 {
 	int	ret;
 
