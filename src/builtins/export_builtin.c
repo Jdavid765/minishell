@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:59:29 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 19:40:03 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 21:35:29 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ int	export_builtin(t_all *all, t_parser *cmd)
 			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }

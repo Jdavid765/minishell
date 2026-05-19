@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 18:37:51 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 21:35:01 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ void	cmd_env(t_all *all)
 	head = all->env;
 	while (head)
 	{
-		ft_putstr_fd(head->key, STDOUT_FILENO);
+		if (head->key)
+			ft_putstr_fd(head->key, STDOUT_FILENO);
 		ft_putstr_fd("=", STDOUT_FILENO);
-		ft_putstr_fd(head->value, STDOUT_FILENO);
+		if (head->value)
+			ft_putstr_fd(head->value, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		head = head->next;
 	}
@@ -35,15 +37,15 @@ int	create_path(t_env **ft_env)
 	char	*value;
 
 	head = *ft_env;
-	key = malloc(sizeof(char) * 5);
+	key = ft_strdup("_");
 	if (!key)
 		return (1);
 	value = ft_strdup("/usr/bin/");
 	if (!value)
-		return (1);
+		return (free(key), 1);
 	current = ft_node_env(key, value);
 	if (!current)
-		return (1);
+		return (free(key), free(value), 1);
 	ft_add_back_env(&head, current);
 	return (0);
 }
@@ -51,19 +53,23 @@ int	create_path(t_env **ft_env)
 int	check_path(t_env **ft_env)
 {
 	t_env	*head;
+	int		found;
 
+	found = 0;
 	head = *ft_env;
 	while (head)
 	{
 		if (head->key[0] == 'P')
 		{
 			if (!ft_compare(head->key, "PATH"))
-			{
-				if (!create_path(&head))
-					return (0);
-			}
+				found = 1;
 		}
 		head = head->next;
 	}
-	return (1);
+	if (found == 0)
+	{
+		if (!create_path(ft_env))
+			return (1);
+	}
+	return (0);
 }

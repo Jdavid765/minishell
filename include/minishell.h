@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/19 16:37:27 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 21:04:21 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ void		free_tab(char **strs);
 void		clean_loop(t_all *all);
 void		clean_exit(t_all *all, int exit_code);
 void		free_all(t_all *all);
+void		clean_setup_env(char *key, char *value, t_env *head);
 
 /* ========================================================================== */
 /* ===============================tokenizer================================== */

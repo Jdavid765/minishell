@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:59:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 22:02:40 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 17:37:07 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,14 @@ int	search_pwd(t_env **head)
 
 	line = getcwd(NULL, 0);
 	if (!line)
-		return (perror("getcwd :"), 1);
+		return (free(line), perror("getcwd :"), 1);
 	key = ft_strdup("PWD");
 	if (!key)
 		return (perror("Malloc :"), 1);
-	value = ft_strdup(line);
-	if (!value)
-		return (perror("Malloc :"), 1);
+	value = line;
 	current = ft_node_env(key, value);
 	if (!current)
-		return (1);
+		return (free(key), free(value), 1);
 	ft_add_back_env(head, current);
 	return (0);
 }

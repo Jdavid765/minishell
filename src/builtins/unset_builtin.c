@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:47:11 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 19:39:01 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 21:36:33 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	unset_builtin(t_all *all, t_parser *cmd)
 	int	i;
 
 	if (!cmd->cmd_and_args[1])
-		return (1);
+		return (0);
 	i = 1;
 	while (cmd->cmd_and_args[i])
 	{

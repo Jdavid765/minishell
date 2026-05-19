@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:49:38 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 19:55:09 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 17:39:02 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,15 @@ char	*expand_dollar(char *result, int *i, t_all *all)
 	int		var_len;
 
 	before = ft_substr(result, 0, *i);
+	if (!before)
+		return (NULL);
 	value = get_var_value(&result[*i], all, &var_len);
+	if (!value)
+		return (free(before), NULL);
 	tmp = ft_strjoin(before, value);
 	free(before);
+	if (!tmp)
+		return (free(value), NULL);
 	before = result;
 	result = ft_strjoin(tmp, &before[*i + var_len]);
 	*i = *i + ft_strlen(value);

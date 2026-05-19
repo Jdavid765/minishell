@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/05/19 16:22:06 by canoduran        ###   ########.fr        #
+#    Updated: 2026/05/19 21:02:43 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,7 @@ SRC = $(DIR_SRC)/main.c \
 	  $(DIR_SRC)/$(DIR_ENV)/create_env.c \
       $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
       $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
+	  $(DIR_SRC)/$(DIR_CLEAN)/clean_setup_env.c \
 
 #       $(DIR_SRC)/$()/.c \
 
