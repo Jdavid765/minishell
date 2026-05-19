@@ -69,6 +69,10 @@ void	init_original_signals(t_all *all)
 	sigemptyset(&all->sig.sa_orig_quit.sa_mask);
 	all->sig.sa_orig_quit.sa_flags = 0;
 }
+/*
+	this fonction initialize the original signals to SIG_DFL
+	so we can restore them later in the child process
+*/
 
 void	ignore_signals(void)
 {
@@ -79,3 +83,7 @@ void	ignore_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 }
+/*
+	this fonction ignore SIGINT and SIGQUIT signals
+	it is used during the execution of commands
+*/

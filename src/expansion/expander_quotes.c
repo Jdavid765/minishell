@@ -22,6 +22,11 @@ int	quotes(t_token *token, t_all *all)
 		return (single_quote(token));
 	return (0);
 }
+/*
+	this fonction check which quote is used
+	and send it to the right handle
+*/
+
 int	double_quote(t_token *token, t_all *all)
 {
 	char	*tmp;
@@ -37,6 +42,10 @@ int	double_quote(t_token *token, t_all *all)
 	}
 	return (0);
 }
+/*
+	this fonction remove double quotes
+	and expand variables inside if needed
+*/
 
 int	single_quote(t_token *token)
 {
@@ -47,3 +56,7 @@ int	single_quote(t_token *token)
 	token->value = tmp;
 	return (0);
 }
+/*
+	this fonction only remove single quotes
+	without expanding anything inside
+*/

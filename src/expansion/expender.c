@@ -25,6 +25,10 @@ int	check_exp_var(t_all *all)
 	}
 	return (0);
 }
+/*
+	this fonction loop through all tokens
+	to check if they need to be expanded
+*/
 
 int	check_sign(t_token *token, t_all *all)
 {
@@ -40,6 +44,10 @@ int	check_sign(t_token *token, t_all *all)
 	}
 	return (0);
 }
+/*
+	this fonction route the token to quote
+	or dollar expansion depending on the sign
+*/
 
 int	check_dollar(t_token *token, t_all *all)
 {

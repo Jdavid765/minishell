@@ -21,6 +21,10 @@ int	ct_key_value(char *env)
 		i++;
 	return (i);
 }
+/*
+	this fonction count the len of the key
+	before the '=' sign in the env string
+*/
 
 char	*put_in_key(char *env)
 {
@@ -41,6 +45,10 @@ char	*put_in_key(char *env)
 	line[i] = '\0';
 	return (line);
 }
+/*
+	this fonction malloc and extract the key
+	from the env string before the '=' sign
+*/
 
 char	*put_in_value(char *env)
 {
@@ -64,6 +72,10 @@ char	*put_in_value(char *env)
 	line[i] = '\0';
 	return (line);
 }
+/*
+	this fonction malloc and extract the value
+	from the env string after the '=' sign
+*/
 
 int	shlvl_add(t_env **ft_env)
 {
@@ -90,5 +102,7 @@ int	shlvl_add(t_env **ft_env)
 	}
 	return (0);
 }
-
-
+/*
+	this fonction find the SHLVL variable in env
+	and increment its value by 1
+*/

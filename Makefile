@@ -60,9 +60,7 @@ SRC = $(DIR_BUILTIN)/cd_builtin.c \
       $(DIR_ENV)/env_init.c \
       $(DIR_ENV)/env_lst_utils.c \
       $(DIR_ENV)/env_utils.c \
-      $(DIR_ENV)/next_exp_var.c \
       $(DIR_ENV)/rebuild_env.c \
-      $(DIR_ENV)/utils_exp_var.c \
       $(DIR_EXEC)/exec.c \
       $(DIR_EXEC)/exec_builtins.c \
       $(DIR_EXEC)/exec_fds.c \

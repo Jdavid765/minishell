@@ -24,6 +24,11 @@ t_env	*ft_node_env(char *key, char *value)
 	newnode->next = NULL;
 	return (newnode);
 }
+/*
+	this fonction create a new node for the t_env list
+	with the given key and value
+	return NULL if malloc fails
+*/
 
 void	ft_add_back_env(t_env **head, t_env *new)
 {
@@ -42,6 +47,10 @@ void	ft_add_back_env(t_env **head, t_env *new)
 	}
 	return ;
 }
+/*
+	this fonction add a new t_env node
+	to the end of the chained list
+*/
 
 void	ft_lst_del_env(t_env *ft_env)
 {
@@ -53,6 +62,10 @@ void	ft_lst_del_env(t_env *ft_env)
 		free(ft_env->value);
 	free(ft_env);
 }
+/*
+	this fonction free the key, the value
+	and the node itself
+*/
 
 void	look_env(t_all *all)
 {
@@ -65,4 +78,7 @@ void	look_env(t_all *all)
 		head = head->next;
 	}
 }
-
+/*
+	this fonction print all the env variables
+	mostly useful for debugging purposes
+*/

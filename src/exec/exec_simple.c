@@ -45,7 +45,8 @@ void	exec_single_external(t_all *all, t_parser *cmd)
 		parent_single_external(cmd, pid);
 }
 /*
-
+	this fonction fork to execute a single external cmd
+	split the process in child and parent
 */
 
 void	child_single_external(t_all *all, t_parser *cmd)

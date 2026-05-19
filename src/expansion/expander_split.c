@@ -38,6 +38,10 @@ int	split_expanded_token(t_token *curr_node, char *expanded_str)
 	free_tab(words);
 	return (0);
 }
+/*
+	this fonction split an expanded variable
+	if it contains spaces to create multiple words
+*/
 
 int	insert_split_words(t_token *curr_node, char **words, t_token *next_save, bool orig_space)
 {
@@ -62,3 +66,7 @@ int	insert_split_words(t_token *curr_node, char **words, t_token *next_save, boo
 		next_save->prev = curr_node;
 	return (0);
 }
+/*
+	this fonction create new tokens for each word
+	after a split and link them properly in the list
+*/

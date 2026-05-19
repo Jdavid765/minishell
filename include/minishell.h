@@ -183,7 +183,7 @@ void		parent_single_external(t_parser *cmd, pid_t pid);
 int			setup_env(t_all *all, char **env);
 int			create_env(t_all *all);
 int			search_pwd(t_env **head);
-int			create_SHLVL(t_env **head);
+int			create_shlvl(t_env **head);
 int			create_path_no_env(t_env **head);
 // env_lst_utils.c
 t_env		*ft_node_env(char *key, char *value);

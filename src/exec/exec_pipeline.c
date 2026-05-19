@@ -86,6 +86,19 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	check if it fails
 */
 
+static void	update_last_status(int status)
+{
+	if (WIFEXITED(status))
+		*get_status() = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		*get_status() = 128 + WTERMSIG(status);
+}
+/*
+	this fonction update the global status
+	only for the last command of the pipeline
+	(helper of wait_pipeline)
+*/
+
 void	wait_pipeline(pid_t last_pid)
 {
 	int		status;
@@ -98,12 +111,7 @@ void	wait_pipeline(pid_t last_pid)
 	while ((wpid = waitpid(-1, &status, 0)) > 0)
 	{
 		if (wpid == last_pid)
-		{
-			if (WIFEXITED(status))
-				*get_status() = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				*get_status() = 128 + WTERMSIG(status);
-		}
+			update_last_status(status);
 		if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGINT)
@@ -118,7 +126,8 @@ void	wait_pipeline(pid_t last_pid)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 }
 /*
-
+	this fonction wait for all childs in the pipeline
+	get the exit status of the last cmd and handle signals
 */
 
 

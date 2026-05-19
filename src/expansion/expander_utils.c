@@ -41,6 +41,10 @@ char	*expand_in_str(char *str, t_all *all)
 	}
 	return (result);
 }
+/*
+	this fonction loop through the string
+	and replace all valid dollar signs by their values
+*/
 
 char	*get_var_value(char *dollar, t_all *all, int *i)
 {
@@ -66,6 +70,10 @@ char	*get_var_value(char *dollar, t_all *all, int *i)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
 }
+/*
+	this fonction get the real value of the env variable
+	or the exit status if it is $?
+*/
 
 char	*in_env(char *line, t_all *all)
 {
@@ -83,6 +91,10 @@ char	*in_env(char *line, t_all *all)
 	}
 	return (NULL);
 }
+/*
+	this fonction search the variable name
+	in the env list and return its value
+*/
 
 char	*strip_quotes(char *str)
 {
@@ -91,6 +103,10 @@ char	*strip_quotes(char *str)
 	len = ft_strlen(str);
 	return (ft_substr(str, 1, len - 2));
 }
+/*
+	this fonction remove the first and last char
+	of a string (used for quotes)
+*/
 
 void	free_expand(char *tmp, char *value, char *before)
 {
@@ -101,7 +117,10 @@ void	free_expand(char *tmp, char *value, char *before)
 	if (before)
 		free(before);
 }
-
+/*
+	this fonction is a little helper
+	to free multiple strings after expansion
+*/
 
 /*
 int	replace_dollar(t_token *token, t_all *all)

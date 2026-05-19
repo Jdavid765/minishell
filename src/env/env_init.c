@@ -38,9 +38,13 @@ int	setup_env(t_all *all, char **env)
 		return (1);
 	if (check_path(&head))
 		return (1);
-	all->env = head;
-	return (0);
+	return (all->env = head, 0);
 }
+/*
+	this fonction set up the env link list from the main envp
+	and add shlvl and path if they are needed
+	return 1 if an error occur
+*/
 
 int	create_env(t_all *all)
 {
@@ -49,7 +53,7 @@ int	create_env(t_all *all)
 	head = NULL;
 	if (search_pwd(&head))
 		return (1);
-	if (create_SHLVL(&head))
+	if (create_shlvl(&head))
 		return (1);
 	if (create_path_no_env(&head))
 		return (1);
@@ -57,6 +61,10 @@ int	create_env(t_all *all)
 	look_env(all);
 	return (0);
 }
+/*
+	this fonction create a basic env list
+	used if the program is launched without envp (env -i)
+*/
 
 int	search_pwd(t_env **head)
 {
@@ -80,8 +88,12 @@ int	search_pwd(t_env **head)
 	ft_add_back_env(head, current);
 	return (0);
 }
+/*
+	this fonction get the current working directory
+	and create a new PWD node for the env list
+*/
 
-int	create_SHLVL(t_env **head)
+int	create_shlvl(t_env **head)
 {
 	char	*key;
 	char	*value;
@@ -101,6 +113,10 @@ int	create_SHLVL(t_env **head)
 	ft_add_back_env(head, current);
 	return (0);
 }
+/*
+	this fonction create a new node SHLVL set to 1
+	used when we start the shell without env
+*/
 
 int	create_path_no_env(t_env **head)
 {
@@ -122,3 +138,7 @@ int	create_path_no_env(t_env **head)
 	ft_add_back_env(head, current);
 	return (0);
 }
+/*
+	this fonction create a basic path for the '_' variable
+	if no env is provided at the start
+*/
