@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 23:38:17 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 22:05:02 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	append(t_parser *cmd, t_token **tok)
 		xclose(&cmd->fd_out);
 	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->fd_out < 0)
-		return (1);
+		return (perror((*tok)->value), 1);
 	return (0);
 }
 
@@ -34,7 +34,7 @@ int	redir_in(t_parser *cmd, t_token **tok)
 		xclose(&cmd->fd_in);
 	cmd->fd_in = open((*tok)->value, O_RDONLY);
 	if (cmd->fd_in < 0)
-		return (1);
+		return (perror((*tok)->value), 1);
 	return (0);
 }
 
@@ -99,10 +99,10 @@ int	parse_token(t_all *all)
 	nb_words = count_words(current_tok) + 1;
 	current_cmd->cmd_and_args = ft_calloc(nb_words, sizeof(char *));
 	if (!current_cmd->cmd_and_args)
-		return (1);
+		return (clean_cmd_list(head), 1);
 	ret = parse_loop(&current_cmd, current_tok, all);
 	if (ret == 1 || ret == 10)
-		return (ret);
+		return (clean_cmd_list(head), ret);
 	else if (ret == 5)
 		return ((all->parser = head), ret);
 	all->parser = head;

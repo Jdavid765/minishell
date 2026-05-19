@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 23:16:27 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 23:37:02 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 21:44:58 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	loop_heredoc_quotes(char *rl, t_token *delim, char *line, int *fd)
 	{
 		rl = readline("q> ");
 		if (!rl)
-			return (xclose(&fd[0]), xclose(&fd[1]), 1);
+			return (free(new_delim), xclose(&fd[0]), xclose(&fd[1]), 1);
 		if (rl[0] != '\0' && !ft_compare(rl, new_delim))
 		{
 			free(rl);
@@ -36,6 +36,7 @@ int	loop_heredoc_quotes(char *rl, t_token *delim, char *line, int *fd)
 		free(line);
 		line = NULL;
 	}
+	free(new_delim);
 	return (0);
 }
 
