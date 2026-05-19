@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 23:39:11 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 16:37:27 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void		child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd);
 void		manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd);
 void		setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd);
 void		execute_pipeline_cmd(t_all *all, t_parser *cmd);
+void		loop_wait_pl(int *status, int *sig_int, int *sig_quit, pid_t last_pid);
 
 /* ========================================================================== */
 /* ===============================utils====================================== */
