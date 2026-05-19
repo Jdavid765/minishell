@@ -30,6 +30,7 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 		if (!is_numeric(cmd->cmd_and_args[1]) || (int)ft_strlen(cmd->cmd_and_args[1]) >= 20)
 		{
 			exit_message(cmd->cmd_and_args[1]);
+			*get_status() = 2;
 			return ;
 		}
 		else if (cmd->cmd_and_args[2])
