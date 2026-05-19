@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/18 23:20:31 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/19 16:32:42 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,10 @@ void	wait_pipeline(pid_t last_pid)
 	int		status;
 	int		sig_int;
 	int		sig_quit;
-	pid_t	wpid;
 
 	sig_int = 0;
 	sig_quit = 0;
-	while ((wpid = waitpid(-1, &status, 0)) > 0)
-	{
-		if (wpid == last_pid)
-		{
-			if (WIFEXITED(status))
-				*get_status() = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				*get_status() = 128 + WTERMSIG(status);
-		}
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
-				sig_int = 1;
-			else if (WTERMSIG(status) == SIGQUIT)
-				sig_quit = 1;
-		}
-	}
+	loop_wait_pl(&status, &sig_int, &sig_quit, last_pid);
 	if (sig_int)
 		printf("\n");
 	if (sig_quit)
@@ -46,6 +29,31 @@ void	wait_pipeline(pid_t last_pid)
 /*
 
 */
+
+void	loop_wait_pl(int *status, int *sig_int, int *sig_quit, pid_t last_pid)
+{
+	pid_t	wpid;
+
+	wpid = waitpid(-1, status, 0);
+	while (wpid > 0)
+	{
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(*status))
+				*get_status() = WEXITSTATUS(*status);
+			else if (WIFSIGNALED(*status))
+				*get_status() = 128 + WTERMSIG(*status);
+		}
+		if (WIFSIGNALED(*status))
+		{
+			if (WTERMSIG(*status) == SIGINT)
+				*sig_int = 1;
+			else if (WTERMSIG(*status) == SIGQUIT)
+				*sig_quit = 1;
+		}
+		wpid = waitpid(-1, status, 0);
+	}
+}
 
 void	exec_pipeline(t_all *all)
 {
@@ -76,31 +84,6 @@ void	exec_pipeline(t_all *all)
 /*
 	main loop for execute more than one cmd
 	fork every cmd and send it where it belong
-*/
-
-void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd)
-{
-	setup_pipe_fds(cmd, prev_fd, p_fd);
-	apply_redirections(cmd);
-	execute_pipeline_cmd(all, cmd);
-}
-/*
-	bridge for all the cmd exec
-*/
-
-void	manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd)
-{
-	if (*prev_read_fd != -1)
-		xclose(prev_read_fd);
-	if (cmd->next)
-	{
-		xclose(&pipefd[1]);
-		*prev_read_fd = pipefd[0];
-	}
-}
-/*
-	close the prev fd if it exists
-	if there is another cmd close the previous one 
 */
 
 void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)

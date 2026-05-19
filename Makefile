@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/04/11 13:02:55 by canoduran        ###   ########.fr        #
+#    Updated: 2026/05/19 16:22:06 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC = $(DIR_SRC)/main.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_external_cmd.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_utils.c \
       $(DIR_SRC)/$(DIR_EXEC)/exec_pipeline.c \
+	  $(DIR_SRC)/$(DIR_EXEC)/suite_pipeline.c \
       $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
       $(DIR_SRC)/$(DIR_PARSING)/next_parsing.c \
       $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
