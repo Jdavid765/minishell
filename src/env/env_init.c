@@ -58,7 +58,7 @@ int	create_env(t_all *all)
 	if (create_path_no_env(&head))
 		return (1);
 	all->env = head;
-	look_env(all);
+	// look_env(all);
 	return (0);
 }
 /*

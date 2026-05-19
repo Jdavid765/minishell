@@ -12,6 +12,13 @@
 
 #include "../../include/minishell.h"
 
+static void	exit_message(char *cmd_and_args)
+{
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(cmd_and_args, STDERR_FILENO);
+	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+}
+
 void	exit_builtin(t_all *all, t_parser *cmd)
 {
 	int	exit_code;
@@ -20,12 +27,10 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (cmd->cmd_and_args[1])
 	{
-		if (!is_numeric(cmd->cmd_and_args[1]))
+		if (!is_numeric(cmd->cmd_and_args[1]) || (int)ft_strlen(cmd->cmd_and_args[1]) >= 20)
 		{
-			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-			ft_putstr_fd(cmd->cmd_and_args[1], STDERR_FILENO);
-			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-			clean_exit(all, 255);
+			exit_message(cmd->cmd_and_args[1]);
+			return ;
 		}
 		else if (cmd->cmd_and_args[2])
 		{
@@ -33,14 +38,14 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 			*get_status() = 2;
 			return ;
 		}
-		else
-			exit_code = ft_atoi(cmd->cmd_and_args[1]);
+		exit_code = ft_atoi(cmd->cmd_and_args[1]);
 	}
 	clean_exit(all, exit_code % 256);
 }
 /*
 	this fonction execute the exit builtin
-	it checks if the arg is numeric and if there is too many args
+	it checks if the arg is numeric and if there is too many args or too
+	long exit code.
 	then call clean_exit to free everything and quit
 */
 

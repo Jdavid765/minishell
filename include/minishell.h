@@ -33,14 +33,6 @@
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 
-# ifndef FALSE
-#  define FALSE 0
-# endif
-
-# ifndef TRUE
-#  define TRUE 1
-# endif
-
 typedef enum	e_token_type
 {
 	WORD,

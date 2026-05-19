@@ -29,22 +29,20 @@ void	cmd_env(t_all *all)
 
 int	create_path(t_env **ft_env)
 {
-	t_env	*head;
 	t_env	*current;
 	char	*key;
 	char	*value;
 
-	head = *ft_env;
-	key = malloc(sizeof(char) * 5);
+	key = ft_strdup("PATH");
 	if (!key)
 		return (1);
 	value = ft_strdup("/usr/bin/");
 	if (!value)
-		return (1);
+		return (free(key), 1);
 	current = ft_node_env(key, value);
 	if (!current)
-		return (1);
-	ft_add_back_env(&head, current);
+		return (free(key), free(value), 1);
+	ft_add_back_env(ft_env, current);
 	return (0);
 }
 
@@ -58,12 +56,12 @@ int	check_path(t_env **ft_env)
 		if (head->key[0] == 'P')
 		{
 			if (!ft_compare(head->key, "PATH"))
-			{
-				if (!create_path(&head))
-					return (0);
-			}
+				return (0);
 		}
 		head = head->next;
 	}
-	return (1);
+	if (create_path(ft_env))
+		return (1);
+	return (0);
 }
+
