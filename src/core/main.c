@@ -56,6 +56,49 @@
 	}
 }*/
 
+static char	*get_input(t_all *all)
+{
+	char	*rl;
+
+	rl_on_new_line();
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+		rl = readline("Minishell > ");
+	else
+		rl = readline("");
+	if (!rl)
+	{
+		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+		clean_exit(all, *get_status());
+	}
+	return (rl);
+}
+/*
+	this function handles user input using readline.
+	it checks if the input comes from a terminal (isatty)
+	to avoid printing the prompt in a pipe.
+	if rl is NULL (Ctrl-D), it exits the shell.
+*/
+
+static void	handle_execution(t_all *all, int value)
+{
+	if (value == 10 || value == 5)
+	{
+		ft_putstr_fd("Syntax Errors\n", STDERR_FILENO);
+		*get_status() = 2;
+	}
+	else if (value == 0)
+	{
+		executor(all);
+	}
+}
+/*
+	this function checks the return value of the parser.
+	if a syntax error is found (5 or 10), it prints an error
+	and sets the status to 2.
+	otherwise (0), it calls the executor to run the commands.
+*/
+
 int	main_loop(t_all *all)
 {
 	char	*rl;
@@ -63,33 +106,16 @@ int	main_loop(t_all *all)
 
 	while (1)
 	{
-		rl_on_new_line();
-		rl = readline("Minishell > ");
-		if (!rl)
-		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			clean_exit(all, *get_status());
-		}
+		rl = get_input(all);
 		tokenizer(rl, all);
 		if (check_exp_var(all))
 			return (1);
 		join_adjacent_tokens(all);
 		value = parse_token(all);
-		if (value != 0)
-		{
-			if (value == 10 || value == 5)
-			{
-				ft_putstr_fd("Syntax Errors\n", STDOUT_FILENO);
-				*get_status() = 2;
-			}
-		}
-		// look_parser(all);
-		else
-		{
-		executor(all);
-		}
+		handle_execution(all, value);
 		clean_loop(all);
-		add_history(rl);
+		if (rl && rl[0])
+			add_history(rl);
 		if (rl)
 			free(rl);
 	}
@@ -116,8 +142,6 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 /*
-	the all struct contain all the others structs.
-	setup() is for all the setup that needs to be done before
-	main_loop() is the place where the main loop with readline is done
-	clean_exit() is for check that everthing has been clean
+	The entry point of the minishell program.
+	It initializes the main structures and launches the core loop.
 */

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
+#    By: nfiora-d                                   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/04/11 13:02:55 by canoduran        ###   ########.fr        #
+#    Updated: 2026/05/19 11:21:00 by nfiora-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ RESET    = \033[0m
 
 # --- VARIABLES ---
 OS = $(shell uname)
-CC       = gcc
+CC       = cc
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -fPIE 
+CFLAGS   = -Wall -Wextra -Werror
 LFLAGS   = -lreadline 
 DIRINC   = include
 INCLUDES = -I$(DIRINC)
@@ -29,81 +29,80 @@ LIBFT_DIR = libft
 LIBFT     = $(LIBFT_DIR)/libft.a
 
 ifeq ($(OS), Darwin)
-	LFLAGS = -L /opt/homebrew/Cellar/readline/8.3.3/lib -lreadline -lncurses
-	INCLUDES = -I /opt/homebrew/Cellar/readline/8.3.3/include
+	LFLAGS = -L /opt/homebrew/opt/readline/lib -lreadline -lncurses
+	INCLUDES = -I /opt/homebrew/opt/readline/include -I$(DIRINC)
 endif
 
 # --- DIRECTORIES ---
-
 DIR_SRC     = src
-DIR_PARSING = parsing
-DIR_BUILTIN = builtins
-DIR_SIG     = signal
-DIR_UTILS   = utils
-DIR_EXEC    = exec
-DIR_TOKEN   = token
+DIR_BUILTIN = $(DIR_SRC)/builtins
+DIR_CORE    = $(DIR_SRC)/core
+DIR_ENV     = $(DIR_SRC)/env
+DIR_EXEC    = $(DIR_SRC)/exec
+DIR_EXP     = $(DIR_SRC)/expansion
+DIR_LEXER   = $(DIR_SRC)/lexer
+DIR_PARSER  = $(DIR_SRC)/parser
+DIR_UTILS   = $(DIR_SRC)/utils
 OBJ_DIR     = obj
-DIR_SETUP   = setup
-DIR_NODE    = node
-DIR_CLEAN   = clean
-DIR_ENV     = env
-
 
 # --- SOURCES ---
-SRC = $(DIR_SRC)/main.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/cd_builtin.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/echo_builtin.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/env_builtin.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/exit_builtin.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/export_builtin.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/pwd_builtin.c \
-      $(DIR_SRC)/$(DIR_BUILTIN)/unset_builtin.c \
-      $(DIR_SRC)/$(DIR_EXEC)/exec.c \
-      $(DIR_SRC)/$(DIR_EXEC)/find_path_in_env.c \
-      $(DIR_SRC)/$(DIR_EXEC)/rebuild_env.c \
-      $(DIR_SRC)/$(DIR_EXEC)/exec_builtins.c \
-      $(DIR_SRC)/$(DIR_EXEC)/exec_external_cmd.c \
-      $(DIR_SRC)/$(DIR_EXEC)/exec_utils.c \
-      $(DIR_SRC)/$(DIR_EXEC)/exec_pipeline.c \
-      $(DIR_SRC)/$(DIR_PARSING)/parsing.c \
-      $(DIR_SRC)/$(DIR_PARSING)/next_parsing.c \
-      $(DIR_SRC)/$(DIR_PARSING)/last_parsing.c \
-      $(DIR_SRC)/$(DIR_SIG)/signal.c \
-      $(DIR_SRC)/$(DIR_UTILS)/utils.c \
-      $(DIR_SRC)/$(DIR_UTILS)/get_status.c \
-      $(DIR_SRC)/$(DIR_UTILS)/export_utils_builtin.c \
-      $(DIR_SRC)/$(DIR_SETUP)/setup.c \
-      $(DIR_SRC)/$(DIR_TOKEN)/find_token_in_readline.c \
-      $(DIR_SRC)/$(DIR_TOKEN)/find_token_by_char.c \
-      $(DIR_SRC)/$(DIR_NODE)/functions_env.c \
-      $(DIR_SRC)/$(DIR_NODE)/node_pars.c \
-      $(DIR_SRC)/$(DIR_ENV)/export_env.c \
-      $(DIR_SRC)/$(DIR_ENV)/exp_variable.c \
-      $(DIR_SRC)/$(DIR_ENV)/next_exp_var.c \
-      $(DIR_SRC)/$(DIR_ENV)/utils_exp_var.c \
-      $(DIR_SRC)/$(DIR_ENV)/create_env.c \
-      $(DIR_SRC)/$(DIR_CLEAN)/clean_node.c \
-      $(DIR_SRC)/$(DIR_CLEAN)/clean_utils.c \
-
-#       $(DIR_SRC)/$()/.c \
+SRC = $(DIR_BUILTIN)/cd_builtin.c \
+      $(DIR_BUILTIN)/echo_builtin.c \
+      $(DIR_BUILTIN)/env_builtin.c \
+      $(DIR_BUILTIN)/exit_builtin.c \
+      $(DIR_BUILTIN)/export_builtin.c \
+      $(DIR_BUILTIN)/export_utils.c \
+      $(DIR_BUILTIN)/pwd_builtin.c \
+      $(DIR_BUILTIN)/unset_builtin.c \
+      $(DIR_CORE)/main.c \
+      $(DIR_CORE)/setup.c \
+      $(DIR_CORE)/signal.c \
+      $(DIR_ENV)/env_init.c \
+      $(DIR_ENV)/env_lst_utils.c \
+      $(DIR_ENV)/env_utils.c \
+      $(DIR_ENV)/next_exp_var.c \
+      $(DIR_ENV)/rebuild_env.c \
+      $(DIR_ENV)/utils_exp_var.c \
+      $(DIR_EXEC)/exec.c \
+      $(DIR_EXEC)/exec_builtins.c \
+      $(DIR_EXEC)/exec_fds.c \
+      $(DIR_EXEC)/exec_path.c \
+      $(DIR_EXEC)/exec_pipeline.c \
+      $(DIR_EXEC)/exec_simple.c \
+      $(DIR_EXP)/expander_quotes.c \
+      $(DIR_EXP)/expander_split.c \
+      $(DIR_EXP)/expander_utils.c \
+      $(DIR_EXP)/expender.c \
+      $(DIR_LEXER)/lexer.c \
+      $(DIR_LEXER)/lexer_handlers.c \
+      $(DIR_LEXER)/lexer_nodes.c \
+      $(DIR_LEXER)/lexer_quotes.c \
+      $(DIR_LEXER)/lexer_redir.c \
+      $(DIR_PARSER)/parser_heredoc.c \
+      $(DIR_PARSER)/parser_nodes.c \
+      $(DIR_PARSER)/parser_redirs.c \
+      $(DIR_PARSER)/parser_utils.c \
+      $(DIR_PARSER)/parsing.c \
+      $(DIR_UTILS)/clean_core.c \
+      $(DIR_UTILS)/clean_lists.c \
+      $(DIR_UTILS)/utils.c
 
 # --- OBJECTS ---
-OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
+OBJ = $(SRC:$(DIR_SRC)/%.c=$(OBJ_DIR)/%.o)
 
 # --- RULES ---
-
 all : $(NAME)
 
-$(NAME) : $(OBJ) $(LIBFT)
+$(NAME) : $(LIBFT) $(OBJ)
 	@printf "$(BLUE)Linking $(NAME)...$(RESET)\n"
-	@$(CC) $(OBJ) $(CFLAGS) $(LFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
 	@printf "$(GREEN)Build successfully complete!$(RESET)\n"
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) --no-print-directory
-	@printf "$(BLUE)adding libft$<...$(RESET)\n"
+	@printf "$(BLUE)adding libft...$(RESET)\n"
 
-$(OBJ_DIR)/%.o: %.c $(HEADER)
+$(OBJ_DIR)/%.o: $(DIR_SRC)/%.c $(HEADER)
 	@mkdir -p $(dir $@)
 	@printf "$(BLUE)Compiling $<...$(RESET)\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
