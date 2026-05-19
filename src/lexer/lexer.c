@@ -53,7 +53,8 @@ void	join_adjacent_tokens(t_all *all)
 	curr = all->token;
 	while (curr && curr->next)
 	{
-		if (curr->type == WORD && curr->next->type == WORD && curr->space_after == false)
+		if (curr->type == WORD && curr->next->type == WORD
+			&& curr->space_after == false)
 		{
 			tmp = ft_strjoin(curr->value, curr->next->value);
 			free(curr->value);
@@ -70,3 +71,7 @@ void	join_adjacent_tokens(t_all *all)
 			curr = curr->next;
 	}
 }
+/*
+	this fonction joins adjacent WORD tokens if there is no space between them
+	it combines their values and frees the unneeded node
+*/

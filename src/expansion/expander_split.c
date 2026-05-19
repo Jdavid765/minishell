@@ -43,7 +43,8 @@ int	split_expanded_token(t_token *curr_node, char *expanded_str)
 	if it contains spaces to create multiple words
 */
 
-int	insert_split_words(t_token *curr_node, char **words, t_token *next_save, bool orig_space)
+int	insert_split_words(t_token *curr_node,
+	char **words, t_token *next_save, bool orig_space)
 {
 	int		i;
 	t_token	*new_node;

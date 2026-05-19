@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
 void	print_export(t_all *all)
 {
 	t_env	*current;

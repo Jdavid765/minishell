@@ -12,8 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
-
 int	redir_in(t_parser *cmd, t_token **tok)
 {
 	(*tok) = (*tok)->next;
@@ -26,6 +24,10 @@ int	redir_in(t_parser *cmd, t_token **tok)
 		return (1);
 	return (0);
 }
+/*
+	this fonction handles input redirection (<)
+	and opens the target file in read-only mode
+*/
 
 int	redir_out(t_parser *cmd, t_token **tok)
 {
@@ -39,6 +41,10 @@ int	redir_out(t_parser *cmd, t_token **tok)
 		return (1);
 	return (0);
 }
+/*
+	this fonction handles output redirection (>)
+	and opens the target file in write/truncate mode
+*/
 
 int	append(t_parser *cmd, t_token **tok)
 {
@@ -52,3 +58,7 @@ int	append(t_parser *cmd, t_token **tok)
 		return (1);
 	return (0);
 }
+/*
+	this fonction handles append redirection (>>)
+	and opens the target file in write/append mode
+*/

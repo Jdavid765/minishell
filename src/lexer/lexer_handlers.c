@@ -72,6 +72,10 @@ int	new_pipe(char *user_input, int *start, t_all *all)
 		return (free(arg), 1);
 	return (0);
 }
+/*
+	this fonction creates a new token node for a pipe
+	it extracts the '|' character and returns 1 if malloc fails
+*/
 
 int	is_a_separator(char letter)
 {

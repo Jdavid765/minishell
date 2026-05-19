@@ -25,7 +25,7 @@ int	setup(t_all *all, char **env)
 	else
 	{
 		if (setup_env(all, env))
-		return (1);
+			return (1);
 		all->path = search_path(all);
 		if (!all->path)
 			return (1);

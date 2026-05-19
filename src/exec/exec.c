@@ -46,6 +46,3 @@ int	count_cmds(t_parser *cmd_list)
 	this fonction help tout count,
 	how many cmd are send to the exec part
 */
-
-
-

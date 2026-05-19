@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 void	exec_pipeline(t_all *all)
 {
 	t_parser	*cmd;
@@ -76,7 +77,7 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	envp = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, envp);
-		perror("execve");
+	perror("execve");
 	free_tab(envp);
 	exit(126);
 }
@@ -108,20 +109,20 @@ void	wait_pipeline(pid_t last_pid)
 
 	sig_int = 0;
 	sig_quit = 0;
-	while ((wpid = waitpid(-1, &status, 0)) > 0)
+	while (1)
 	{
+		wpid = waitpid(-1, &status, 0);
+		if (wpid <= 0)
+			break ;
 		if (wpid == last_pid)
 			update_last_status(status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
-				sig_int = 1;
-			else if (WTERMSIG(status) == SIGQUIT)
-				sig_quit = 1;
-		}
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			sig_int = 1;
+		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			sig_quit = 1;
 	}
 	if (sig_int)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	if (sig_quit)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 }
@@ -129,13 +130,3 @@ void	wait_pipeline(pid_t last_pid)
 	this fonction wait for all childs in the pipeline
 	get the exit status of the last cmd and handle signals
 */
-
-
-
-
-
-
-
-
-
-

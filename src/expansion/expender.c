@@ -58,7 +58,6 @@ int	check_dollar(t_token *token, t_all *all)
 	tmp = expand_in_str(token->value, all);
 	if (!tmp)
 		return (1);
-	
 	if (ft_strchr(tmp, ' '))
 	{
 		if (split_expanded_token(token, tmp))

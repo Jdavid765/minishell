@@ -40,6 +40,10 @@ void	free_all(t_all *all)
 	clean_token_list(all->token);
 	all->token = NULL;
 }
+/*
+	this fonction clears both the token list and the parser list
+	at the same time and sets them to NULL
+*/
 
 void	free_tab(char **strs)
 {
@@ -55,7 +59,6 @@ void	free_tab(char **strs)
 	}
 	free(strs);
 }
-
 /*
 	Frees a null-terminated array of strings and the pointer
 	to the array itself.
@@ -71,11 +74,11 @@ int	xclose(int *fd)
 	*fd = -1;
 	return (return_value);
 }
-
 /*
 	all the credits to 0yech & stellaaash for this fonction 
 	pureee genuis frrr
 */
+
 void	clean_loop(t_all *all)
 {
 	if (all->token)

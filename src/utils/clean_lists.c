@@ -57,7 +57,6 @@ int	clean_cmd_list(t_parser *head)
 	}
 	return (status);
 }
-
 /*
 	Frees the parser list, free command arguments,
 	and safely closes file descriptors strictly greater than 2

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	setup_env(t_all *all, char **env)
 {
@@ -49,7 +49,7 @@ int	setup_env(t_all *all, char **env)
 int	create_env(t_all *all)
 {
 	t_env	*head;
-	
+
 	head = NULL;
 	if (search_pwd(&head))
 		return (1);

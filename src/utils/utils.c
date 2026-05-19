@@ -30,6 +30,10 @@ int	ft_compare(char *rl, char *string)
 	}
 	return (0);
 }
+/*
+	this fonction compares two strings
+	returns 0 if they are strictly identical, 1 otherwise
+*/
 
 int	*get_status(void)
 {
@@ -37,3 +41,7 @@ int	*get_status(void)
 
 	return (&status);
 }
+/*
+	this fonction uses a static variable to store and retrieve
+	the global exit status securely throughout the minishell
+*/

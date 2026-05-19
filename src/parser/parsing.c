@@ -87,6 +87,10 @@ int	all_else_if(t_parser **cmd, t_token **token, t_all *all, int *index)
 		ret = heredoc(all, *cmd, token);
 	return (ret);
 }
+/*
+	this fonction iterates over tokens to fill the current parser node
+	it dispatches the token parsing through all_else_if
+*/
 
 //when i exit i need to free all i allocated;
 // 10 = error de syntax

@@ -30,6 +30,10 @@ t_parser	*ft_node_pars(char *path)
 	newnode->next = NULL;
 	return (newnode);
 }
+/*
+	this fonction creates and initializes a new parser node
+	returns NULL if a malloc fails
+*/
 
 void	ft_addback_parse(t_parser **head, t_parser *new)
 {
@@ -48,6 +52,10 @@ void	ft_addback_parse(t_parser **head, t_parser *new)
 	}
 	return ;
 }
+/*
+	this fonction adds a newly created parser node
+	to the end of the parser linked list
+*/
 
 int	count_words(t_token *token)
 {
@@ -72,4 +80,3 @@ int	count_words(t_token *token)
 	it skip others types and count only if the word is_valid
 	(see exp_variable)
 */
-

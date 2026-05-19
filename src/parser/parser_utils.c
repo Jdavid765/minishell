@@ -34,6 +34,10 @@ int	ft_pipe(t_parser **cmd, t_token *tok, int *index, char *path)
 	*index = 0;
 	return (0);
 }
+/*
+	this fonction creates a new parser node for the next command in the pipeline
+	and prepares the command arguments array
+*/
 
 char	*search_path(t_all *all)
 {
@@ -51,6 +55,10 @@ char	*search_path(t_all *all)
 	}
 	return (NULL);
 }
+/*
+	this fonction searches for the PATH variable in the environment list
+	and returns its string value, or NULL if not found
+*/
 
 char	*search_path_no_env(t_all *all)
 {
@@ -68,3 +76,7 @@ char	*search_path_no_env(t_all *all)
 	}
 	return (NULL);
 }
+/*
+	this fonction searches for the fallback '_' variable
+	when no environment is provided at launch
+*/

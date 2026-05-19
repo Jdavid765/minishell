@@ -32,6 +32,10 @@ int	new_redir_out_or_appnd(char *user_input, int *start, t_all *all)
 		return (free(arg), 1);
 	return (0);
 }
+/*
+	this fonction checks if the output redirection is > or >>
+	and routes the creation to the corresponding token node
+*/
 
 int	new_appnd(char *user_input, int *start, t_all *all, int end)
 {
@@ -45,6 +49,10 @@ int	new_appnd(char *user_input, int *start, t_all *all, int end)
 		return (free(arg), 1);
 	return (0);
 }
+/*
+	this fonction creates an APPEND token node for >> redirections
+	returns 1 if a malloc fails
+*/
 
 int	new_redir_in_or_heredoc(char *user_input, int *start, t_all *all)
 {
@@ -66,6 +74,10 @@ int	new_redir_in_or_heredoc(char *user_input, int *start, t_all *all)
 		return (free(arg), 1);
 	return (0);
 }
+/*
+	this fonction checks if the input redirection is < or <<
+	and routes the creation to the corresponding token node
+*/
 
 int	new_heredoc(char *user_input, int *start, t_all *all, int end)
 {
@@ -79,3 +91,7 @@ int	new_heredoc(char *user_input, int *start, t_all *all, int end)
 		return (free(arg), 1);
 	return (0);
 }
+/*
+	this fonction creates a HEREDOC token node for << redirections
+	returns 1 if a malloc fails
+*/

@@ -40,6 +40,10 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 		xclose(&cmd->fd_in);
 	return (cmd->fd_in = fd[0], 0);
 }
+/*
+	this fonction handles the heredoc setup, creates a pipe,
+	forks a child process, and reads input until the delimiter is met
+*/
 
 int	loop_heredoc(t_token *delim, int *fd)
 {
@@ -68,6 +72,10 @@ int	loop_heredoc(t_token *delim, int *fd)
 	}
 	return (0);
 }
+/*
+	this fonction reads standard input using readline
+	until it matches the delimiter or reaches EOF
+*/
 
 int	wait_heredoc(t_all *all, pid_t pid, int *fd)
 {
@@ -84,3 +92,7 @@ int	wait_heredoc(t_all *all, pid_t pid, int *fd)
 	}
 	return (0);
 }
+/*
+	this fonction waits for the heredoc child process to finish
+	and properly handles signals like SIGINT during the prompt
+*/

@@ -30,6 +30,11 @@ int	new_double_quote(char *user_input, int *start, t_all *all)
 		return (free(arg), 1);
 	return (0);
 }
+/*
+	this fonction extracts a string inside double quotes
+	and creates a new WORD token node
+	returns 1 if a malloc fails
+*/
 
 int	new_single_quote(char *user_input, int *start, t_all *all)
 {
@@ -49,4 +54,8 @@ int	new_single_quote(char *user_input, int *start, t_all *all)
 		return (free(arg), 1);
 	return (0);
 }
-
+/*
+	this fonction extracts a string inside single quotes
+	and creates a new WORD token node
+	returns 1 if a malloc fails
+*/

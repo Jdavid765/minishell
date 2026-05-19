@@ -63,7 +63,6 @@ void	init_original_signals(t_all *all)
 	all->sig.sa_orig_int.sa_handler = SIG_DFL;
 	sigemptyset(&all->sig.sa_orig_int.sa_mask);
 	all->sig.sa_orig_int.sa_flags = 0;
-
 	ft_bzero(&all->sig.sa_orig_quit, sizeof(struct sigaction));
 	all->sig.sa_orig_quit.sa_handler = SIG_DFL;
 	sigemptyset(&all->sig.sa_orig_quit.sa_mask);
