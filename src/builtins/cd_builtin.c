@@ -77,7 +77,10 @@ int	update_env(t_all *all)
 	if (oldpwd_node && pwd_node)
 	{
 		free(oldpwd_node->value);
-		oldpwd_node->value = ft_strdup(pwd_node->value);
+		if (pwd_node->value)
+			oldpwd_node->value = ft_strdup(pwd_node->value);
+		else
+			oldpwd_node->value = NULL;
 	}
 	if (pwd_node)
 	{

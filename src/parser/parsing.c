@@ -31,12 +31,12 @@ int	parse_token(t_all *all)
 	current_cmd->cmd_and_args = ft_calloc(nb_words, sizeof(char *));
 	if (!current_cmd->cmd_and_args)
 		return (1);
+	all->parser = head;
 	ret = parse_loop(&current_cmd, current_tok, all);
 	if (ret == 1 || ret == 10 || ret == 130)
 		return (ret);
 	else if (ret == 5)
 		return ((all->parser = head), ret);
-	all->parser = head;
 	return (0);
 }
 /*

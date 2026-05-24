@@ -61,10 +61,10 @@ static char	*get_input(t_all *all)
 	char	*rl;
 
 	rl_on_new_line();
-	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+	// if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 		rl = readline("Minishell > ");
-	else
-		rl = readline("");
+	// else
+	// 	rl = readline("");
 	if (!rl)
 	{
 		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
@@ -107,12 +107,18 @@ int	main_loop(t_all *all)
 	while (1)
 	{
 		rl = get_input(all);
-		tokenizer(rl, all);
-		if (check_exp_var(all))
-			return (1);
-		join_adjacent_tokens(all);
-		value = parse_token(all);
-		handle_execution(all, value);
+		if (tokenizer(rl, all) == 0)
+		{
+			if (check_exp_var(all))
+			{
+				if (rl)
+					free(rl);
+				return (1);
+			}
+			join_adjacent_tokens(all);
+			value = parse_token(all);
+			handle_execution(all, value);
+		}
 		clean_loop(all);
 		if (rl && rl[0])
 			add_history(rl);

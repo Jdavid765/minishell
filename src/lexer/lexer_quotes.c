@@ -20,6 +20,12 @@ int	new_double_quote(char *user_input, int *start, t_all *all)
 	end = 1;
 	while (user_input[*start + end] && user_input[*start + end] != '\"')
 		end++;
+	if (user_input[*start + end] == '\0')
+	{
+		ft_putendl_fd("minishell: syntax error", STDERR_FILENO);
+		*get_status() = 2;
+		return (1);
+	}
 	if (user_input[*start + end] == '\"')
 		end++;
 	arg = ft_substr(user_input, *start, end);
