@@ -40,7 +40,7 @@ int	unset_builtin(t_all *all, t_parser *cmd)
 	int	i;
 
 	if (!cmd->cmd_and_args[1])
-		return (1);
+		return (0);
 	i = 1;
 	while (cmd->cmd_and_args[i])
 	{

@@ -16,6 +16,11 @@ int	cd_builtin(t_all *all, t_parser *cd_cmd)
 {
 	if (!cd_cmd->cmd_and_args[1])
 		return (go_to_home_dir(all));
+	if (cd_cmd->cmd_and_args[2]) // <-- Ajout de la vérification
+	{
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
+		return (1);
+	}
 	if (chdir(cd_cmd->cmd_and_args[1]) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
@@ -24,7 +29,6 @@ int	cd_builtin(t_all *all, t_parser *cd_cmd)
 	}
 	if (update_env(all))
 		return (1);
-	cd_cmd = NULL;
 	return (0);
 }
 
