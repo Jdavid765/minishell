@@ -17,11 +17,17 @@ int	redir_in(t_parser *cmd, t_token **tok)
 	(*tok) = (*tok)->next;
 	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+		return (0);
 	if (cmd->fd_in != 0)
 		xclose(&cmd->fd_in);
 	cmd->fd_in = open((*tok)->value, O_RDONLY);
 	if (cmd->fd_in < 0)
-		return (1);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror((*tok)->value);
+		*get_status() = 1;
+	}
 	return (0);
 }
 /*
@@ -34,11 +40,17 @@ int	redir_out(t_parser *cmd, t_token **tok)
 	(*tok) = (*tok)->next;
 	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+		return (0);
 	if (cmd->fd_out != 1)
 		xclose(&cmd->fd_out);
 	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (cmd->fd_out < 0)
-		return (1);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror((*tok)->value);
+		*get_status() = 1;
+	}
 	return (0);
 }
 /*
@@ -51,11 +63,17 @@ int	append(t_parser *cmd, t_token **tok)
 	(*tok) = (*tok)->next;
 	if (!(*tok) || (*tok)->type != WORD)
 		return (10);
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+		return (0);
 	if (cmd->fd_out != 1)
 		xclose(&cmd->fd_out);
 	cmd->fd_out = open((*tok)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->fd_out < 0)
-		return (1);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror((*tok)->value);
+		*get_status() = 1;
+	}
 	return (0);
 }
 /*

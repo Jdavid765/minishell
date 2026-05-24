@@ -46,3 +46,46 @@ int	count_cmds(t_parser *cmd_list)
 	this fonction help tout count,
 	how many cmd are send to the exec part
 */
+
+void	check_dir_and_perm(char *cmd)
+{
+	struct stat	s;
+
+	if (access(cmd, F_OK) != 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(cmd);
+		exit(127);
+	}
+	if (stat(cmd, &s) == 0 && S_ISDIR(s.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": Is a directory", 2);
+		exit(126);
+	}
+	if (access(cmd, X_OK) != 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(cmd);
+		exit(126);
+	}
+}
+/*
+	this fonction check if the path exist, is a directory
+	or lack execution permissions and exit with the right code
+*/
+
+void	check_exec_error(char *cmd)
+{
+	if (ft_strchr(cmd, '/'))
+		check_dir_and_perm(cmd);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(": command not found", 2);
+	exit(127);
+}
+/*
+	this fonction check if the cmd is a path to route to the
+	right error handler or print command not found and exit 127
+*/

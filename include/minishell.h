@@ -143,6 +143,8 @@ int			unset_builtin(t_all *all, t_parser *cmd);
 // exec.c
 void		executor(t_all *all);
 int			count_cmds(t_parser *cmd_list);
+void		check_dir_and_perm(char *cmd);
+void		check_exec_error(char *cmd);
 // exec_builtins.c
 int			is_builtin(char *cmd);
 void		exec_builtin(t_all *all, t_parser *cmd);

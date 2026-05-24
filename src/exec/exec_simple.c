@@ -59,13 +59,7 @@ void	child_single_external(t_all *all, t_parser *cmd)
 	free(cmd->path);
 	cmd->path = temp_path;
 	if (!cmd->path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		if (cmd->cmd_and_args && cmd->cmd_and_args[0])
-			ft_putstr_fd(cmd->cmd_and_args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		exit(127);
-	}
+		check_exec_error(cmd->cmd_and_args[0]);
 	new_env = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, new_env);
@@ -74,7 +68,7 @@ void	child_single_external(t_all *all, t_parser *cmd)
 	exit(126);
 }
 /*
-	apply right redirections and check if the PATH exist
+	this fonction apply right redirections and check if the PATH exist
 	rebuilt the new env for execve and check if it fails
 */
 

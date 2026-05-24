@@ -49,3 +49,7 @@ int	unset_builtin(t_all *all, t_parser *cmd)
 	}
 	return (0);
 }
+/*
+	this fonction unsets an environment variable
+	by removing its node from the list
+*/

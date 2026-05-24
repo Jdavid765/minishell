@@ -67,13 +67,7 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	free(cmd->path);
 	cmd->path = temp_path;
 	if (!cmd->path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		if (cmd->cmd_and_args && cmd->cmd_and_args[0])
-			ft_putstr_fd(cmd->cmd_and_args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		exit(127);
-	}
+		check_exec_error(cmd->cmd_and_args[0]); // REMPLACE LE LONG IF ICI
 	envp = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, envp);
@@ -83,8 +77,8 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 }
 
 /*
-	check if the cmd is a builtin else exec the extrenal cmd
-	check if it fails
+	this fonction check if the cmd is a builtin else exec the external cmd
+	and check if it fails
 */
 
 static void	update_last_status(int status)

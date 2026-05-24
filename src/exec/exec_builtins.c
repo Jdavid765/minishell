@@ -70,6 +70,11 @@ void	exec_single_builtin(t_all *all, t_parser *cmd)
 	int	saved_stdin;
 	int	saved_stdout;
 
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+	{
+		*get_status() = 1;
+		return ;
+	}
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	if (cmd->fd_in != 0)
@@ -83,6 +88,6 @@ void	exec_single_builtin(t_all *all, t_parser *cmd)
 	(void)xclose(&saved_stdout);
 }
 /*
-	saves OG fd 1/0 then exec the builtin
-	and give back the right fd
+	this fonction saves OG fd 1/0 then exec the builtin
+	and give back the right fd, but abort if an open failed
 */

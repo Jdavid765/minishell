@@ -48,6 +48,8 @@ void	setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd)
 
 void	apply_redirections(t_parser *cmd)
 {
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+		exit(1);
 	if (cmd->fd_in != 0)
 	{
 		dup2(cmd->fd_in, STDIN_FILENO);
@@ -60,5 +62,6 @@ void	apply_redirections(t_parser *cmd)
 	}
 }
 /*
-	to change the fd if it's a file and close it
+	this fonction apply the redirections by duplicating fds
+	and crash the child process if an open failed before
 */

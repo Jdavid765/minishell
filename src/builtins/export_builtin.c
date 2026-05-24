@@ -51,9 +51,9 @@ int	add_or_update(t_all *all, char *arg)
 		return (1);
 	if (is_valid_arg(key))
 	{
-		ft_putstr_fd("export: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(", not a valid identifier\n", STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 		free(key);
 		free(value);
 		return (1);
@@ -62,6 +62,10 @@ int	add_or_update(t_all *all, char *arg)
 		return (0);
 	return (append_node(all, key, value));
 }
+/*
+	this fonction add a new variable or update an existing one
+	and print an error if the identifier is not valid
+*/
 
 int	export_builtin(t_all *all, t_parser *cmd)
 {
