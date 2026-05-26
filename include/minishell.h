@@ -266,6 +266,8 @@ int			all_else_if(t_parser **cmd, t_token **token, t_all *all, int *index);
 /* ========================================================================== */
 /*                                UTILS                                       */
 /* ========================================================================== */
+//clean setup_env.c
+void	clean_setup_env(char *key, char *value, t_env *head);
 // clean_core.c
 void		clean_exit(t_all *all, int exit_code);
 void		free_all(t_all *all);

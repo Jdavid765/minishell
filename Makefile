@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nfiora-d                                   +#+  +:+       +#+         #
+#    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/05/19 11:21:00 by nfiora-d         ###   ########.fr        #
+#    Updated: 2026/05/26 17:32:18 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,8 @@ SRC = $(DIR_BUILTIN)/cd_builtin.c \
       $(DIR_PARSER)/parsing.c \
       $(DIR_UTILS)/clean_core.c \
       $(DIR_UTILS)/clean_lists.c \
-      $(DIR_UTILS)/utils.c
+      $(DIR_UTILS)/utils.c \
+	  $(DIR_UTILS)/clean_setup_env.c 
 
 # --- OBJECTS ---
 OBJ = $(SRC:$(DIR_SRC)/%.c=$(OBJ_DIR)/%.o)
