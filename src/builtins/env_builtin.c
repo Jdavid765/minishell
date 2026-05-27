@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:41:49 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/26 21:29:27 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/27 14:23:32 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	cmd_env(t_all *all)
 	head = all->env;
 	while (head)
 	{
-	if (head->value)
-	{
-		ft_putstr_fd(head->key, STDOUT_FILENO);
-		ft_putstr_fd("=", STDOUT_FILENO);
-		ft_putstr_fd(head->value, STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	}
+		if (head->value)
+		{
+			ft_putstr_fd(head->key, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putstr_fd(head->value, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
 		head = head->next;
 	}
 }
@@ -67,4 +67,3 @@ int	check_path(t_env **ft_env)
 		return (1);
 	return (0);
 }
-

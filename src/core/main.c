@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:06 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/11 18:24:34 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/27 14:24:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ static char	*get_input(t_all *all)
 	char	*rl;
 
 	rl_on_new_line();
-	// if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-		rl = readline("Minishell > ");
-	// else
-	// 	rl = readline("");
+	rl = readline("Minishell > ");
 	if (!rl)
 	{
 		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/09 23:29:50 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/27 14:25:35 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	exit_builtin(t_all *all, t_parser *cmd)
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (cmd->cmd_and_args[1])
 	{
-		if (!is_numeric(cmd->cmd_and_args[1]) || (int)ft_strlen(cmd->cmd_and_args[1]) >= 20)
+		if (!is_numeric(cmd->cmd_and_args[1])
+			|| (int)ft_strlen(cmd->cmd_and_args[1]) >= 20)
 		{
 			exit_message(cmd->cmd_and_args[1]);
 			*get_status() = 2;
