@@ -244,7 +244,7 @@ int			new_heredoc(char *user_input, int *start, t_all *all, int end);
 /* ========================================================================== */
 // parser_heredoc.c
 int			heredoc(t_all *all, t_parser *cmd, t_token **tok);
-int			loop_heredoc(t_token *delim, int *fd);
+int			loop_heredoc(t_all *all, t_token *delim, int *fd);
 int			wait_heredoc(t_all *all, pid_t pid, int *fd);
 // parser_nodes.c
 t_parser	*ft_node_pars(char *path);
