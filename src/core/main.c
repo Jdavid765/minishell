@@ -12,62 +12,18 @@
 
 #include "../include/minishell.h"
 
-/*void	bullshit(t_all *all)
-{
-	int		i;
-	t_token	*tmp;
-
-	i = 0;
-	tmp = all->token;
-	while (tmp)
-	{
-		printf("token nbr %d\n", i);
-		printf("value == %s\n", tmp->value);
-		printf("type == %d\n", tmp->type);
-		printf("====================\n");
-		tmp = tmp->next;
-		i++;
-	}
-	clean_token_list(all->token);
-	all->token = NULL;
-}*/
-
-/*void	look_parser(t_all *all)
-{
-	t_parser	*head;
-	int			i;
-	int			x;
-
-	head = all->parser;
-	if (!head)
-		return ;
-	i = 0;
-	x = 1;
-	while (head)
-	{
-		while (head->cmd_and_args[i])
-		{
-			printf("node=%d | cmd = %s\n", x, head->cmd_and_args[i]);
-			i++;
-		}
-		x++;
-		i = 0;
-		head = head->next;
-	}
-}*/
-
 static char	*get_input(t_all *all)
 {
 	char	*rl;
 
 	rl_on_new_line();
-	// if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+	if (isatty(STDIN_FILENO))
 		rl = readline("Minishell > ");
-	// else
-	// 	rl = readline("");
+	else
+		rl = readline(NULL);
 	if (!rl)
 	{
-		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+		if (isatty(STDIN_FILENO))
 			ft_putstr_fd("exit\n", STDERR_FILENO);
 		clean_exit(all, *get_status());
 	}
@@ -84,7 +40,7 @@ static void	handle_execution(t_all *all, int value)
 {
 	if (value == 10 || value == 5)
 	{
-		ft_putstr_fd("Syntax Errors\n", STDERR_FILENO);
+		ft_putstr_fd("syntax error near unexpected token \n", STDERR_FILENO);
 		*get_status() = 2;
 	}
 	else if (value == 0)

@@ -205,7 +205,7 @@ int			single_quote(t_token *token);
 int			split_expanded_token(t_token *curr_node, char *expanded_str);
 int			insert_split_words(t_token *curr_node, char **words, t_token *next_save, bool orig_space);
 // expander_utils.c
-char		*expand_in_str(char *str, t_all *all);
+char		*expand_in_str(char *str, t_all *all, int i);
 char		*get_var_value(char *dollar, t_all *all, int *i);
 char		*in_env(char *line, t_all *all);
 char		*strip_quotes(char *str);

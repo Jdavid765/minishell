@@ -1,0 +1,308 @@
+#!/bin/bash
+
+# ================= COULEURS ET VARIABLES =================
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+SUPP_FILE="minishell.supp"
+LOG_DIR=".test_logs"
+
+echo -e "${PURPLE}================================================${NC}"
+echo -e "${CYAN} ☣️  MINISHELL GOD-MODE TESTER - LEAKS & STATUS ☣️  ${NC}"
+echo -e "${PURPLE}================================================${NC}\n"
+
+if [ ! -f "./minishell" ]; then
+    echo -e "${RED}❌ ./minishell introuvable. Fais un 'make' !${NC}"
+    exit 1
+fi
+
+# ================= PREPARATION =================
+rm -rf $LOG_DIR
+mkdir -p $LOG_DIR
+
+cat << 'EOF' > $SUPP_FILE
+{
+    ignore_readline_leaks
+    Memcheck:Leak
+    ...
+    fun:readline
+}
+{
+    ignore_add_history_leaks
+    Memcheck:Leak
+    ...
+    fun:add_history
+}
+EOF
+
+# Création des fichiers pour les tests de redirections et permissions
+touch $LOG_DIR/infile_test
+mkdir -p $LOG_DIR/noperm_dir
+touch $LOG_DIR/noperm_file
+chmod 000 $LOG_DIR/noperm_file
+
+# ================= TABLEAUX DE TESTS =================
+declare -A TEST_SUITES
+
+# 0. COMMANDES BASIQUES
+TEST_SUITES["0_BASICS"]="
+ls
+ls -l
+ls -la
+ls -l -a
+cat Makefile
+grep int Makefile
+wc -l Makefile
+/bin/ls
+"
+
+# 1. BASIQUES & SYNTAXE
+TEST_SUITES["1_SYNTAXE"]="
+\ 
+\t
+''
+\"\"
+' '
+\" \"
+>
+<
+>>
+|
+| |
+< <
+> >
+<< >>
+ls | | ls
+"
+
+# 2. BUILTINS
+TEST_SUITES["2_BUILTINS"]="
+pwd
+cd .
+cd ..
+cd /tmp
+cd /chemin_qui_n_existe_pas
+cd Makefile
+cd arg1 arg2 arg3
+echo
+echo hello
+echo -n hello
+echo -n -n -n hello
+echo -nnnn hello
+"
+
+# 3. EXPORT & UNSET
+TEST_SUITES["3_EXPORT_UNSET"]="
+export
+export A=1
+export A=1 B=2 C=3
+export 1A=B
+export A-B=C
+export =
+export A=\"\"
+export A=hello ; unset A
+unset PATH
+unset NONEXISTENT
+"
+
+# 4. EXPANSIONS ($)
+TEST_SUITES["4_EXPANSIONS"]="
+echo \$USER
+echo \$USER\$PATH
+echo \$?
+echo \$NONEXISTENT
+echo \"\$USER\"
+echo '\$USER'
+echo \$?HELLO
+export A=\"ls -la\" ; \$A
+"
+
+# 5. PIPES
+TEST_SUITES["5_PIPES"]="
+ls | cat
+ls -la | wc -l
+env | grep PATH | wc -l
+ls | wc -l | cat
+ls | cat | cat | cat | cat | wc -l
+echo hello | grep h
+"
+
+# 6. REDIRECTIONS
+TEST_SUITES["6_REDIRECTIONS"]="
+echo hello > $LOG_DIR/out1
+cat < $LOG_DIR/infile_test
+cat < fichier_imaginaire
+> $LOG_DIR/out2 echo hello
+ls >> $LOG_DIR/out1
+ls >> $LOG_DIR/noperm_dir
+cat < $LOG_DIR/noperm_file
+"
+
+# 7. HEREDOCS (<<)
+TEST_SUITES["7_HEREDOCS"]="
+cat << EOF\nhello\nworld\nEOF
+cat << EOF | wc -l\ntest\ntest\nEOF
+"
+
+# 8. EXTREME $? & ERRORS (LE VRAI TEST)
+TEST_SUITES["8_EXTREME_STATUS"]="
+ls introuvable ; echo \$?
+expr 1 / 0 ; echo \$?
+cat /etc/shadow ; echo \$?
+/chemin_qui_nexiste_absolument_pas ; echo \$?
+./Makefile ; echo \$?
+echo \$?\$?\$?
+exit 42 | echo \$?
+"
+
+# 9. ZINZIN PARSING & QUOTES (L'ENFER DU PARSEUR)
+TEST_SUITES["9_ZINZIN_PARSING"]="
+echo \"\"''\"\"''
+echo \" \$USER \" ' \$USER '
+echo \"\$?\"'$?'\"\$?\"
+export A=\"  a   b   c  \" ; echo \$A ; echo \"\$A\"
+> $LOG_DIR/out1 > $LOG_DIR/out2 > $LOG_DIR/out3 echo zinzolin
+< Makefile cat > $LOG_DIR/out1 | > $LOG_DIR/out2 wc -l
+"
+
+# 10. CRASH TESTS EXTRÊMES
+TEST_SUITES["10_CRASH_TESTS"]="
+unset PATH ; ls
+unset PATH ; /bin/ls
+exit
+exit 42
+exit 42 42
+exit abc
+exit +42
+exit -42
+"
+
+# ================= MOTEUR MULTI-THREAD (STATUS + LEAKS) =================
+TOTAL_TESTS=0
+TOTAL_KO=0
+KO_LEAK_COUNT=0
+KO_STATUS_COUNT=0
+
+run_tests() {
+    local suite_name=$1
+    local commands=$2
+    local pids=()
+    local cmds=()
+    local i=0
+
+    echo -e "\n${BLUE}================================================${NC}"
+    echo -e "${CYAN}▶ TEST SUITE : $suite_name ${NC}"
+    echo -e "${BLUE}================================================${NC}"
+
+    while IFS= read -r cmd; do
+        if [[ -z "${cmd// /}" ]]; then continue; fi
+        
+        cmds[$i]="$cmd"
+        
+        # Lancement du Thread pour cette commande
+        (
+            # 1. Chopper l'Exit Status du vrai BASH
+            echo -e "$cmd" | bash > /dev/null 2>&1
+            BASH_STATUS=${PIPESTATUS[1]}
+
+            # 2. Chopper l'Exit Status de MINISHELL
+            echo -e "$cmd" | ./minishell > /dev/null 2>&1
+            MINI_STATUS=${PIPESTATUS[1]}
+
+            # 3. Lancer VALGRIND
+            echo -e "$cmd" | valgrind --suppressions="$SUPP_FILE" --leak-check=full --show-leak-kinds=all --log-file="$LOG_DIR/valgrind_${suite_name}_${i}.log" ./minishell > /dev/null 2>&1
+
+            # Sauvegarder les Status dans un fichier pour le thread principal
+            echo "$BASH_STATUS:$MINI_STATUS" > "$LOG_DIR/status_${suite_name}_${i}.txt"
+        ) &
+        pids[$i]=$!
+        ((i++))
+    done <<< "$commands"
+
+    # Synchronisation
+    wait "${pids[@]}" 2>/dev/null
+
+    # Analyse des résultats
+    for (( j=0; j<i; j++ )); do
+        ((TOTAL_TESTS++))
+        display_cmd=$(echo "${cmds[$j]}" | tr '\n' ' ' | cut -c 1-50)
+        LOG_FILE="$LOG_DIR/valgrind_${suite_name}_${j}.log"
+        STATUS_FILE="$LOG_DIR/status_${suite_name}_${j}.txt"
+        
+        # Récupérer les Leaks
+        DEF_LOST=$(grep -a "definitely lost:" "$LOG_FILE" | awk '{sum += $4} END {print sum+0}')
+        IND_LOST=$(grep -a "indirectly lost:" "$LOG_FILE" | awk '{sum += $4} END {print sum+0}')
+        ERRORS=$(grep -a "ERROR SUMMARY:" "$LOG_FILE" | awk '{sum += $4} END {print sum+0}')
+
+        # Récupérer les Status (Bash vs Mini)
+        if [ -f "$STATUS_FILE" ]; then
+            IFS=':' read -r BASH_STATUS MINI_STATUS < "$STATUS_FILE"
+        else
+            BASH_STATUS="ERR"
+            MINI_STATUS="ERR"
+        fi
+
+        # Conditions de réussite
+        LEAK_OK=0
+        STATUS_OK=0
+        if [ "$DEF_LOST" == "0" ] && [ "$IND_LOST" == "0" ] && [ "$ERRORS" == "0" ]; then LEAK_OK=1; fi
+        if [ "$BASH_STATUS" == "$MINI_STATUS" ]; then STATUS_OK=1; fi
+
+        # Affichage
+        if [ $LEAK_OK -eq 1 ] && [ $STATUS_OK -eq 1 ]; then
+            printf "[ ${GREEN}OK${NC} ] %-50s\n" "'$display_cmd'"
+        elif [ $LEAK_OK -eq 1 ] && [ $STATUS_OK -eq 0 ]; then
+            printf "[ ${YELLOW}KO STATUS${NC} ] %-50s\n" "'$display_cmd'"
+            echo -e "${YELLOW}            -> STATUS ATTENDU (Bash) : $BASH_STATUS | OBTENU (Mini) : $MINI_STATUS${NC}"
+            ((TOTAL_KO++))
+            ((KO_STATUS_COUNT++))
+        elif [ $LEAK_OK -eq 0 ] && [ $STATUS_OK -eq 1 ]; then
+            printf "[ ${RED}KO LEAKS${NC} ] %-50s\n" "'$display_cmd'"
+            echo -e "${RED}            -> Definitely lost: ${DEF_LOST} B | Indirectly: ${IND_LOST} B | Errors: ${ERRORS}${NC}"
+            ((TOTAL_KO++))
+            ((KO_LEAK_COUNT++))
+        else
+            printf "[ ${PURPLE}KO BOTH${NC} ] %-50s\n" "'$display_cmd'"
+            echo -e "${PURPLE}            -> STATUS : Bash=$BASH_STATUS vs Mini=$MINI_STATUS | LEAKS : ${DEF_LOST} B lost${NC}"
+            ((TOTAL_KO++))
+            ((KO_STATUS_COUNT++))
+            ((KO_LEAK_COUNT++))
+        fi
+    done
+}
+
+# ================= EXECUTION =================
+run_tests "COMMANDES BASIQUES" "${TEST_SUITES["0_BASICS"]}"
+run_tests "SYNTAXE & ESPACES" "${TEST_SUITES["1_SYNTAXE"]}"
+run_tests "BUILTINS" "${TEST_SUITES["2_BUILTINS"]}"
+run_tests "EXPORT & UNSET" "${TEST_SUITES["3_EXPORT_UNSET"]}"
+run_tests "EXPANSIONS (\$)" "${TEST_SUITES["4_EXPANSIONS"]}"
+run_tests "PIPES" "${TEST_SUITES["5_PIPES"]}"
+run_tests "REDIRECTIONS" "${TEST_SUITES["6_REDIRECTIONS"]}"
+run_tests "HEREDOCS" "${TEST_SUITES["7_HEREDOCS"]}"
+run_tests "EXTREME \$? & ERRORS" "${TEST_SUITES["8_EXTREME_STATUS"]}"
+run_tests "ZINZIN PARSING" "${TEST_SUITES["9_ZINZIN_PARSING"]}"
+run_tests "CRASH TESTS EXTRÊMES" "${TEST_SUITES["10_CRASH_TESTS"]}"
+
+# ================= NETTOYAGE =================
+rm -rf $SUPP_FILE $LOG_DIR
+
+# ================= RESULTATS =================
+echo -e "\n${PURPLE}================================================${NC}"
+echo -e "${CYAN}                BILAN FINAL GOD-MODE            ${NC}"
+echo -e "${PURPLE}================================================${NC}"
+
+if [ $TOTAL_KO -eq 0 ]; then
+    echo -e "${GREEN}👑 EXCEPTIONNEL ! 0 LEAK ET 100% IDENTIQUE À BASH SUR $TOTAL_TESTS TESTS ! 👑${NC}"
+else
+    echo -e "${RED}💥 $TOTAL_KO test(s) KO sur $TOTAL_TESTS. 💥${NC}"
+    echo -e "${YELLOW}Détails : $KO_LEAK_COUNT erreurs de leaks | $KO_STATUS_COUNT erreurs de Code de retour (\$?).${NC}"
+    echo -e "${CYAN}👉 Pour tester manuellement une erreur de STATUS :${NC}"
+    echo -e "echo \"COMMANDE\" | bash; echo \$?  (Puis fais pareil avec ./minishell)"
+fi
+echo -e "${PURPLE}================================================${NC}\n"

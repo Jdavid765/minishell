@@ -36,7 +36,7 @@ int	double_quote(t_token *token, t_all *all)
 	token->value = tmp;
 	if (ft_strchr(token->value, '$'))
 	{
-		tmp = expand_in_str(token->value, all);
+		tmp = expand_in_str(token->value, all, 0);
 		free(token->value);
 		token->value = tmp;
 	}

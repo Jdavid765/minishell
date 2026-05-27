@@ -60,6 +60,7 @@ void	child_single_external(t_all *all, t_parser *cmd)
 	cmd->path = temp_path;
 	if (!cmd->path)
 		check_exec_error(cmd->cmd_and_args[0]);
+	check_dir_and_perm(cmd->path);
 	new_env = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, new_env);

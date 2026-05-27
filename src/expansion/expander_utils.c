@@ -12,13 +12,12 @@
 
 #include "../../include/minishell.h"
 
-char	*expand_in_str(char *str, t_all *all)
+char	*expand_in_str(char *str, t_all *all, int i)
 {
 	char	*result;
 	char	*before;
 	char	*value;
 	char	*tmp;
-	int		i;
 	int		var_len;
 
 	result = ft_strdup(str);

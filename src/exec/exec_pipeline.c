@@ -67,7 +67,8 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	free(cmd->path);
 	cmd->path = temp_path;
 	if (!cmd->path)
-		check_exec_error(cmd->cmd_and_args[0]); // REMPLACE LE LONG IF ICI
+		check_exec_error(cmd->cmd_and_args[0]);
+	check_dir_and_perm(cmd->path);
 	envp = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, envp);
@@ -75,7 +76,6 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	free_tab(envp);
 	exit(126);
 }
-
 /*
 	this fonction check if the cmd is a builtin else exec the external cmd
 	and check if it fails
