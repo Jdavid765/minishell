@@ -79,15 +79,15 @@ int	search_pwd(t_env **head)
 		return (perror("getcwd :"), 1);
 	key = ft_strdup("PWD");
 	if (!key)
-		return (perror("Malloc :"), 1);
+		return (free(line), perror("Malloc :"), 1);
 	value = ft_strdup(line);
 	if (!value)
-		return (perror("Malloc :"), 1);
+		return (free(line), free(key), perror("Malloc :"), 1);
 	current = ft_node_env(key, value);
 	if (!current)
-		return (1);
+		return (free(line), free(key), free(value), 1);
 	ft_add_back_env(head, current);
-	return (0);
+	return (free(line), 0);
 }
 /*
 	this fonction get the current working directory

@@ -31,7 +31,7 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 	{
 		restore_original_signals(all);
 		xclose(&fd[0]);
-		exit(loop_heredoc((*tok), fd));
+		exit(loop_heredoc(all, (*tok), fd));
 	}
 	ret = wait_heredoc(all, pid, fd);
 	if (ret)
@@ -45,26 +45,23 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 	forks a child process, and reads input until the delimiter is met
 */
 
-int	loop_heredoc(t_token *delim, int *fd)
+int	loop_heredoc(t_all *all, t_token *delim, int *fd)
 {
 	char	*rl;
+	char	*expanded;
 	char	*line;
 
 	while (1)
 	{
 		rl = readline("> ");
 		if (!rl)
-		{
-			ft_putstr_fd("minishell: warning: here-doc delimited by EOF\n", 2);
-			break ;
-		}
+			return (ft_putstr_fd("minishell: warning: heredoc EOF\n", 2), 0);
 		if (!ft_compare(rl, delim->value))
-		{
-			free(rl);
-			break ;
-		}
-		line = ft_strjoin(rl, "\n");
+			return (free(rl), 0);
+		expanded = expand_in_str(rl, all, 0);
 		free(rl);
+		line = ft_strjoin(expanded, "\n");
+		free(expanded);
 		if (!line)
 			return (1);
 		write(fd[1], line, ft_strlen(line));
