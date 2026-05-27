@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/03 15:13:26 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/27 19:27:51 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*create_token_node(t_token_type type, char *val)
 	new->value = val;
 	new->type = type;
 	new->is_valid = true;
+	new->had_quotes = false;
 	new->space_after = false;
 	new->next = NULL;
 	new->prev = NULL;

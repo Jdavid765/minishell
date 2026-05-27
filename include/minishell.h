@@ -63,6 +63,7 @@ typedef struct	s_token
 	char			*value;
 	t_token_type	type;
 	bool			is_valid;
+	bool			had_quotes;
 	bool			space_after;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -179,7 +180,6 @@ int			create_env(t_all *all);
 int			search_pwd(t_env **head);
 int			create_shlvl(t_env **head);
 int			create_path_no_env(t_env **head);
-// env_lst_utils.c
 t_env		*ft_node_env(char *key, char *value);
 void		ft_add_back_env(t_env **head, t_env *new);
 void		ft_lst_del_env(t_env *ft_env);

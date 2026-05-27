@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/04/02 00:33:04 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/27 19:35:54 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,36 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 	forks a child process, and reads input until the delimiter is met
 */
 
+int	loop_here_quotes(t_token *delim, int *fd)
+{
+	char	*rl;
+	char	*line;
+
+	while (1)
+	{
+		rl = readline("> ");
+		if (!rl)
+			return (ft_putstr_fd("minishell: warning: heredoc EOF\n", 2), 0);
+		if (!ft_compare(rl, delim->value))
+			return (free(rl), 0);
+		line = ft_strjoin(rl, "\n");
+		if (!line)
+			return (1);
+		free(rl);
+		write(fd[1], line, ft_strlen(line));
+		free(line);
+	}
+	return (0);
+}
+
 int	loop_heredoc(t_all *all, t_token *delim, int *fd)
 {
 	char	*rl;
 	char	*expanded;
 	char	*line;
 
+	if (delim->had_quotes == TRUE)
+		return (loop_here_quotes(delim, fd));
 	while (1)
 	{
 		rl = readline("> ");

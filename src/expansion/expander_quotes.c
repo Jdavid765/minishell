@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expender_quotes.c                                  :+:      :+:    :+:   */
+/*   expander_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 23:18:14 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 14:49:42 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/05/27 19:35:21 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	quotes(t_token *token, t_all *all)
 {
 	if (!token)
 		return (1);
+	token->had_quotes = true;
 	if (token->value[0] == 34)
 		return (double_quote(token, all));
 	else if (token->value[0] == 39)
@@ -34,6 +35,7 @@ int	double_quote(t_token *token, t_all *all)
 	tmp = strip_quotes(token->value);
 	free(token->value);
 	token->value = tmp;
+	token->had_quotes = true;
 	if (ft_strchr(token->value, '$'))
 	{
 		tmp = expand_in_str(token->value, all, 0);
