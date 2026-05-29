@@ -277,6 +277,7 @@ void		clean_token_list(t_token *head);
 int			clean_cmd_list(t_parser *head);
 void		clean_env_list(t_env *head);
 int			clean_parsing_list(t_parser *head);
+void		clear_setup_env(char *key, char *value, t_env *head);
 // utils.c
 int			ft_compare(char *rl, char *string);
 int			*get_status(void);
