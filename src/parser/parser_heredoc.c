@@ -26,7 +26,7 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 	ignore_signals();
 	pid = fork();
 	if (pid == -1)
-		return (1);
+		return (xclose(&fd[0]), xclose(&fd[1]), 1);
 	if (pid == 0)
 	{
 		restore_original_signals(all);

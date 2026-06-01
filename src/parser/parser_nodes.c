@@ -22,7 +22,7 @@ t_parser	*ft_node_pars(char *path)
 	newnode->cmd_and_args = NULL;
 	newnode->path = ft_strdup(path);
 	if (!newnode->path)
-		return (NULL);
+		return (free(newnode), NULL);
 	newnode->fd_in = 0;
 	newnode->fd_out = 1;
 	newnode->is_builtin = FALSE;

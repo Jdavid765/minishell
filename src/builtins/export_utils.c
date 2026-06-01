@@ -72,7 +72,11 @@ int	parse_arg(char *arg, char **key, char **value)
 		*value = NULL;
 	}
 	if (!*key)
+	{
+		if (*value)
+			free(*value);
 		return (1);
+	}
 	return (0);
 }
 
