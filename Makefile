@@ -47,6 +47,7 @@ OBJ_DIR     = obj
 
 # --- SOURCES ---
 SRC = $(DIR_BUILTIN)/cd_builtin.c \
+      $(DIR_BUILTIN)/cd_utils.c \
       $(DIR_BUILTIN)/echo_builtin.c \
       $(DIR_BUILTIN)/env_builtin.c \
       $(DIR_BUILTIN)/exit_builtin.c \

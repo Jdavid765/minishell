@@ -91,8 +91,8 @@ int	update_env(t_all *all)
 		free(pwd_node->value);
 		pwd_node->value = new_cwd;
 	}
-	else
-		ft_add_back_env(&all->env, ft_node_env(ft_strdup("PWD"), new_cwd));
+	else if (create_pwd_node(all, new_cwd))
+		return (free(new_cwd), 1);
 	return (0);
 }
 /*

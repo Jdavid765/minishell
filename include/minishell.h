@@ -113,6 +113,8 @@ int			go_to_home_dir(t_all *all);
 int			update_env(t_all *all);
 t_env		*find_pwd_node(t_all *all);
 t_env		*find_oldpwd_node(t_all *all);
+/*cd_utils*/
+int			create_pwd_node(t_all *all, char *new_cwd);
 // echo_builtin.c
 int			is_n_option(char *arg);
 void		echo_builtin(t_parser *cmd);
