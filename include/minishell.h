@@ -177,12 +177,12 @@ void		parent_single_external(t_parser *cmd, pid_t pid);
 /*                                ENV                                         */
 /* ========================================================================== */
 /*env_init.c*/
+t_env		*ft_node_env(char *key, char *value);
 int			setup_env(t_all *all, char **env);
 int			create_env(t_all *all);
 int			search_pwd(t_env **head);
 int			create_shlvl(t_env **head);
 int			create_path_no_env(t_env **head);
-t_env		*ft_node_env(char *key, char *value);
 void		ft_add_back_env(t_env **head, t_env *new);
 void		ft_lst_del_env(t_env *ft_env);
 void		look_env(t_all *all);

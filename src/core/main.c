@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	ft_bzero(&all, sizeof(t_all));
 	if (setup(&all, env))
-		return (1);
+		return (clean_exit(&all, 1), 1);
 	if (main_loop(&all) == 1)
 		clean_exit(&all, 1);
 	clean_exit(&all, 0);

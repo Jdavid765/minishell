@@ -20,7 +20,7 @@ int	setup(t_all *all, char **env)
 			return (1);
 		all->path = search_path_no_env(all);
 		if (!all->path)
-			return (1);
+			return (clean_env_list(all->env), all->env = NULL, 1);
 	}
 	else
 	{
@@ -28,11 +28,11 @@ int	setup(t_all *all, char **env)
 			return (1);
 		all->path = search_path(all);
 		if (!all->path)
-			return (1);
+			return (clean_env_list(all->env), all->env = NULL, 1);
 	}
 	init_original_signals(all);
 	if (setup_signal(all))
-		return (1);
+		return (clean_env_list(all->env), all->env = NULL, 1);
 	*get_status() = 0;
 	return (0);
 }
