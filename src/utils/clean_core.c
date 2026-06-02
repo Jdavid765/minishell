@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/06/02 21:09:59 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/03 00:19:50 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	clean_exit(t_all *all, int exit_code)
 {
+	int	i;
+
+	i = 2;
+	while (++i < 1024)
+		close(i);
 	clean_loop(all);
 	if (all->env)
 	{

@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/03 00:06:02 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*join_env_value(t_env *current)
 	int		check_size;
 
 	s1_len = ft_strlen(current->key);
+	if (!current->value)
+		return (ft_strdup(current->key));
 	s2_len = ft_strlen(current->value);
 	key_and_value = malloc(sizeof(char) * (s1_len + s2_len + 2));
 	if (!key_and_value)
