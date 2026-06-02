@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/28 23:33:08 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/02 21:09:59 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	clean_exit(t_all *all, int exit_code)
 		clean_env_list(all->env);
 		all->env = NULL;
 	}
-	if (all->path)
-	{
-		all->path = NULL;
-	}
+	all->path = NULL;
 	rl_clear_history();
 	exit(exit_code);
 }
