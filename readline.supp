@@ -1,6 +1,12 @@
 {
-   readline_leak
+   ignore_libreadline_leaks
    Memcheck:Leak
    ...
    fun:readline
+}
+{
+   ignore_libreadline_history_leaks
+   Memcheck:Leak
+   ...
+   fun:add_history
 }
