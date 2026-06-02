@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/02 21:44:09 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	exec_pipeline(t_all *all)
 void	child_pipeline(t_all *all, t_parser *cmd, int prev_fd, int *p_fd)
 {
 	setup_pipe_fds(cmd, prev_fd, p_fd);
-	apply_redirections(cmd);
+	apply_redirections(all, cmd);
 	execute_pipeline_cmd(all, cmd);
 }
 /*
@@ -61,20 +61,20 @@ void	execute_pipeline_cmd(t_all *all, t_parser *cmd)
 	if (is_builtin(cmd->cmd_and_args[0]))
 	{
 		exec_builtin(all, cmd);
-		exit(*get_status());
+		clean_exit(all, *get_status());
 	}
 	temp_path = before_path_check(all->env, cmd->cmd_and_args[0]);
 	free(cmd->path);
 	cmd->path = temp_path;
 	if (!cmd->path)
-		check_exec_error(cmd->cmd_and_args[0]);
-	check_dir_and_perm(cmd->path);
+		check_exec_error(all, cmd->cmd_and_args[0]);
+	check_dir_and_perm(all, cmd->path);
 	envp = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, envp);
 	perror("execve");
 	free_tab(envp);
-	exit(126);
+	clean_exit(all, 126);
 }
 /*
 	this fonction check if the cmd is a builtin else exec the external cmd

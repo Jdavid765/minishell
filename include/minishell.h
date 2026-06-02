@@ -146,8 +146,8 @@ int			unset_builtin(t_all *all, t_parser *cmd);
 /*exec.c*/
 void		executor(t_all *all);
 int			count_cmds(t_parser *cmd_list);
-void		check_dir_and_perm(char *cmd);
-void		check_exec_error(char *cmd);
+void		check_dir_and_perm(t_all *all, char *cmd);
+void		check_exec_error(t_all *all, char *cmd);
 /*exec_builtins.c */
 int			is_builtin(char *cmd);
 void		exec_builtin(t_all *all, t_parser *cmd);
@@ -155,7 +155,7 @@ void		exec_single_builtin(t_all *all, t_parser *cmd);
 /*exec_fds.c */
 void		manage_parent_fds(t_parser *cmd, int *prev_read_fd, int *pipefd);
 void		setup_pipe_fds(t_parser *cmd, int prev_read_fd, int *pipefd);
-void		apply_redirections(t_parser *cmd);
+void		apply_redirections(t_all *all, t_parser *cmd);
 /*exec_path.c*/
 char		*before_path_check(t_env *env, char *cmd);
 char		*path_check(t_env *env, char *cmd);

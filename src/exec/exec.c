@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/02 21:41:47 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	count_cmds(t_parser *cmd_list)
 	how many cmd are send to the exec part
 */
 
-void	check_dir_and_perm(char *cmd)
+void	check_dir_and_perm(t_all *all, char *cmd)
 {
 	struct stat	s;
 
@@ -55,20 +55,20 @@ void	check_dir_and_perm(char *cmd)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(cmd);
-		exit(127);
+		clean_exit(all, 127);
 	}
 	if (stat(cmd, &s) == 0 && S_ISDIR(s.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": Is a directory", 2);
-		exit(126);
+		clean_exit(all, 126);
 	}
 	if (access(cmd, X_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(cmd);
-		exit(126);
+		clean_exit(all, 126);
 	}
 }
 /*
@@ -76,14 +76,14 @@ void	check_dir_and_perm(char *cmd)
 	or lack execution permissions and exit with the right code
 */
 
-void	check_exec_error(char *cmd)
+void	check_exec_error(t_all *all, char *cmd)
 {
 	if (ft_strchr(cmd, '/'))
-		check_dir_and_perm(cmd);
+		check_dir_and_perm(all, cmd);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(": command not found", 2);
-	exit(127);
+	clean_exit(all, 127);
 }
 /*
 	this fonction check if the cmd is a path to route to the

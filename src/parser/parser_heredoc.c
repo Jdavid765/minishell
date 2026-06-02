@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/05/27 19:35:54 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/02 21:25:16 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 	{
 		restore_original_signals(all);
 		xclose(&fd[0]);
-		exit(loop_heredoc(all, (*tok), fd));
+		clean_exit(all, loop_heredoc(all, (*tok), fd));
 	}
 	ret = wait_heredoc(all, pid, fd);
 	if (ret)

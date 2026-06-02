@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 23:48:54 by canoduran         #+#    #+#             */
-/*   Updated: 2026/03/17 15:12:51 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/02 21:44:47 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ void	child_single_external(t_all *all, t_parser *cmd)
 	char	**new_env;
 	char	*temp_path;
 
-	apply_redirections(cmd);
+	apply_redirections(all, cmd);
 	temp_path = before_path_check(all->env, cmd->cmd_and_args[0]);
 	free(cmd->path);
 	cmd->path = temp_path;
 	if (!cmd->path)
-		check_exec_error(cmd->cmd_and_args[0]);
-	check_dir_and_perm(cmd->path);
+		check_exec_error(all, cmd->cmd_and_args[0]);
+	check_dir_and_perm(all, cmd->path);
 	new_env = re_build_env(all->env, NULL);
 	restore_original_signals(all);
 	execve(cmd->path, cmd->cmd_and_args, new_env);
 	perror("execve");
 	free_tab(new_env);
-	exit(126);
+	clean_exit(all, 126);
 }
 /*
 	this fonction apply right redirections and check if the PATH exist
