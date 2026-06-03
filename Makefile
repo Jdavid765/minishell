@@ -6,7 +6,7 @@
 #    By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 17:29:05 by canoduran         #+#    #+#              #
-#    Updated: 2026/05/29 13:44:50 by canoduran        ###   ########.fr        #
+#    Updated: 2026/06/03 17:08:16 by canoduran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRC = $(DIR_BUILTIN)/cd_builtin.c \
       $(DIR_PARSER)/parser_nodes.c \
       $(DIR_PARSER)/parser_redirs.c \
       $(DIR_PARSER)/parser_utils.c \
+	  $(DIR_PARSER)/parser_heredoc_utils.c \
       $(DIR_PARSER)/parsing.c \
       $(DIR_UTILS)/clean_core.c \
       $(DIR_UTILS)/clean_lists.c \

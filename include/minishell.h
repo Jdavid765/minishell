@@ -248,6 +248,8 @@ int			new_heredoc(char *user_input, int *start, t_all *all, int end);
 int			heredoc(t_all *all, t_parser *cmd, t_token **tok);
 int			loop_heredoc(t_all *all, t_token *delim, int *fd);
 int			wait_heredoc(t_all *all, pid_t pid, int *fd);
+void		heredoc_child(t_all *all, t_token *tok, int *fd);
+void		heredoc_sig_handler(int signum);
 /*parser_nodes.c*/
 t_parser	*ft_node_pars(char *path);
 void		ft_addback_parse(t_parser **head, t_parser *new);

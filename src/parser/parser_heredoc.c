@@ -6,7 +6,7 @@
 /*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 14:56:58 by canoduran         #+#    #+#             */
-/*   Updated: 2026/06/03 00:19:16 by canoduran        ###   ########.fr       */
+/*   Updated: 2026/06/03 17:09:11 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ int	wait_heredoc(t_all *all, pid_t pid, int *fd)
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 		return (*get_status() = 130, xclose(&fd[0]), 130);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		return (ft_putstr_fd("\n", 1), *get_status() = 130, xclose(&fd[0]), 130);
+	{
+		ft_putstr_fd("\n", 1);
+		return (*get_status() = 130, xclose(&fd[0]), 130);
+	}
 	return (0);
 }
 /*
@@ -123,13 +126,7 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 	if (pid == -1)
 		return (xclose(&fd[0]), xclose(&fd[1]), 1);
 	if (pid == 0)
-	{
-		signal(SIGINT, heredoc_sig_handler);
-		xclose(&fd[0]);
-		ret = loop_heredoc(all, (*tok), fd);
-		xclose(&fd[1]);
-		clean_exit(all, ret);
-	}
+		heredoc_child(all, (*tok), fd);
 	ret = wait_heredoc(all, pid, fd);
 	if (ret)
 		return (ret);
@@ -137,6 +134,7 @@ int	heredoc(t_all *all, t_parser *cmd, t_token **tok)
 		xclose(&cmd->fd_in);
 	return (cmd->fd_in = fd[0], 0);
 }
+
 /*
 	this fonction handles the heredoc setup, creates a pipe,
 	forks a child process, sets up the signal handler
