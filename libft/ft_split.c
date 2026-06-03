@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfiora-d <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 10:57:06 by nfiora-d          #+#    #+#             */
-/*   Updated: 2025/10/03 12:43:43 by nfiora-d         ###   ####lausanne.ch   */
+/*   Updated: 2026/06/03 17:58:26 by canoduran        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 size_t	ft_count_words(const char *s, char c)
@@ -99,4 +100,3 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	return ((char **)tab);
 }
-

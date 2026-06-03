@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* minishell.h                                        :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
-/* +#+#+#+#+#+   +#+           */
-/* Created: 2026/02/16 17:14:40 by canoduran         #+#    #+#             */
-/* Updated: 2026/05/19 11:21:00 by minishell        ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: canoduran <canoduran@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/03 17:48:33 by emercier          #+#    #+#             */
+/*   Updated: 2026/06/03 17:54:23 by canoduran        ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -33,17 +33,17 @@
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	WORD,
 	PIPE,
-	REDIR_IN, // <
-	REDIR_OUT, // >
-	APPEND, // >>
-	HEREDOC // <<
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC
 }	t_token_type;
 
-typedef struct	s_sig
+typedef struct s_sig
 {
 	struct sigaction	sa;
 	struct sigaction	sa_quit;
@@ -51,14 +51,14 @@ typedef struct	s_sig
 	struct sigaction	sa_orig_quit;
 }	t_sig;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }	t_env;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
@@ -69,7 +69,7 @@ typedef struct	s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct	s_parser
+typedef struct s_parser
 {
 	char			**cmd_and_args;
 	char			*path;
@@ -80,7 +80,7 @@ typedef struct	s_parser
 	struct s_parser	*next;
 }	t_parser;
 
-typedef struct	s_all
+typedef struct s_all
 {
 	t_sig		sig;
 	t_env		*env;
@@ -205,7 +205,8 @@ int			double_quote(t_token *token, t_all *all);
 int			single_quote(t_token *token);
 /*expander_split.c*/
 int			split_expanded_token(t_token *curr_node, char *expanded_str);
-int			insert_split_words(t_token *curr_node, char **words, t_token *next_save, bool orig_space);
+int			insert_split_words(t_token *curr_node,
+				char **words, t_token *next_save, bool orig_space);
 /*expander_utils.c*/
 char		*expand_in_str(char *str, t_all *all, int i);
 char		*get_var_value(char *dollar, t_all *all, int *i);
@@ -230,7 +231,8 @@ int			new_pipe(char *user_input, int *start, t_all *all);
 int			is_a_separator(char letter);
 /*lexer_nodes.c*/
 t_token		*create_token_node(t_token_type type, char *val);
-int			new_token_node(t_token **token_head, t_token_type type, char *token_val);
+int			new_token_node(t_token **token_head,
+				t_token_type type, char *token_val);
 t_token		*last_token_list(t_token *token_head);
 /*lexer_quotes.c*/
 int			new_double_quote(char *user_input, int *start, t_all *all);
@@ -265,7 +267,8 @@ char		*search_path_no_env(t_all *all);
 /*parsing.c*/
 int			parse_token(t_all *all);
 int			parse_loop(t_parser **cmd, t_token *token, t_all *all);
-int			all_else_if(t_parser **cmd, t_token **token, t_all *all, int *index);
+int			all_else_if(t_parser **cmd,
+				t_token **token, t_all *all, int *index);
 
 /* ========================================================================== */
 /*                                UTILS                                       */
